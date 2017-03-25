@@ -2,6 +2,9 @@
   "name": "fedeploy",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+  	"deploy": "node deploy.js && git add -A && git commit -m \"deploy\" && npm version patch"
+  },
   "dependencies": {
     "copy-dir": "^0.3.0"
   }
