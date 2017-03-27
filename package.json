@@ -1,9 +1,9 @@
 {
   "name": "fedeploy",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "scripts": {
-  	"deploy_common": "git add -A && git commit -m \"deploy\" && npm version patch && git push",
+    "deploy_common": "git add -A && git commit -m \"deploy\" && npm version patch && git push",
     "deploy_fillergame": "node deploy.js fillergame && npm run deploy_common"
   },
   "dependencies": {
