@@ -1,7 +1,10 @@
 # Config
 
-Edit deploy.js to add the app in the deploy bundle
+Edit deploy.js to add the app in the deploy bundle and add in package.js scripts the new command if needed
 
 # Deploy
 
-Run `npm deploy`
+
+### Deploy fillergame
+
+Run `npm deploy_fillergame`

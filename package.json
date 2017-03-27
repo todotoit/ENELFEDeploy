@@ -3,7 +3,8 @@
   "version": "1.0.2",
   "main": "index.js",
   "scripts": {
-    "deploy": "node deploy.js && git add -A && git commit -m \"deploy\" && npm version patch && git push"
+  	"deploy_common": "git add -A && git commit -m \"deploy\" && npm version patch && git push",
+    "deploy_filler": "node deploy.js fillergame && npm run deploy_common"
   },
   "dependencies": {
     "copy-dir": "^0.3.0"
