@@ -852,18 +852,24 @@
     // function update(changedObj) {}
 
     function skyAnimation() {
-      solarMexicoTimeline.set($('#light'), {css:{opacity:0}})
+      solarMexicoTimeline.set([$('#light1'),$('#light2'),$('#light3'),$('#light4')], {css:{opacity:0}})
 
-      solarMexicoTimeline.to('g#sky',  2, { css: { rotation: "+=180", transformOrigin:"50% 50%" }, ease:Power1.easeInOut,  delay:2 })
-                         .to('g#sun_rays',  2, { css: { rotation: "-=180", transformOrigin:"50% 50%" }, ease:Power1.easeInOut}, '-=2')
+      solarMexicoTimeline.to('#sky',  2, { css: { rotation: "+=180", transformOrigin:"50% 50%" }, ease:Power1.easeInOut,  delay:2 })
+                         .to('#sun_rays',  2, { css: { rotation: "-=180", transformOrigin:"50% 50%" }, ease:Power1.easeInOut}, '-=2')
                          .to('#moon',  2, { css: { rotation: "-=180", transformOrigin:"50% 50%" }, ease:Power1.easeInOut }, '-=2')
+                         .to($('#village'), 2, {css:{opacity:.3}, ease:Power1.easeOut}, '-=2')
 
-                         .to($('#light'), 1, {css:{opacity:.5}, ease:Bounce.easeOut})
+                         .to($('#light1'), 1, {css:{opacity:.95}, ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 1, points: 20, taper: "none", randomize:  true, clamp: false})})
+                         .to($('#light2'), 1, {css:{opacity:.95}, ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 1, points: 20, taper: "none", randomize:  true, clamp: false})}, '-=.8')
+                         .to($('#light3'), 1, {css:{opacity:.95}, ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 1, points: 20, taper: "none", randomize:  true, clamp: false})}, '-=.6')
+                         .to($('#light4'), 1, {css:{opacity:.95}, ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 1, points: 20, taper: "none", randomize:  true, clamp: false})}, '-=.7')
 
-                         .to('g#sky',  2, { css: { rotation: "+=180", transformOrigin:"50% 50%" }, ease:Power1.easeInOut, delay:2 })
-                         .to('g#sun_rays',  2, { css: { rotation: "-=180", transformOrigin:"50% 50%" }, ease:Power1.easeInOut}, '-=2')
+
+                         .to('#sky',  2, { css: { rotation: "+=180", transformOrigin:"50% 50%" }, ease:Power1.easeInOut, delay:2 })
+                         .to($('#village'), 2, {css:{opacity:1}, ease:Power1.easeOut}, '-=2')
+                         .to('#sun_rays',  2, { css: { rotation: "-=180", transformOrigin:"50% 50%" }, ease:Power1.easeInOut}, '-=2')
                          .to('#moon',  2, { css: { rotation: "-=180", transformOrigin:"50% 50%" }, ease:Power1.easeInOut }, '-=2')
-                         .to($('#light'), 1, {css:{opacity:0}, ease:Power1.easeOut}, '-=.5')
+                         .to([$('#light1'),$('#light2'),$('#light3'),$('#light4')], 1, {css:{opacity:0}, ease:Power1.easeOut}, '-=2')
     }
 
 
@@ -964,7 +970,8 @@
       'V2GAnimation',
       'Solar25kmAnimation',
       'SolarMexicoAnimation',
-      'FastRechargeAnimation'
+      'FastRechargeAnimation',
+      'EnelStandAnimation'
     ])
 
 }(window.angular));
@@ -984,34 +991,27 @@
     var self  = this
     self.path = '../js/modules/snippetManager/templates'
     var _availableSnippets = {
-      'solar_panel_25_km': {
-        desc: 'The sunny deserts in Mexico can make our future bright!',
+      'The power of the sun': {
+        desc: 'How much energy is there in Mexican skies?',
         tpl: self.path + '/solar25km.html'
       },
-      'solar_mexico': {
-        desc: 'The Power of the sun',
+      'Solar energy for the race': {
+        desc: 'Can you guess how much solar panels can power?',
         tpl: self.path + '/solarmexico.html'
       },
-      'fast_recharge': {
+      'Fast recharge': {
         desc: 'Innovation is ready to charge! Recharging e-cars is faster than you think.',
         tpl: self.path + '/fastrecharge.html'
       },
-      'smart_kit': {
-        desc: 'If knowledge is power, monitoring energy is smart! ',
-        tpl: self.path + '/smartkit.html'
-      },
-      'regenerative_braking': {
-        desc: 'Slow down and power up! Innovation makes sure no energy is wasted.',
-        tpl: self.path + '/regenerativebraking.html'
-      },
-      'battery_capacity': {
-        desc: 'How long could you talk on your phone, if it had a Formula E car battery in it?',
-        tpl: self.path + '/batterycapacity.html'
-      },
-      'vehicle_to_grid': {
+      'A battery on wheels': {
         desc: 'What if electricity could move around as freely as you do in your car? Soon, it will.',
         tpl: self.path + '/v2g.html'
+      },
+      'Would you like to find out more about smart energy?': {
+        desc: 'The Enel staff is happy to answer any questions you may have.',
+        tpl: self.path + '/enelstand.html'
       }
+
     }
 
     self.getAvailableSnippets = _getAvailableSnippets
