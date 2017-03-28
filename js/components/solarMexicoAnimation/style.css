@@ -1,5 +1,5 @@
 g#sun_rays line {
-  stroke-dasharray: 3,10;
+  stroke-dasharray: 3,6;
   animation: dash 82s linear infinite;
 }
 
