@@ -7,7 +7,7 @@
   angular
     .module('FastRechargeAnimation')
     .component('fastRecharge', {
-      templateUrl: '../js/components/FastRechargeAnimation/assets/svg/illustration_fastcharge.svg',
+      templateUrl: '../js/components/fastRechargeAnimation/assets/svg/illustration_fastcharge.svg',
       controller: NightDayAnimationCtrl,
       controllerAs: 'fastRecharge',
       bindings: {}
@@ -16,7 +16,7 @@
   /* @ngInject */
   function NightDayAnimationCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
-    ctrl.componentPath = '../js/components/FastRechargeAnimation'
+    ctrl.componentPath = '../js/components/fastRechargeAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
 
     // https://github.com/angular/angular.js/issues/14433

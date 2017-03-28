@@ -13,27 +13,26 @@
     var self  = this
     self.path = '../js/modules/snippetManager/templates'
     var _availableSnippets = {
-      'The power of the sun': {
+      'the_power_of_the_sun': {
         desc: 'How much energy is there in Mexican skies?',
         tpl: self.path + '/solar25km.html'
       },
-      'Solar energy for the race': {
+      'solar_energy_for_the_race': {
         desc: 'Can you guess how much solar panels can power?',
         tpl: self.path + '/solarmexico.html'
       },
-      'Fast recharge': {
+      'fast_recharge': {
         desc: 'Innovation is ready to charge! Recharging e-cars is faster than you think.',
         tpl: self.path + '/fastrecharge.html'
       },
-      'A battery on wheels': {
+      'a_battery_on_wheels': {
         desc: 'What if electricity could move around as freely as you do in your car? Soon, it will.',
         tpl: self.path + '/v2g.html'
       },
-      'Would you like to find out more about smart energy?': {
+      'would_you_like_to_find_out_more_about_smart_energy?': {
         desc: 'The Enel staff is happy to answer any questions you may have.',
         tpl: self.path + '/enelstand.html'
       }
-
     }
 
     self.getAvailableSnippets = _getAvailableSnippets

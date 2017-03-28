@@ -7,7 +7,7 @@
   angular
     .module('EnelStandAnimation')
     .component('enelStand', {
-      templateUrl: '../js/components/enelStandAnimation/assets/svg/illustration_enel_stand.svg',
+      templateUrl: '../js/components/enelstandAnimation/assets/svg/illustration_enel_stand.svg',
       controller: enelStandCtrl,
       controllerAs: 'enelStand',
       bindings: {}
@@ -16,7 +16,7 @@
   /* @ngInject */
   function enelStandCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
-    ctrl.componentPath = '../js/components/enelStandAnimation'
+    ctrl.componentPath = '../js/components/enelstandAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
 
     // https://github.com/angular/angular.js/issues/14433
