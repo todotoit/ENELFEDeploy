@@ -183,7 +183,7 @@
       // https://github.com/angular/angular.js/issues/14433
       // for some weird reason component $onChanges is called before $onInit
       // so we assume that if we don't have prevData the components is never being initialized
-      if (_.isEmpty(prevData)) init()
+      init()
       console.log('update streamgraph')
 
       // -------- DATA MAP ---------
@@ -915,7 +915,7 @@
   angular
     .module('FastRechargeAnimation')
     .component('fastRecharge', {
-      templateUrl: '../js/components/FastRechargeAnimation/assets/svg/illustration_fastcharge.svg',
+      templateUrl: '../js/components/fastRechargeAnimation/assets/svg/illustration_fastcharge.svg',
       controller: NightDayAnimationCtrl,
       controllerAs: 'fastRecharge',
       bindings: {}
@@ -924,7 +924,7 @@
   /* @ngInject */
   function NightDayAnimationCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
-    ctrl.componentPath = '../js/components/FastRechargeAnimation'
+    ctrl.componentPath = '../js/components/fastRechargeAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
 
     // https://github.com/angular/angular.js/issues/14433
@@ -983,7 +983,7 @@
   angular
     .module('EnelStandAnimation')
     .component('enelStand', {
-      templateUrl: '../js/components/enelStandAnimation/assets/svg/illustration_enel_stand.svg',
+      templateUrl: '../js/components/enelstandAnimation/assets/svg/illustration_enel_stand.svg',
       controller: enelStandCtrl,
       controllerAs: 'enelStand',
       bindings: {}
@@ -992,7 +992,7 @@
   /* @ngInject */
   function enelStandCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
-    ctrl.componentPath = '../js/components/enelStandAnimation'
+    ctrl.componentPath = '../js/components/enelstandAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
 
     // https://github.com/angular/angular.js/issues/14433
@@ -1068,27 +1068,26 @@
     var self  = this
     self.path = '../js/modules/snippetManager/templates'
     var _availableSnippets = {
-      'The power of the sun': {
+      'the_power_of_the_sun': {
         desc: 'How much energy is there in Mexican skies?',
         tpl: self.path + '/solar25km.html'
       },
-      'Solar energy for the race': {
+      'solar_energy_for_the_race': {
         desc: 'Can you guess how much solar panels can power?',
         tpl: self.path + '/solarmexico.html'
       },
-      'Fast recharge': {
+      'fast_recharge': {
         desc: 'Innovation is ready to charge! Recharging e-cars is faster than you think.',
         tpl: self.path + '/fastrecharge.html'
       },
-      'A battery on wheels': {
+      'a_battery_on_wheels': {
         desc: 'What if electricity could move around as freely as you do in your car? Soon, it will.',
         tpl: self.path + '/v2g.html'
       },
-      'Would you like to find out more about smart energy?': {
+      'would_you_like_to_find_out_more_about_smart_energy?': {
         desc: 'The Enel staff is happy to answer any questions you may have.',
         tpl: self.path + '/enelstand.html'
       }
-
     }
 
     self.getAvailableSnippets = _getAvailableSnippets
@@ -1212,7 +1211,7 @@
     }
 
     function _update() {
-      return $http.get('http://192.168.3.10:5001/graphs/areachart/paddock')
+      return $http.get('http://backend.enelformulae.todo.to.it/graphs/areachart/paddock')
                   .then(
                     function(res) {
                       console.info(res)
@@ -1604,21 +1603,18 @@
 
     $urlRouterProvider.when('', 'landing')
     $urlRouterProvider.when('/', 'landing')
-    $urlRouterProvider.otherwise('404')
+    $urlRouterProvider.otherwise('')
 
     $stateProvider
-      .state('404', {
-        url: '/404',
-        templateUrl: 'templates/404.html'
-      })
+      // .state('404', {
+      //   url: '/404',
+      //   templateUrl: 'templates/404.html'
+      // })
       .state('landing', {
         url: '/landing',
         resolve: {
           streamData: function(PaddockAreaChart) {
-            // return PaddockAreaChart.get1()
-          },
-          donutData: function(PaddockAreaChart) {
-            // return PaddockAreaChart.get2()
+            return PaddockAreaChart.get()
           },
           snippets: function(SnippetSrv) {
             return SnippetSrv.getAvailableSnippets()
@@ -1633,48 +1629,6 @@
         controllerAs: 'landing',
         templateUrl: 'templates/landing.html'
       })
-      .state('battery', {
-        url: '/battery',
-        resolve: {
-          chartData: function(PaddockAreaChart) {
-            return PaddockAreaChart.get()
-          },
-          streamData: function(PaddockAreaChart) {
-            return PaddockAreaChart.get1()
-          }
-        },
-        controller: function($scope, chartData, streamData, $timeout, _) {
-          $scope.chartdata = chartData.zones
-          $scope.streamdata = streamData.zones
-          // var stepTime = 350
-          // var values = _(chartData.zones).groupBy('key').mapValues(function(d){ return d[0].values }).merge().values().flatten().value()
-          // var calls = values.length / chartData.zones.length
-          // var tempdata = _.map(chartData.zones, function(z) {
-          //   var d = {
-          //     key: z.key,
-          //     values: []
-          //   }
-          //   return d
-          // })
-          // $scope.data = []
-          // // REPLAY ANIMATION
-          // _.times(calls, function(i) {
-          //   $timeout(function() {
-          //     _.forEach(chartData.zones, function(l, j) {
-          //       tempdata[j].values.push(l.values[i])
-          //     })
-          //     // use angular copy to deep clone the object,
-          //     // so the $onChanges trigger get's fired
-          //     $scope.data = angular.copy(tempdata)
-          //   }, stepTime * (i+1))
-          // })
-          //
-          $scope.select = function(data) {
-            console.log(data)
-          }
-        },
-        templateUrl: 'templates/battery.html'
-      })
   }
 }(window.angular));
 
@@ -1686,7 +1640,7 @@
     .controller('LandingCtrl', landingCtrl)
 
   /* @ngInject */
-  function landingCtrl ($scope, snippets, $timeout, $http, _) {
+  function landingCtrl ($scope, snippets, streamData, $timeout, $http, _) {
     var vm = this
     vm.streamData = []
     vm.totalConsumption = {
@@ -1729,6 +1683,17 @@
                   }, function(err) {
                     console.error(err)
                   })
+    }
+    $scope.selectRace = function(id) {
+      console.log(streamData.zones)
+      if (id==='r2') {
+        vm.currentRace.id = 'r2'
+        vm.streamData = streamData.zones
+      }
+      if (id==='r3') {
+        vm.currentRace.id = 'r3'
+        vm.streamData = angular.copy(vm.currentRace.streamData.zones)
+      }
     }
 
     // twit feed

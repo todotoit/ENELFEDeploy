@@ -634,7 +634,7 @@
   angular
     .module('FastRechargeAnimation')
     .component('fastRecharge', {
-      templateUrl: '../js/components/FastRechargeAnimation/assets/svg/illustration_fastcharge.svg',
+      templateUrl: '../js/components/fastRechargeAnimation/assets/svg/illustration_fastcharge.svg',
       controller: NightDayAnimationCtrl,
       controllerAs: 'fastRecharge',
       bindings: {}
@@ -643,7 +643,7 @@
   /* @ngInject */
   function NightDayAnimationCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
-    ctrl.componentPath = '../js/components/FastRechargeAnimation'
+    ctrl.componentPath = '../js/components/fastRechargeAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
 
     // https://github.com/angular/angular.js/issues/14433
@@ -702,7 +702,7 @@
   angular
     .module('EnelStandAnimation')
     .component('enelStand', {
-      templateUrl: '../js/components/enelStandAnimation/assets/svg/illustration_enel_stand.svg',
+      templateUrl: '../js/components/enelstandAnimation/assets/svg/illustration_enel_stand.svg',
       controller: enelStandCtrl,
       controllerAs: 'enelStand',
       bindings: {}
@@ -711,7 +711,7 @@
   /* @ngInject */
   function enelStandCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
-    ctrl.componentPath = '../js/components/enelStandAnimation'
+    ctrl.componentPath = '../js/components/enelstandAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
 
     // https://github.com/angular/angular.js/issues/14433
@@ -787,27 +787,26 @@
     var self  = this
     self.path = '../js/modules/snippetManager/templates'
     var _availableSnippets = {
-      'The power of the sun': {
+      'the_power_of_the_sun': {
         desc: 'How much energy is there in Mexican skies?',
         tpl: self.path + '/solar25km.html'
       },
-      'Solar energy for the race': {
+      'solar_energy_for_the_race': {
         desc: 'Can you guess how much solar panels can power?',
         tpl: self.path + '/solarmexico.html'
       },
-      'Fast recharge': {
+      'fast_recharge': {
         desc: 'Innovation is ready to charge! Recharging e-cars is faster than you think.',
         tpl: self.path + '/fastrecharge.html'
       },
-      'A battery on wheels': {
+      'a_battery_on_wheels': {
         desc: 'What if electricity could move around as freely as you do in your car? Soon, it will.',
         tpl: self.path + '/v2g.html'
       },
-      'Would you like to find out more about smart energy?': {
+      'would_you_like_to_find_out_more_about_smart_energy?': {
         desc: 'The Enel staff is happy to answer any questions you may have.',
         tpl: self.path + '/enelstand.html'
       }
-
     }
 
     self.getAvailableSnippets = _getAvailableSnippets
@@ -931,7 +930,7 @@
     }
 
     function _update() {
-      return $http.get('http://192.168.3.10:5001/graphs/areachart/paddock')
+      return $http.get('http://backend.enelformulae.todo.to.it/graphs/areachart/paddock')
                   .then(
                     function(res) {
                       console.info(res)
@@ -1275,12 +1274,12 @@
   function RunSnippetApp(later) {
 
     // var schedule = later.parse.cron('4,9,14,19,24,29,34,39,44,49,54,59 * * * *')
-    var schedule = later.parse.text('every '+ 1 +' minutes')
-    console.info("Setting schedule: ", schedule)
-    function log() {
-      console.log('schedule to update all models every 5 minutes')
-    }
-    later.setInterval(log, schedule)
+    // var schedule = later.parse.text('every '+ 1 +' minutes')
+    // console.info("Setting schedule: ", schedule)
+    // function log() {
+    //   console.log('schedule to update all models every 5 minutes')
+    // }
+    // later.setInterval(log, schedule)
   }
 
 }(window.angular));
@@ -1315,120 +1314,13 @@
 
     $urlRouterProvider.when('', '')
     $urlRouterProvider.when('/', '')
-    $urlRouterProvider.otherwise('404')
+    $urlRouterProvider.otherwise('')
 
     $stateProvider
-      .state('404', {
-        url: '/404',
-        templateUrl: 'templates/404.html',
-        resolve: {
-          snippets: function(SnippetSrv) {
-            return SnippetSrv.getAvailableSnippets()
-                             .then(function(res) {
-                                return res
-                             }, function(err) {
-                                console.error(err)
-                             })
-          },
-          // tweetFeed: function($http) {
-          //   return $http.get('https://twitter.com/search?l=&q=%23EnelFE%20from%3AEnelGroup&src=typd')
-          // }
-        },
-        controller: function($scope, snippets, TweenMax, TimelineMax, $timeout) {
-          $scope.snippets = snippets
-          var duration = 0.6
-
-          function _shiftLeft() {
-            $timeout(function(){
-              var el = _.last($scope.snippets)
-              _.pull($scope.snippets, el)
-              $scope.snippets.unshift(el)
-            }, (duration*1000)-500)
-          }
-          function _shiftRight() {
-            $timeout(function(){
-              var el = $scope.snippets.shift()
-              $scope.snippets.push(el)
-            }, (duration*1000)-500)
-          }
-          $scope.next = function() {
-            var $el     = $('#snip-0')
-            var $elNext = $('#snip-1')
-            var $elPre  = $('#snip-3')
-            var $elOut  = $('#snip-2')
-            var tl = new TimelineMax()
-            tl.to($el,        duration, {x: '-60%',  z: '-100', opacity: 1, zIndex: -1}, 0)
-            tl.to($elNext,    duration, {x: '0%',    z: '0',    opacity: 1, zIndex:  0}, 0)
-            tl.fromTo($elOut, duration, {x: '120%',  z: '-200', opacity: 0, zIndex: -1},
-                                        {x: '60%',   z: '-100', opacity: 1, zIndex: -1}, 0)
-            tl.to($elPre,     duration, {x: '-120%', z: '-200', opacity: 0, zIndex: -2}, 0)
-            _shiftRight()
-          }
-          $scope.previous = function() {
-            var $el     = $('#snip-0')
-            var $elNext = $('#snip-1')
-            var $elPre  = $('#snip-3')
-            var $elOut  = $('#snip-2')
-            var tl = new TimelineMax()
-            tl.to($el,        duration, {x: '60%',   z: '-100', opacity: 1, zIndex: -1}, 0)
-            tl.to($elPre,     duration, {x: '0%',    z: '0',    opacity: 1, zIndex:  0}, 0)
-            tl.fromTo($elOut, duration, {x: '-120%', z: '-200', opacity: 0, zIndex: -1},
-                                        {x: '-60%',  z: '-100', opacity: 1, zIndex: -1}, 0)
-            tl.to($elNext,    duration, {x: '120%',  z: '-200', opacity: 0, zIndex: -2}, 0)
-            _shiftLeft()
-          }
-          $scope.getPosition = function(elIdx) {
-            var numOfSnip = $scope.snippets.length-1
-            switch(elIdx) {
-              case 0:
-                // center
-                return {
-                  'z-index': 0,
-                  'opacity': 1
-                }
-              break
-              case 1:
-                // right
-                return {
-                  'transform': 'translateX(60%) translateZ(-100px)',
-                  'z-index': -1
-                }
-              break
-              case 2:
-                // right-out
-                return {
-                  'transform': 'translateX(120%) translateZ(-200px)',
-                  'z-index': -2,
-                  'opacity': 0
-                }
-              break
-              case numOfSnip-1:
-                // left-out
-                return {
-                  'transform': 'translateX(-120%) translateZ(-200px)',
-                  'z-index': -2,
-                  'opacity': 0
-                }
-              break
-              case numOfSnip:
-                // left
-                return {
-                  'transform': 'translateX(-60%) translateZ(-100px)',
-                  'z-index': -1
-                }
-              break
-              default:
-                // center out
-                return {
-                  'transform': 'translateZ(-30rem)',
-                  'z-index': -3,
-                  'opacity': 0
-                }
-              break
-            }
-          }
-        }
-      })
+      // .state('404', {
+      //   url: '/404',
+      //   templateUrl: 'templates/404.html'
+      // })
       .state('landing', {
         url: '/:snippetKey',
         templateUrl: 'templates/landing.html',
@@ -1473,7 +1365,7 @@
     vm.openMenu = openMenu
     vm.closeMenu = closeMenu
 
-    if (!vm.selectedSnippet) return openMenu()
+    if (!vm.selectedSnippet) return select(vm.allSnippets[0])
 
     // -------
 

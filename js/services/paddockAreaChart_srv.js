@@ -37,7 +37,7 @@
     }
 
     function _update() {
-      return $http.get('http://192.168.3.10:5001/graphs/areachart/paddock')
+      return $http.get('http://backend.enelformulae.todo.to.it/graphs/areachart/paddock')
                   .then(
                     function(res) {
                       console.info(res)
