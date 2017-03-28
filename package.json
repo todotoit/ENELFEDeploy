@@ -9,6 +9,7 @@
     "deploy_tablet": "node deploy.js tablet && npm run deploy_common"
   },
   "dependencies": {
-    "copy-dir": "^0.3.0"
+    "copy-dir": "^0.3.0",
+    "replace": "^0.3.0"
   }
 }

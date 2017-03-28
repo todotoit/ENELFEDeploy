@@ -1,5 +1,7 @@
 var copydir = require('copy-dir');
 var path = require('path');
+var replace = require("replace");
+var pkg = require('./package.json')
 
 if(process.argv[2]){
 
@@ -17,6 +19,20 @@ if(process.argv[2]){
 		console.log('deploying tablet')
 		copydir.sync(path.join('..', 'ENEL-F-E/app/'), 'app');
 		copydir.sync(path.join('..', 'ENEL-F-E/app/'), 'monitor');
+
+		replace({
+		    regex: '.js"',
+		    replacement: '.js?v=' + pkg.version + '"',
+		    paths: ['app/index.html', 'monitor/index.html'],
+		    recursive: true
+		});
+
+		replace({
+		    regex: '.css"',
+		    replacement: '.css?v=' + pkg.version + '"',
+		    paths: ['app/index.html', 'monitor/index.html'],
+		    recursive: true
+		});
 	}
 
 }else{
