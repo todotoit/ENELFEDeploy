@@ -124,6 +124,7 @@
     function init() {
       console.log('init streamgraph')
       var data = ctrl.datasource
+      $element.find('svg').empty()
 
       // -------- INITIALIZE CHART ---------
       svg = d3.select($element.find('svg').get(0))
@@ -337,7 +338,8 @@
       bindings: {
         datasource: '<',
         onSelect: '&',
-        grName: '@'
+        grName: '@',
+        initialKey: '@'
       }
     })
 
@@ -368,17 +370,18 @@
                 .value(function(d) { return +d.energy })
                 .sort(function(a,b){ return +a.energy <= +b.energy })
 
-    function _select(arc) {
-      var data = arc.data
+    function _select(key) {
+      var data = _.find(ctrl.datasource, {name: key})
       arcs.attr('fill', function(d,i) { return 'url(#donutChart_gr'+i+ctrl.grName+')' })
-      svg.select('#arc-'+data.name).attr('fill', 'url(#'+ctrl.grName+')')
+      svg.select('#arc-'+key).attr('fill', 'url(#'+ctrl.grName+')')
       if(_callback) _callback(data)
     }
 
     function init() {
       console.log('init donutChart')
-      var data  = ctrl.datasource
+      var data  = angular.copy(ctrl.datasource)
       _callback = ctrl.onSelect()
+      $element.find('svg').empty()
 
       // -------- INITIALIZE CHART ---------
       svg = d3.select($element.find('svg').get(0))
@@ -401,7 +404,7 @@
                   .attr('width', enelCursor.width)
                   .attr('transform', 'translate('+(w/2-enelCursor.width/2)+','+(p-0.5)+')')
       // create gradients defs container
-      svgDefs = svg.select('defs')
+      svgDefs = svg.append('defs')
       selectGradient = svgDefs.append('linearGradient')
                               .attr('id', ctrl.grName)
                               .attr('x1', '0%')
@@ -420,8 +423,8 @@
     }
 
     function update(changedObj) {
-      var prevData = changedObj.datasource.previousValue
-      var data     = changedObj.datasource.currentValue
+      var prevData = angular.copy(changedObj.datasource.previousValue)
+      var data     = angular.copy(changedObj.datasource.currentValue)
       // !!
       // https://github.com/angular/angular.js/issues/14433
       // for some weird reason component $onChanges is called before $onInit
@@ -471,7 +474,9 @@
           .attr('id', function(d,i) { return 'arc-' + d.data.name })
           .attr('d', pieArc)
           .attr('fill', function(d,i) { return 'url(#donutChart_gr'+i+ctrl.grName+')' })
-          .on('click', _select)
+          .on('click', function(d,i) { return _select(d.data.name) })
+
+      if (ctrl.initialKey) _select(ctrl.initialKey)
     }
   }
 
@@ -1340,14 +1345,19 @@
       var debounceTime = angular.copy(scope.debounceTime) || 200
       var rotate = angular.copy(scope.rotate)
       var itemsToDisplay = scope.itemsToDisplay || 1
-      scope.currentIdx = 0
-      scope.lastIdx = Math.floor((scope.items.length-1)/itemsToDisplay)
 
       scope.select = scope.onChange()
       scope.selectPrev = scope.onPrevious()
       scope.selectNext = scope.onNext()
       scope.previous = _previous
       scope.next = _next
+
+      _init()
+
+      function _init() {
+        scope.currentIdx = 0
+        scope.lastIdx = Math.floor((scope.items.length-1)/itemsToDisplay)
+      }
 
       function _previous() {
         if (debounce) return
@@ -1374,7 +1384,9 @@
         if (scope.currentItem) scope.currentItem = currentItem
         if (scope.select) scope.select(currentItem)
       }
-
+      scope.$watch('items', function() {
+        _init()
+      })
       scope.$watch('currentItem', function() {
         scope.currentIdx = scope.currentItem? scope.items.indexOf(scope.currentItem) : 0
       })
@@ -1615,15 +1627,6 @@
                              }, function(err) {
                                 console.error(err)
                              })
-          },
-          tweetfeed: function($http) {
-            return $http.get('https://runkit.io/marcoaimo/58da1fffabf0fd0014889904/branches/master')
-                 .then(function(res) {
-                    console.log(res.data)
-                    return res.data
-                 }, function(err) {
-                    console.error(err)
-                 })
           }
         },
         controller: 'LandingCtrl',
@@ -1683,15 +1686,69 @@
     .controller('LandingCtrl', landingCtrl)
 
   /* @ngInject */
-  function landingCtrl ($scope, streamData, donutData, snippets, tweetfeed, $timeout, _) {
+  function landingCtrl ($scope, snippets, $timeout, $http, _) {
     var vm = this
-    vm.streamData = streamData? angular.copy(streamData.zones) : []
-    vm.donutData = donutData? angular.copy(donutData.zones) : []
+    vm.streamData = []
+    vm.totalConsumption = {
+      total_energy: 0,
+      zones: []
+    }
     vm.snippets = angular.copy(snippets)
-    vm.tweets = tweetfeed.items
+    vm.tweets = []
 
-    $scope.twitDisplayNum = _getTwitDisplayNum()
+    // donut
+    vm.donutSelection = {
+      energy: 0,
+      percentage: 0,
+      name: ''
+    }
+    $scope.donut_select = function(area) {
+      if (!area) return console.error('No area selected')
+      var percentage = (+area.energy/+vm.totalConsumption.total_energy)*100
+      vm.donutSelection = {
+        energy: area.energy,
+        name: area.name,
+        percentage: Math.round(percentage*100)/100
+      }
+      if (!$scope.$$phase) $scope.$digest()
+    }
+
+    // races
+    vm.currentRace = {}
+    // delay streamgraph load data
+    $timeout(function(){ retrieveRacesFeed() }, 1000)
+
+    function retrieveRacesFeed() {
+      return $http.get('../assets/jsonData/races.json')
+                  .then(function(res) {
+                    var currentRace = _.last(res.data.races)
+                    console.log(currentRace)
+                    vm.currentRace  = angular.copy(currentRace)
+                    vm.streamData = angular.copy(currentRace.streamData.zones)
+                    vm.totalConsumption = angular.copy(currentRace.totalConsumption)
+                  }, function(err) {
+                    console.error(err)
+                  })
+    }
+
+    // twit feed
+    retrieveTweetFeed()
+
+    function retrieveTweetFeed() {
+      return $http.get('https://runkit.io/marcoaimo/58da1fffabf0fd0014889904/branches/master')
+                  .then(function(res) {
+                    console.log(res.data)
+                    vm.tweets = res.data.items
+                    // after loaded the tweet feed append embed script from twitter
+                    var twitScript = $('<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>')
+                    $('.twitfeed-wrapper').append(twitScript)
+                  }, function(err) {
+                    console.error(err)
+                  })
+    }
+
     // twit carousel
+    $scope.twitDisplayNum = _getTwitDisplayNum()
     angular.element(window).bind('resize', function() {
       var newVal = _getTwitDisplayNum()
       if ($scope.twitDisplayNum !== newVal) {

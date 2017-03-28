@@ -1064,14 +1064,19 @@
       var debounceTime = angular.copy(scope.debounceTime) || 200
       var rotate = angular.copy(scope.rotate)
       var itemsToDisplay = scope.itemsToDisplay || 1
-      scope.currentIdx = 0
-      scope.lastIdx = Math.floor((scope.items.length-1)/itemsToDisplay)
 
       scope.select = scope.onChange()
       scope.selectPrev = scope.onPrevious()
       scope.selectNext = scope.onNext()
       scope.previous = _previous
       scope.next = _next
+
+      _init()
+
+      function _init() {
+        scope.currentIdx = 0
+        scope.lastIdx = Math.floor((scope.items.length-1)/itemsToDisplay)
+      }
 
       function _previous() {
         if (debounce) return
@@ -1098,7 +1103,9 @@
         if (scope.currentItem) scope.currentItem = currentItem
         if (scope.select) scope.select(currentItem)
       }
-
+      scope.$watch('items', function() {
+        _init()
+      })
       scope.$watch('currentItem', function() {
         scope.currentIdx = scope.currentItem? scope.items.indexOf(scope.currentItem) : 0
       })

@@ -110,6 +110,7 @@
     function init() {
       console.log('init streamgraph')
       var data = ctrl.datasource
+      $element.find('svg').empty()
 
       // -------- INITIALIZE CHART ---------
       svg = d3.select($element.find('svg').get(0))

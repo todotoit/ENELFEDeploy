@@ -13,7 +13,8 @@
       bindings: {
         datasource: '<',
         onSelect: '&',
-        grName: '@'
+        grName: '@',
+        initialKey: '@'
       }
     })
 
@@ -44,17 +45,18 @@
                 .value(function(d) { return +d.energy })
                 .sort(function(a,b){ return +a.energy <= +b.energy })
 
-    function _select(arc) {
-      var data = arc.data
+    function _select(key) {
+      var data = _.find(ctrl.datasource, {name: key})
       arcs.attr('fill', function(d,i) { return 'url(#donutChart_gr'+i+ctrl.grName+')' })
-      svg.select('#arc-'+data.name).attr('fill', 'url(#'+ctrl.grName+')')
+      svg.select('#arc-'+key).attr('fill', 'url(#'+ctrl.grName+')')
       if(_callback) _callback(data)
     }
 
     function init() {
       console.log('init donutChart')
-      var data  = ctrl.datasource
+      var data  = angular.copy(ctrl.datasource)
       _callback = ctrl.onSelect()
+      $element.find('svg').empty()
 
       // -------- INITIALIZE CHART ---------
       svg = d3.select($element.find('svg').get(0))
@@ -77,7 +79,7 @@
                   .attr('width', enelCursor.width)
                   .attr('transform', 'translate('+(w/2-enelCursor.width/2)+','+(p-0.5)+')')
       // create gradients defs container
-      svgDefs = svg.select('defs')
+      svgDefs = svg.append('defs')
       selectGradient = svgDefs.append('linearGradient')
                               .attr('id', ctrl.grName)
                               .attr('x1', '0%')
@@ -96,8 +98,8 @@
     }
 
     function update(changedObj) {
-      var prevData = changedObj.datasource.previousValue
-      var data     = changedObj.datasource.currentValue
+      var prevData = angular.copy(changedObj.datasource.previousValue)
+      var data     = angular.copy(changedObj.datasource.currentValue)
       // !!
       // https://github.com/angular/angular.js/issues/14433
       // for some weird reason component $onChanges is called before $onInit
@@ -147,7 +149,9 @@
           .attr('id', function(d,i) { return 'arc-' + d.data.name })
           .attr('d', pieArc)
           .attr('fill', function(d,i) { return 'url(#donutChart_gr'+i+ctrl.grName+')' })
-          .on('click', _select)
+          .on('click', function(d,i) { return _select(d.data.name) })
+
+      if (ctrl.initialKey) _select(ctrl.initialKey)
     }
   }
 
