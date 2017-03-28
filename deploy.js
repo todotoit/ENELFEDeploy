@@ -8,9 +8,9 @@ if(process.argv[2]){
 		copydir.sync(path.join('..', 'ENEL-FE-FillerGame/public'), 'fillergame');
 	}
 
-	if(process.argv[2] == 'landing'){
-		console.log('deploying landing')
-		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/landing'), 'landing');
+	if(process.argv[2] == 'website'){
+		console.log('deploying website')
+		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/'), '');
 	}
 
 }else{

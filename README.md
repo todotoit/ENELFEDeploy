@@ -9,4 +9,4 @@ Edit deploy.js to add the app in the deploy bundle and add in package.js scripts
 
 Run `npm run deploy_fillergame`
 
-Run `npm run deploy_landing`
+Run `npm run deploy_website`

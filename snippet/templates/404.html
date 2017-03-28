@@ -1,0 +1,21 @@
+<article layout="column stretch-center" self="full size-x1" style="background: pink"><div layout="row stretch-spread" self="size-x1" style="position: relative;
+              height: 50vh;
+              perspective: 100rem;
+              perspective-origin: center;
+              transform-style: preserve-3d;
+              overflow-x: hidden"><div grid="5of12" ng-repeat="snip in snippets" ng-style="getPosition($index)" id="snip-{{$index}}" class="snip animate-if" style="background:blue;
+                padding:1rem;
+                color:white;
+                border:1px solid;
+                position: absolute;
+                height: 100%" ng-include="snip.tpl"></div></div><pagination items="snippets" on-previous="previous" on-next="next" rotate="true"></article><article layout="column stretch-center" self="full size-x1" style="background: pink"><div layout="row stretch-spread" self="size-x1" style="position: relative;
+              height: 50vh;
+              perspective: 100rem;
+              perspective-origin: center;
+              transform-style: preserve-3d;
+              overflow-x: hidden"><div grid="5of12" ng-repeat="twit in tweets" id="snip-{{$index}}" style="background:blue;
+                padding:1rem;
+                color:white;
+                border:1px solid;
+                position: absolute;
+                height: 100%"><h2>{{twit.name}}</h2><h4>{{$index}} / {{tweet.length}}</h4></div></div><pagination items="tweets" on-previous="previous" on-next="next" rotate="true"><a class="twitter-timeline" href="https://twitter.com/search?q=%23EnelFE%20from%3AEnelGroup" data-widget-id="845356234324824068">Tweets about #EnelFE from:EnelGroup</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script><a class="twitter-timeline" href="https://twitter.com/search?q=%23airmax%20from%3Anike" data-widget-id="846309092671066112">Tweets about #airmax from:nike</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></article>
