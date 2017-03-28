@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "deploy_common": "git add -A && git commit -m \"deploy\" && npm version patch && git push",
-    "deploy_fillergame": "node deploy.js fillergame && npm run deploy_common"
+    "deploy_fillergame": "node deploy.js fillergame && npm run deploy_common",
+    "deploy_landing": "node deploy.js landing && npm run deploy_common"
   },
   "dependencies": {
     "copy-dir": "^0.3.0"

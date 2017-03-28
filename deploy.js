@@ -8,6 +8,11 @@ if(process.argv[2]){
 		copydir.sync(path.join('..', 'ENEL-FE-FillerGame/public'), 'fillergame');
 	}
 
+	if(process.argv[2] == 'landing'){
+		console.log('deploying landing')
+		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/landing'), 'landing');
+	}
+
 }else{
 
 	console.log('you need to specify the app name')
