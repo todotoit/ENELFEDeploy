@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" href="/vendor/foundation-6.2.4-custom/css/foundation.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" type="text/css" href="slideWrapper.css">
+
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/js/svg-importer.js"></script>
+  <script src="slideWrapper.js"></script>
+
+  <style type="text/css">
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: -webkit-linear-gradient(left, #FF5A0F, #E61400);
+      color: white;
+    }
+
+    #container {
+      margin-top: 85px;
+      padding-top: 1.5rem;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="container">
+    <div class="row">
+      <div id="metersMapContainer">
+        <div class="svg_container">
+          <import-svg name="circuit_buenosaires_meters" location="svg"></import-svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+  <script type="text/javascript">
+    var metersMap = new baMetersMap('#metersMapContainer')
+  </script>
+
+</html>

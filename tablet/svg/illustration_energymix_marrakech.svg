@@ -1,0 +1,40 @@
+<svg id="selected" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 214 214">
+  <defs>
+    <linearGradient id="linear-gradient" x1="102.34" y1="199.58" x2="186.84" y2="157.08" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.9"/>
+      <stop offset="0.13" stop-color="#fff" stop-opacity="0.86"/>
+      <stop offset="0.36" stop-color="#fff" stop-opacity="0.74"/>
+      <stop offset="0.67" stop-color="#fff" stop-opacity="0.54"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0.3"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="133.49" y1="18.63" x2="190.49" y2="91.63" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.3"/>
+      <stop offset="0.33" stop-color="#fff" stop-opacity="0.54"/>
+      <stop offset="0.64" stop-color="#fff" stop-opacity="0.74"/>
+      <stop offset="0.87" stop-color="#fff" stop-opacity="0.86"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="133.49" y1="18.63" x2="190.49" y2="91.63" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.9"/>
+      <stop offset="0.33" stop-color="#fff" stop-opacity="0.76"/>
+      <stop offset="0.64" stop-color="#fff" stop-opacity="0.64"/>
+      <stop offset="0.87" stop-color="#fff" stop-opacity="0.44"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+  <title>illustration_energymix</title>
+  <g id="donut_sections">
+    <g id="donut_temporary">
+      <rect x="73.76" y="174.39" width="10" height="35" transform="translate(93.22 398.81) rotate(-161.68)" style="fill: #fff"/>
+      <path d="M173.39,134.94A72,72,0,0,1,89,176.75L78,210a106.94,106.94,0,0,0,128.56-63.82Z" style="fill: url(#linear-gradient)"/>
+    </g>
+    <g id="donut_clean">
+      <rect x="186.76" y="118.4" width="10" height="35" transform="translate(382.12 -1.96) rotate(108.76)" style="fill: #fff"/>
+      <path d="M111.62,0.06l0.13,35.06A72.13,72.13,0,0,1,179,107.4a66.67,66.67,0,0,1-2.4,18.09l33.19,11.27A102,102,0,0,0,214,107.59,107.17,107.17,0,0,0,111.62.06Z" style="fill: url(#linear-gradient-2)"/>
+    </g>
+    <g id="donut_urban">
+      <rect x="101.68" y="-0.03" width="10" height="35" transform="translate(-0.06 0.38) rotate(-0.2)" style="fill: #fff"/>
+      <path d="M79.55,173.58A72.12,72.12,0,0,1,38.61,84.35C48,56,72.4,37.13,101.75,35.13l-0.13-35C57,2.22,19.6,30.41,5.38,73.35A107.18,107.18,0,0,0,68.53,206.88Z" style="fill: url(#linear-gradient-3)"/>
+    </g>
+  </g>
+</svg>

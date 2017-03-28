@@ -1,0 +1,13 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 415">
+  <title>illustration_microgrid_racetrack_electricity</title>
+    <path class="electricity" d="M446.9,256.4a85,85,0,0,1,170,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 6px"/>
+    <path class="electricity" d="M446.9,256.4a42.5,42.5,0,0,1,85,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 6px"/>
+    <path class="electricity" d="M531.9,256.4a42.5,42.5,0,0,1,85,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 6px"/>
+    <path class="electricity" d="M617,256.4a42.5,42.5,0,0,1,85,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 6px"/>
+    <path class="electricity" d="M702,256.4a42.5,42.5,0,0,1,85,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 6px"/>
+    <path class="electricity" d="M617,256.4a85,85,0,0,1,170,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 6px"/>
+    <path class="electricity" d="M531.9,256.4a85,85,0,0,1,170,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 6px"/>
+    <path class="electricity" d="M447.3,256.4a127.5,127.5,0,1,1,255,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 6px"/>
+    <path class="electricity" d="M532,256.4a127.5,127.5,0,0,1,255,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 6px"/>
+    <path class="electricity" d="M447.4,256.4a169.8,169.8,0,1,1,339.6,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 6px"/>
+</svg>

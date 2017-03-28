@@ -1,0 +1,15 @@
+/* SECTIONS */
+.section_container .section {
+  width: 100%;
+  height: 683px;
+  margin-top: 85px;
+  position: relative;
+  color: #FFF;
+}
+.section_container .section {
+  /* hide section by default */
+  display: none
+}
+.section_container .section.visible {
+  display: block;
+}

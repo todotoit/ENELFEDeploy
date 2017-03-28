@@ -13,6 +13,11 @@ if(process.argv[2]){
 		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/'), '');
 	}
 
+	if(process.argv[2] == 'tablet'){
+		console.log('deploying tablet')
+		copydir.sync(path.join('..', 'ENEL-F-E/app/'), 'tablet');
+	}
+
 }else{
 
 	console.log('you need to specify the app name')
