@@ -1552,12 +1552,12 @@
   function RunWebApp(later) {
 
     // var schedule = later.parse.cron('4,9,14,19,24,29,34,39,44,49,54,59 * * * *')
-    var schedule = later.parse.text('every '+ 1 +' minutes')
-    console.info("Setting schedule: ", schedule)
-    function log() {
-      console.log('schedule to update all models every 5 minutes')
-    }
-    later.setInterval(log, schedule)
+    // var schedule = later.parse.text('every '+ 1 +' minutes')
+    // console.info("Setting schedule: ", schedule)
+    // function log() {
+    //   console.log('schedule to update all models every 5 minutes')
+    // }
+    // later.setInterval(log, schedule)
   }
 
 }(window.angular));
