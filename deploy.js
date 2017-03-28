@@ -16,6 +16,7 @@ if(process.argv[2]){
 	if(process.argv[2] == 'tablet'){
 		console.log('deploying tablet')
 		copydir.sync(path.join('..', 'ENEL-F-E/app/'), 'app');
+		copydir.sync(path.join('..', 'ENEL-F-E/app/'), 'monitor');
 	}
 
 }else{
