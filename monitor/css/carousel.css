@@ -1,0 +1,155 @@
+.carousel.owl-carousel {
+  width: 100%;
+  height: 270px;
+  position: absolute;
+  z-index: 1;
+  bottom: 0px;
+  display: flex;
+}
+
+.carousel .owl-stage-outer {
+  /*display: flex;*/
+  position: absolute;
+  height: 100%;
+  align-items: flex-end;
+  overflow: visible;
+}
+
+.carousel .owl-stage{
+  display: flex;
+  height: 270px;
+}
+
+.carousel .owl-item {
+  height: 100%;
+}
+
+.carousel .slide {
+  position: absolute;
+  width: 100%;
+  height: 190px;
+  border: 1px solid #fff;
+  padding: 20px;
+  bottom: 80px;
+}
+.carousel .slide.expanded {
+  height: 575px;
+  overflow: hidden;
+}
+
+.carousel .slide.expandable .slide_content {
+  width: 100%;
+  height: 100%;
+  padding-top: 50px;
+  opacity: 0;
+  display: none;
+}
+
+.carousel .slide.expandable label {
+  border: 1px solid white;
+  border-bottom: none;
+  padding: 0px 15px;
+  border-radius: 7px 7px 0 0;
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.carousel .slide.expandable label .slide_plus_btn {
+  display: none;
+  padding-top: 2px;
+  padding-right: 7px;
+  float: left;
+}
+
+.carousel .slide.expanded label {
+  border: none;
+  top: 10px;
+  z-index: 999;
+}
+
+.owl-controls{
+  position: absolute;
+  bottom: 65px;
+  width: 100%;
+}
+
+.owl-dots{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content:center;
+  align-items: stretch;
+
+  margin: 0 auto;
+  width: 200px;
+}
+
+.owl-dot{
+  margin: 0 3px;
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  opacity: .3; 
+  background: #FFF;
+  transition: all 450ms ease-out;
+}
+
+.owl-dot.active{
+  opacity: 1;
+  width: 30px;
+}
+
+#carousel-cars-and-teams .owl-nav {
+  color: #0555FA;
+}
+#city-and-racetrack .owl-nav {
+  color: #E61400;
+}
+.owl-nav{
+  position: absolute;
+  font-size: 30px;
+  line-height: 0;
+  width: 100%;
+}
+.owl-nav .owl-prev,
+.owl-nav .owl-next {
+  /*animation-fill-mode: both;
+  animation: glowwhite 3s ease-out infinite;*/
+  display: inline-block;
+  position: absolute;
+  bottom: 85px;
+  background-color: white;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 18px 15.5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 1;
+  text-indent: -984em;
+}
+.owl-nav .owl-prev{
+  left: 45px;
+}
+.owl-nav .owl-next{
+  right: 45px;
+}
+
+#carousel-cars-and-teams .owl-nav .owl-prev{
+    background-image: url(../img/arrow_blue_prev.svg);
+}
+
+#carousel-cars-and-teams .owl-nav .owl-next{
+    background-image: url(../img/arrow_blue_next.svg);
+}
+
+#carousel-city-and-racetrack .owl-nav .owl-prev{
+    background-image: url(../img/arrow_red_prev.svg);
+}
+
+#carousel-city-and-racetrack .owl-nav .owl-next{
+    background-image: url(../img/arrow_red_next.svg);
+}
+

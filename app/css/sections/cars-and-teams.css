@@ -1,0 +1,280 @@
+#cars-and-teams {
+  background: -webkit-linear-gradient(left, #41B9E6, #0555FA);
+}
+
+/* TEAMS */
+
+.teams_section{
+	position: absolute;
+	width: 1024px;
+	height: 768px;
+}
+
+#car_cursor{
+	position: absolute;
+	top: 230px;
+	left: -300px;
+	opacity: 0;
+	width: 641px;
+	height: 123px;
+}
+
+.car_profile{
+	width: 720px;
+	height: 200px;
+	position: absolute;
+	top: 170px;
+	left: 250px;
+}
+
+#idle_car_profile{
+	top: 200px;
+}
+
+.pilot{
+	padding-top: 23px;
+}
+
+.helmet{
+	padding-top: 20px;
+}
+
+.helmet svg{
+	width: 50px;
+}
+
+.teams_section h2{
+	margin-bottom: 0;
+}
+
+h4.car_country{
+	margin-top: 60px
+}
+
+.car_model{
+	padding-top: 18px;
+	/*background: url(../../svg/icon_car_model.svg) no-repeat left 48px;
+	background-size: 44px;*/
+}
+
+.car_model p{
+	margin: .1em 0;
+	line-height: 1em;
+	margin-bottom: 15px;
+}
+
+.car_model p.u20{
+	line-height: 1.2em;
+}
+
+/* BATTERY */
+.battery_section{
+	position: absolute;
+	width: 1024px;
+	height: 768px;
+}
+
+#battery_container{
+	width: 1024px;
+	height: 415px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+#battery_container div svg{
+	position: absolute;
+	width: 1024px;
+	height: 415px;
+}
+
+#battery_container div#battery_points svg{
+	width: 19px;
+	height: 19px;
+	position: absolute;
+	top: 295px;
+	left: 660px;
+}
+
+#battery_container div#battery_clocks{
+	position: absolute;
+	left: 385px;
+	top: 180px;
+	width: 424px;
+	height: 110px;
+}
+
+#battery_container div.battery_clock svg{
+	width: 110px;
+	height: 110px;
+}
+
+#battery_container div.battery_clock svg{
+	width: 110px;
+	height: 110px;
+}
+
+#battery_container .battery_clockbattery svg{
+	width: 45px;
+	height: 23px;
+	top: 135px;
+}
+
+#battery_clockbattery1 svg{
+	left: 35px;
+}
+
+#battery_clockbattery2 svg{
+	left: 356px;
+}
+
+#battery_container div#battery_clocks div{
+	position: absolute;
+	width: 110px;
+	height: 110px;
+	top: 0;
+	left: 0;
+}
+
+#battery_container div#battery_clocks div#battery_clock2{
+	left: 322px;
+}
+
+#battery_container div#battery_power_phone svg{
+	width: 1180px;
+	height: 71px;
+	left: -102px;
+	top: 287px;
+}
+
+#battery_brake svg{
+	top: 0px;
+}
+
+#battery_container div#battery_brake_points svg{
+	width: 98px;
+	height: 98px;
+  	left: 366px;
+  	top: 287px;
+}
+
+/* car */
+.car_section{
+	position: absolute;
+	width: 1024px;
+	height: 768px;
+}
+
+#car_container{
+	position: absolute;
+}
+
+.copertone{
+	opacity: 0;
+	display: none;
+}
+
+#car_top svg{
+	position: absolute;
+	width: 1024px;
+	height: 415px;
+}
+
+/* powertrain */
+.powertrain_section{
+	position: absolute;
+	top: 0;
+	width: 1024px;
+	height: 768px;
+}
+
+#powertrain_container{
+	position: absolute;
+}
+
+#powertrain_ill{
+	transform: scale(.95);
+    padding-top: 450px;
+}
+
+#powertrain_ill > div svg{
+	width: 1024px;
+	height: 415px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+#powertrain_ill svg{
+	margin-top: -10px;
+}
+
+#powertrain_slide.slide h2 + p{
+  padding-right: 0em;
+}
+
+#powertrain_container #ill_powertrain_wheel{
+	width: 43px;
+	height: 43px;
+	position: absolute;
+	left: 797px;
+	top: 265px;
+}
+
+#powertrain_container #ill_powertrain_wheel svg{
+	width: 43px;
+	height: 43px;
+}
+
+#powertrain_container #ill_powertrain_traverse_element{
+	width: 18px;
+	height: 18px;
+	position: absolute;
+	left: 670px;
+	top: 303px;
+}
+
+#powertrain_container #ill_powertrain_traverse_element svg{
+	width: 18px;
+	height: 18px;
+}
+
+#ill_powertrain_transmission svg line {
+  stroke-dasharray: 20;
+  animation: dash 12s linear infinite;
+}
+
+#acquafuel_container {
+  width: 680px;
+  position: absolute;
+  top: 115px;
+  right: 15px;
+}
+
+#chart_sankey {
+  flex: 1;
+}
+
+.pilot.picture {
+  position: relative;
+  top: 13px;
+  width: 70px;
+  height: 70px;
+  border: 1px solid;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.pilot.picture img{
+  position: relative;
+  bottom: 20px;
+}
+
+#teams.slide .buttons_horizontal .button_wrap {
+  width: 17%;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 1000;
+  }
+}

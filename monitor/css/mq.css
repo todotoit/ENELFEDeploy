@@ -1,0 +1,21 @@
+@media screen and (min-width: 1920px) {
+  body {
+    transform: scale(1.41);
+    transform-origin: center;
+    width: 100%;
+  }
+
+  #main_wrapper, #sidebar {
+    display: flex;
+    position: relative;
+    left: -4px;
+  }
+
+  .ba_meters-map .svg_container svg {
+    position: absolute;
+    width: 1220px;
+    top: -55px;
+    left: -126px;
+  }
+
+}

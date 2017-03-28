@@ -1,0 +1,45 @@
+/* EFFECTS */
+/* glitch */
+.glitch:after {
+  content: attr(data-text);
+  position: absolute;
+  left: 2px;
+  text-shadow: -1px 0 red;
+  top: 0;
+  color: white;
+  background: black;
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+  animation: noise-anim-after 2s infinite linear alternate-reverse;
+}
+.glitch:before {
+  content: attr(data-text);
+  position: absolute;
+  left: -2px;
+  text-shadow: 1px 0 blue;
+  top: 0;
+  color: white;
+  background: black;
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+  animation: noise-anim-before 3s infinite linear alternate-reverse;
+}
+.navigationplus svg {
+  animation-fill-mode: both;
+  border-radius: 50%;
+}
+#nav-cars-and-teams .navigationplus svg{
+  animation: glowblue 3s ease-out infinite;
+}
+#nav-city-and-racetrack .navigationplus svg{
+  animation: glowred 3s ease-out infinite;
+}
+@keyframes glowwhite {
+  50% { box-shadow: 0 0 20px #fff; }
+}
+@keyframes glowblue {
+  50% { box-shadow: 0 0 10px #0555FA; }
+}
+@keyframes glowred {
+  50% { box-shadow: 0 0 10px #E61400; }
+}

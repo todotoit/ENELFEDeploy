@@ -1,0 +1,127 @@
+/* DASHBOARD */
+#dashboard {
+  background-color: transparent;
+}
+
+#dashboard #logo_container{
+	padding-top: 10px;
+	position: relative;
+	z-index: 21;
+	pointer-events: none;
+}
+
+#main_generation_wrap{
+	position: relative;
+	z-index: 10;
+	pointer-events: none;
+}
+
+#main_generation{
+	margin-top: 71px;
+	margin-bottom: 100px;
+  max-height: 105px; /* same as .cursor_big */
+}
+
+.info_block_big p{
+	margin-top: 6px;
+}
+
+#claim{
+  position: relative;
+  color: #FFF;
+}
+
+#claim h3{
+  position: relative;
+  color: #FFF;
+  font-size: 30px;
+  margin-top: 0;
+}
+
+#main_generation_top{
+	color: #FFF;
+	padding-top: 15px;
+}
+
+#main_generation_top p{
+	float: left;
+	margin-bottom: 0;
+	margin-right: 1em;
+	line-height: 1.2em;
+}
+
+#main_generation_top .cursor_small{
+	height: 33px;
+	width: 9px;
+	margin-right: 5px;
+	display: inline-block;
+}
+
+#main_generation_top .number{
+	line-height: 1em;
+}
+
+#main_generation_top .info_block{
+	border-bottom: none;
+	position: absolute;
+	width: 100%;
+	left: 3px;
+}
+
+#main_generation_top .info_block_wrapper{
+	position: relative;
+	overflow: hidden;
+	height: 40px;
+}
+
+/* STREAMGRAPH */
+#streamgraph{
+	position: absolute;
+	top: 0;
+	width: 1024px;
+	height: 468px;
+}
+
+#streamgraph > svg{
+	position: absolute;
+	top: 0;
+}
+
+#streamgraph .axis path, #streamgraph .axis line {
+  fill: none;
+  stroke: #000;
+  opacity: .3;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+
+#streamgraph .axis text{
+  opacity: 0.5;
+  font-size: 13px;
+}
+
+#streamgraph .x.axis .tick line{
+	stroke: #FFF;
+}
+
+.tooltip{
+	font-family: 'UniversLTStd', sans-serif;
+  font-weight: 300;
+  width: 180px;
+  height: 70px;
+  padding: 8px;
+  background: #FFF; 
+  overflow: hidden;
+  color: #008C5A;
+}
+
+.tooltip h4{
+	margin-top: 5px;
+	float: left;
+	width: 100%
+}
+
+.tooltip h4 span{
+	font-weight: 100;
+	float: right;
+}

@@ -1,0 +1,77 @@
+<html>
+    
+    <head>
+        <script src="bower_components/d3/d3.js"></script>
+        <script src="bower_components/moment/moment.js"></script>
+
+        <style type="text/css">
+            body{
+                background-color: purple;
+            }
+            #container{
+                width: 600px;
+            }
+        </style>
+
+        <link rel="stylesheet" type="text/css" href="teamAreaChart.css">
+        
+    </head>
+    
+    <body>
+        
+        <div id="container"></div>
+
+
+        <button id="a">charging</button>
+        <button id="b">auxiliary</button>
+        <button id="c">current all</button>
+        <button id="d">update all</button>
+        
+        <script src="teamAreaChart.js"></script>
+        
+        <script>
+
+            var indexc = 8
+            
+            var calendar = d3.range(24).map(function(d, i){
+                var now = moment().add(i, 'hour')
+                return {h: now.format()}
+            })
+
+            var alldata = d3.range(2).map(function(d, i){
+                return {key:'_'+i, values:d3.range(indexc).map(function(c, j){
+                    return {h:calendar[j].h, v:Math.random()}
+                })}
+            })
+
+            // console.log(alldata)
+            var myChart = new teamAreaChart('#container', alldata)
+
+            d3.select('#a')
+              .on('click', function(){
+                myChart.select('_0')
+              })
+
+            d3.select('#b')
+              .on('click', function(){
+                myChart.select('_1')
+              })
+
+            d3.select('#c')
+              .on('click', function(){
+                myChart.selectAll()
+              })
+
+            d3.select('#d')
+              .on('click', function(){
+                alldata[0].values.push( {h:calendar[indexc].h, v:Math.random()} )
+                alldata[1].values.push( {h:calendar[indexc].h, v:Math.random()} )
+                indexc++
+                myChart.updateData(alldata)
+              })
+
+        </script>
+        
+    </body>
+    
+</html>

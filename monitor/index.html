@@ -1,0 +1,2549 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0' />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-title" content="ENEL">
+	<link rel="apple-touch-icon-precomposed" href="img/enel-icon.png" />
+	<title>Enel</title>
+
+	<link rel="stylesheet" href="bower_components/normalize-css/normalize.css" />
+	<link rel="stylesheet" href="vendor/owl.carousel.2.0.0-beta.2.4/assets/owl.carousel.css" />
+	<link rel="stylesheet" href="vendor/foundation-6.2.4-custom/css/foundation.css" />
+  <!-- COMPONENTS -->
+  <link rel="stylesheet" href="components/standings/standings.css">
+  <link rel="stylesheet" href="components/sidebarDonutChart/sidebarDonutChart.css">
+  <link rel="stylesheet" href="components/teamAreaChart/teamAreaChart.css">
+  <link rel="stylesheet" href="components/slideLatinAmerica/slideWrapper.css">
+  <link rel="stylesheet" href="components/slideMetersMap/slideWrapper.css">
+	<!-- MAIN STYLE WRAPPER -->
+  <link rel="stylesheet" href="css/style.css" />
+
+	<!-- required by svg-importer -->
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="js/svg-importer.js"></script>
+	<script src="bower_components/everpolate/everpolate.browserified.js"></script>
+	<script type="text/javascript">
+		// initialize global namespace for application
+		window.Application = {
+      // environment: 'production', // if you need to force the environment
+			animations: {},
+      models: {},
+			states: {},
+			UI: {},
+      sampling_rate: 5, // minutes
+			be_sampling_rate: 3, // minutes
+      idle_time: 10 // minutes
+		}
+	</script>
+</head>
+<body class="dashboard"><!-- classes on body are used for state transition backgrounds -->
+        <a href="#" id="fullscreen">FULLSCREEN</a>
+
+    <div id="sidebar">
+      <div id="side_topbar">
+        <div class="info_block_wrapper">
+    			<div class="info_block info_block_small">
+    				<p class="u14">Total energy<br>consumption</p>
+  				<span class="number live" data-bind="total-energy-consumption">0</span>
+  				<span class="unit">kWh</span>
+  		    </div>
+  		</div>
+    	</div>
+      <div class="side_content">
+      	<div class="info_block">
+      		<h4>Energy zones</h4>
+      	</div>
+      	<div id="donut_consumption">
+      		<!-- CHART GOES HERE -->
+      	</div>
+
+      	<div id="side_info">
+      		<div class="donut_area_data" id="donut_area_paddock">
+  	    		<h2>Paddock</h2>
+  	    		<div class="side_numbers_container">
+  	    			<div class="info_block">
+  		    			<span class="number live" data-bind="zone-consumption-paddock">0</span>
+    						<span class="unit">kWh</span>
+    					</div>
+    					<div class="info_block">
+    						<span class="number live" data-bind="zone-consumption-paddock-percentage">0</span>
+    						<span class="unit">%</span>
+    					</div>
+    					<div id="donut_histogram">
+    						<!-- TO BE CONTINUED -->
+    						<div class="hor_bar_container">
+    							<div class="bar_container">
+    								<div class="bar" data-percentage="charging" style="width:0%"></div>
+    							</div>
+    							<div class="bar_label">
+    								Batteries<br>
+    								<span class="number live" data-bind="zone-consumption-paddock-charging">0</span> <span class="unit">kWh</span>
+    							</div>
+    						</div>
+    						<div class="hor_bar_container">
+    							<div class="bar_container">
+    								<div class="bar" data-percentage="auxiliary" style="width:0%"></div>
+    							</div>
+    							<div class="bar_label">
+    								Utilities<br>
+    								<span class="number live" data-bind="zone-consumption-paddock-auxiliary">0</span> <span class="unit">kWh</span>
+    							</div>
+    						</div>
+    					</div>
+  	    		</div>
+      		</div>
+          <div class="donut_area_data" id="donut_area_tv_compound">
+            <h2>Media</h2>
+            <div class="side_numbers_container">
+              <div class="info_block">
+                <span class="number live" data-bind="zone-consumption-tv">0</span>
+                <span class="unit">kWh</span>
+              </div>
+              <div class="info_block">
+                <span class="number live" data-bind="zone-consumption-tv-percentage">0</span>
+                <span class="unit">%</span>
+              </div>
+            </div>
+          </div>
+          <div class="donut_area_data" id="donut_area_evillage">
+            <h2>Fans</h2>
+            <div class="side_numbers_container">
+              <div class="info_block">
+                <span class="number live" data-bind="zone-consumption-evillage">0</span>
+                <span class="unit">kWh</span>
+              </div>
+              <div class="info_block">
+                <span class="number live" data-bind="zone-consumption-evillage-percentage">0</span>
+                <span class="unit">%</span>
+              </div>
+            </div>
+          </div>
+          <div class="donut_area_data" id="donut_area_hospitality">
+            <h2>Race facilities</h2>
+            <div class="side_numbers_container">
+              <div class="info_block">
+                <span class="number live" data-bind="zone-consumption-hospitality">0</span>
+                <span class="unit">kWh</span>
+              </div>
+              <div class="info_block">
+                <span class="number live" data-bind="zone-consumption-hospitality-percentage">0</span>
+                <span class="unit">%</span>
+              </div>
+            </div>
+          </div>
+      	</div>
+      </div>
+    </div>
+  
+
+  <div id="main_wrapper">
+    <div class="container">
+
+      <!-- DASHBOARD -->
+      <section id="dashboard">
+        <div class="branding" to-state="dashboard">
+        	<div id="logo_container" class="row">
+        		<div class="small-4 columns">
+        			<img class="logo" id="logo_enel" src="img/fe-enel_logo.png">
+        		</div>
+
+        		<div id="main_generation_top" class="columns small-3">
+        			<div class="cursor cursor_small">&nbsp;</div>
+        			<div class="info_block_wrapper">
+  	      			<div class="info_block info_block_small">
+  	      				<p class="u14">Power<br>demand</p>
+      						<span class="number live" data-bind="instant-power-consumption">0</span>
+      						<span class="unit">kW</span>
+      					</div>
+  				    </div>
+        		</div>
+        		<!--div class="small-3 columns">
+        			<img class="logo" id="logo_fe" src="img/fe_logo.png">
+        		</div-->
+        	</div>
+        	
+        	<div id="streamgraph"><!-- STREAM HERE --></div>
+        	<div class="row" id="main_generation_wrap">
+        		<div id="main_generation" class="columns small-8">
+        			<span class="cursor cursor_big">&nbsp;</span>
+        			<div class="info_block info_block_big">
+  					<span class="number live u40" data-bind="instant-power-consumption">0</span>
+  					<span class="unit">kW</span>
+  					<h3>Instant power demand</h3>
+  					<p>Equivalent to <span data-bind="instant-power-consumption-washmachine">0</span> washing machines <!-- operating for 1 hour --></p>
+  				</div>
+  				
+        		</div>
+        	</div>
+
+        	<div class="row">
+        		<div id="claim" class="columns small-8">
+        			<h3>Discover the energy behind Formula E</h3>
+        		</div>
+        	</div>
+        </div>
+        <!-- <div class="content"></div> -->
+        <div class="navigation_container">
+          <div class="nav_section" id="nav-cars-and-teams" to-state-switch="cars-and-teams,dashboard">
+          	<div class="row nav_title_container">
+          		<div class="columns small-8">
+          			<p class="nav_section-titlemini">Cars and Teams</p>
+          			<h2 class="nav_section-longtitle">Cars<br>and Teams</h2>
+          		</div>
+          		<div class="columns small-4 navigationplus">
+                <small>EXPLORE</small>
+          			<import-svg name="nav_plus_alt" location="svg" class="glow glow-blue"></import-svg>
+          		</div>
+          	</div>
+          	<div class="row nav_values">
+          		<div class="columns small-8">
+          			<div class="info_block">
+                  <p>THE FUTURE OF MOBILITY</p>
+          				<!-- <h4>Car CO<sub>2</sub> emissions</h4>
+          				<div class="value">
+          					<span class="number">0.0</span> <span class="unit">g/km</span>
+          				</div> -->
+          			</div>
+          			<!-- <div class="info_block">
+          				<h4>Max power</h4>
+          				<div class="value">
+          					<span class="number">200</span><span class="unit">kW</span>
+          				</div>
+          			</div> -->
+          		</div>
+          	</div>
+          </div>
+          <div class="nav_section" id="nav-city-and-racetrack" to-state-switch="city-and-racetrack,dashboard">
+          	<div class="row nav_title_container">
+          		<div class="columns large-8">
+          			<p class="nav_section-titlemini">Powering the race</p>
+          			<h2 class="nav_section-longtitle">Powering<br>the race</h2>
+          		</div>
+          		<div class="columns large-4 navigationplus">
+                <small>EXPLORE</small>
+          			<import-svg name="nav_plus_alt" location="svg" class="glow glow-red"></import-svg>
+          		</div>
+          	</div>
+          	<div class="row nav_values">
+          		<div class="columns small-8">
+          			<!--div class="info_block">
+          				<h4>Instant power production</h4>
+          				<div class="value">
+          					<span class="number live" data-bind="instant-power-production"></span> <span class="unit">kW</span>
+          				</div>
+          			</div-->
+          			<div class="info_block">
+                  <p>TECHNOLOGY AND ENERGY</p>
+          				<!-- <h4>Today's energy consumption</h4>
+          				<div class="value">
+              			<span class="number live" data-bind="total-energy-consumption">0</span>
+          					<span class="unit">kWh</span>
+          				</div> -->
+          			</div>
+          			<!-- <div class="info_block">
+  	      				<h4>Laps</h4>
+      						<span class="value number">37</span>
+      					</div> -->
+          		</div>
+          	</div>
+          </div>
+        </div>
+      </section>
+      <!-- /DASHBOARD -->
+    </div>
+
+  	<div class="container section_container">
+
+  		<!-- FE cars and teams -->
+  		<section id="cars-and-teams" class="section">
+        <!-- CARS AND TEAMS CONTENTS -->
+  			<div class="content">
+  				<div id="bg-cars-and-teams" class="bg_container">
+
+  					<div class="slide" id="battery_slide">
+  						<div id="battery_container">
+  							<div id="battery_carfront">
+  								<import-svg name="illustration_battery_carfront" location="svg"></import-svg>
+  							</div>
+  							<div id="battery_carnormal">
+  								<import-svg name="illustration_battery_carnormal" location="svg"></import-svg>
+  							</div>
+
+  							<div id="battery_clocks">
+  								<div id="battery_clock1" class="battery_clock">
+  									<import-svg name="illustration_battery_clock" location="svg"></import-svg>
+  								</div>
+  								<div id="battery_clock2" class="battery_clock">
+  									<import-svg name="illustration_battery_clock" location="svg"></import-svg>
+  								</div>
+  								<div id="battery_clockbattery1" class="battery_clockbattery">
+  									<import-svg name="illustration_battery_clockbattery" location="svg"></import-svg>
+  								</div>
+  								<div id="battery_clockbattery2" class="battery_clockbattery">
+  									<import-svg name="illustration_battery_clockbattery" location="svg"></import-svg>
+  								</div>
+  							</div>
+
+  							<div id="battery_body_container">
+  								<div id="battery_body">
+  									<import-svg name="illustration_battery_idle-body" location="svg"></import-svg>
+  								</div>
+  								<div id="battery_cover">
+  									<import-svg name="illustration_battery_idle-cover" location="svg"></import-svg>
+  								</div>
+  								<div id="battery_points">
+  									<import-svg name="illustration_battery_idle-points" location="svg"></import-svg>
+  								</div>
+  							</div>
+
+  							<div id="battery_boost_simon">
+  								<import-svg name="illustration_battery_boost" location="svg"></import-svg>
+  							</div>
+  							
+  							
+  							<div id="battery_power_phone">
+  								<import-svg name="illustration_battery_power" location="svg"></import-svg>
+  							</div>
+  							
+  							<div id="battery_brake">
+  								<import-svg name="illustration_battery_brake" location="svg"></import-svg>
+  							</div>
+  							<div id="battery_brake_points">
+  								<import-svg name="illustration_battery_brake-points" location="svg"></import-svg>
+  							</div>
+  						</div>
+
+  						<div class="idle battery_section" id="battery_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Car batteries</h4>
+  									<h2>Charging the race</h2>	
+  									<p>Teams are required to use the same set of batteries all season.<br>Batteries are designed to last for two seasons.</p>								
+  								</div>
+  								<div class="columns small-2 small-push-2 extra_info">
+  									<div class="info_block">
+  										<h4>Max power</h4>
+  										<div class="value">
+  											<span class="number">200</span><span class="unit">kW</span> 
+  										</div>
+  									</div>
+  								</div>
+  								<div class="columns small-2 small-push-2 end extra_info">
+  									<div class="info_block">
+  										<h4>Race power</h4>
+  										<div class="value">
+  											<span class="number">170</span><span class="unit">kW</span> 
+  										</div>
+  									</div>
+  								</div>
+  							</div>
+  						</div>
+
+  						<div class="not_idle battery_section" id="battery_power">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Car batteries</h4>
+  									<h2>Battery power</h2>
+  									<p>Featuring a usable capacity of 28 kWh, a single Formula E car battery is made up of 200KG of lithium ion cells and could charge up to 4,000 mobile phones.</p>
+  								</div>
+  								<div class="columns small-3 small-push-2 end extra_info">
+  									<div class="info_block">
+  										<h4>ENOUGH POWER FOR</h4>
+  										<div class="value">
+  											<span class="number">4,000</span> <span class="unit">phones</span>
+  										</div>
+  									</div>
+  								</div>
+  							</div>
+  						</div>
+
+  						<div class="not_idle battery_section" id="battery_boost">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Car batteries</h4>
+  									<h2>Fan Boost</h2>
+  									<p>Fans decide which 3 drivers get a boost of extra energy during the race. <BR>Pilots can use it on their second car, taking their car to the maximum power of 200 kW with an extra acceleration for a limited time.</p>
+  								</div>
+  								<div class="columns small-2 small-push-2 end extra_info">
+  									<h4>Extra energy</h4>
+  									<div class="value">
+  										<span class="number">20</span> <span class="unit">%</span>
+  									</div>
+  								</div>
+  							</div>
+  						</div>
+
+  						<div class="not_idle battery_section" id="battery_brakes">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Car batteries</h4>
+  									<h2>Regenerative brakes</h2>
+  									<p>Every time pilots brake, they can recharge their car's battery and have more energy for the race.<br>They adjust regenerative braking keeping in mind a trade-off between recovered power and car stability.</p>
+  								</div>
+  								<div class="columns small-3 small-push-2 end extra_info">
+  									<h4>Max regenerated power</h4>
+  									<div class="value">
+  										<span class="number">150</span> <span class="unit">kJ</span>
+  									</div>
+  								</div>
+  							</div>
+  						</div>
+
+  						<div class="not_idle battery_section" id="battery_recharge">
+  							<div class="row">			
+  								<div class="columns small-4">
+  									<h4>Car batteries</h4>
+  									<h2>Fast recharge</h2>
+  									<p>The race cars use clean energy produced by a dedicated aquafuel generator, and are charged by units providing up to 42 kW.<br>When all vehicles are recharged at the same time, a total of 850 kW is being provided while saving almost 0.5 tonnes of CO<sub>2</sub>.</p>
+  								</div>
+  								<div class="columns small-2 extra_info">
+  									<p>Formula E car</p>
+  									<h4>Recharge time</h4>
+  									<div class="value">
+  										<span class="number">45</span> <span class="unit">min</span>
+  									</div>
+  								</div>
+  								<div class="columns small-4 small-push-1 end extra_info">
+  									<p>Commercial e-vehicle</p>
+  									<h4>Recharge time</h4>
+  									<div class="value">
+  										<span class="number">330</span> <span class="unit">min</span>
+  									</div>
+  									<small>Average of some of today's electric vehicles on the market.</small>
+  								</div>
+  							</div>
+  						</div>
+  					</div>
+
+  					<div class="slide" id="car_slide">
+  						<div id="car_container">
+  							<div id="car_top">
+  								<import-svg name="illustration_car_top-01" location="svg"></import-svg>
+  							</div>
+  						</div>
+  						<div class="idle car_section" id="car_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Car specs</h4>
+  									<h2>Innovating motorsports</h2>
+  									<p>Formula E race cars represent the forefront of innovation in the field of electric mobility, with new solutions and technologies constantly being tested and trickling down into the market.</p>
+      						</div>
+      						<div class="columns small-3 small-push-1 end extra_info">
+      							<div class="info_block">
+      								<p class="no_margin">Formula E</p>
+  										<h4>CO<sub>2</sub> released over<br>a 100-km race</h4>
+    									<div class="value">
+    										<span class="number">0.0</span> <span class="unit">kg</span>
+    									</div>
+    								</div>
+      						</div>
+      						<div class="columns small-3 small-push-1 end extra_info">
+      							<div class="info_block">
+      								<p class="no_margin">Average 250 hp petrol car</p>
+  										<h4>CO<sub>2</sub> released over<br>a 100-km race</h4>
+    									<div class="value">
+    										<span class="number">20</span> <span class="unit">kg</span>
+    									</div>
+      							</div>
+      						</div>
+      					</div>
+      				</div>
+
+      				<div class="not_idle car_section" id="car_engine">
+  						<div class="row">
+  							<div class="columns small-4">
+  								<h4>Car specs</h4>
+  								<h2>Engine</h2>
+  								<p>On average, the electric vehicles on the market today reach a top speed of 150 km/h and go from 0 to 100 km/h in about 9 seconds.</p>
+      						</div>
+      						<div class="columns small-2 extra_info">
+    								<div class="info_block">
+  									<h4>Average power</h4>
+    									<div class="value">
+    										<span class="number">250</span> <span class="unit">hp</span>
+    									</div>
+    								</div>
+      						</div>
+    							<div class="columns small-2 extra_info">
+    								<div class="info_block">
+  									<h4>Max speed</h4>
+    									<div class="value">
+    										<span class="number">225.0</span> <span class="unit">km/h</span>
+    									</div>
+    								</div>
+      						</div>
+      						<div class="columns small-3 end extra_info">
+    								<div class="info_block">
+  									<h4>Acceleration</h4>
+    									<div class="value">
+    										<span class="number">3.0</span> <span class="unit">sec 0-100 km/h</span>
+    									</div>
+    								</div>
+    							</div>
+      					</div>
+      				</div>
+
+      				<div class="not_idle car_section" id="car_tyres">
+  						<div class="row">
+  							<div class="columns small-4">
+  								<h4>Car specs</h4>
+  								<h2>Tyres</h2>
+  								<p>Only one set of tyres is used at each event. Two spares are available only in case of puncture or damage.</p>
+    							</div>
+    							<div class="columns small-3 small-push-1 extra_info">
+    								<div class="info_block">
+  									<h4>SIZED FOR EFFICIENCY</h4>
+    									<div class="value">
+    										<span class="number">46.0</span> <span class="unit">cm</span>
+    									</div>
+    								</div>
+    							</div>
+    							<div class="columns small-3 small-push-1 extra_info end">
+    								<div class="info_block">
+  									<p>Formula E car tyres allow for lower rolling resistance and therefore make more efficient use of energy.</p>
+    								</div>
+    							</div>
+    						</div>
+      				</div>
+
+      				<div class="not_idle car_section" id="car_sound">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Car specs</h4>
+  									<h2>Sound</h2>
+  									<p>With different engines, inverters and gearboxes fitted, each team has created a unique new sound.</p>
+      						</div>
+    							<div class="columns small-3 small-push-1 extra_info">
+    								<div class="info_block">
+    									<p class="no_margin">Formula E</p>
+  									<h4>Noise levels</h4>
+    									<div class="value">
+    										<span class="number">80.0</span> <span class="unit">dB</span>
+    									</div>
+    								</div>
+    							</div>
+    							<div class="columns small-3 small-push-1 extra_info end">
+    								<div class="info_block">
+    									<p class="no_margin">Formula 1</p>
+  									<h4>Noise levels</h4>
+    									<div class="value">
+    										<span class="number">135.0</span> <span class="unit">dB</span>
+    									</div>
+    								</div>
+    							</div>
+    						</div>
+    					</div>
+  					</div>
+
+            <div class="slide" id="powertrain_slide">
+
+              <div id="powertrain_container">
+              	<div id="powertrain_ill">
+  	            	<div id="ill_powertrain_bgcar">
+  	                	<import-svg name="illustration_powertrain_bgcar" location="svg"></import-svg>
+  	              	</div>
+  	              	<div id="ill_powertrain_idle">
+  	                	<import-svg name="illustration_powertrain_battery" location="svg"></import-svg>
+  	                	<import-svg name="illustration_powertrain_inverter" location="svg"></import-svg>
+  	              	</div>
+  	              	<div id="ill_powertrain_transmission">
+  	                	<import-svg name="illustration_powertrain_transmission" location="svg"></import-svg>
+  	              	</div>
+  	              	<div id="ill_powertrain_wheel">
+  	                	<import-svg name="illustration_powertrain_wheel" location="svg"></import-svg>
+  	              	</div>
+  	              	<div id="ill_powertrain_longitudinal">
+  	                	<import-svg name="illustration_powertrain_longitudinal" location="svg"></import-svg>
+  	              	</div>
+  	              	<div id="ill_powertrain_traverse1">
+  	                	<import-svg name="illustration_powertrain_traverse1" location="svg"></import-svg>
+  	              	</div>
+  	              	<div id="ill_powertrain_traverse2">
+  	                	<import-svg name="illustration_powertrain_traverse2" location="svg"></import-svg>
+  	              	</div>
+  	              	<div id="ill_powertrain_traverse_element">
+  	                	<import-svg name="illustration_powertrain_traverse_element" location="svg"></import-svg>
+  	              	</div>
+                	</div>
+
+
+  		            <div class="idle powertrain_section" id="powertrain_idle">
+  		              <div class="row">
+  		                <div class="columns small-3">
+  		                  <h4>Drivetrains</h4>
+  		                  <h2>Boosting technology</h2>
+  		                  <p>This is the second season in which teams have been allowed to develop their own drivetrain, innovating and testing different technologies to improve the way energy is delivered to the road.</p>
+  		                </div>
+
+  			              <div class="columns small-9">
+  			              	<div class="row">
+  				              <div class="columns small-3">
+  				              	<div class="note">
+  									<h4>Battery</h4>
+  									<p>All teams make use of a traction battery provided by Williams Advanced Engineering, which they are not allowed to modify or maintain in any way.</p>
+  								</div>
+  				              </div>
+  				              <div class="columns small-3">
+  				              	<div class="note">
+  									<h4>Inverter</h4>
+  									<p>By switching the current delivered to the motor at +10,000 p/sec, the inverter sets in motion the rotor inside the stator.</p>
+  								</div>
+  				              </div>
+  				              <div class="columns small-3">
+  				              	<div class="note">
+  									<h4>Motor</h4>
+  									<p>Inside the motor, the magnets of the rotor are alternatively attracted and repelled by the magnetic fields of the stator, therefore generating the motor’s spin.</p>
+  								</div>
+  				              </div>
+  				              <div class="columns small-3">
+  				              	<div class="note">
+  									<h4>Transmission</h4>
+  									<p>The transmission transfers the power from the motor to the wheels.<br>
+                       Depending on the type, size and spinning speed of the motor, different gearboxes are required to transform the motor spinning into torque.</p>
+  								</div>
+  				              </div>
+  				          	</div>
+  				           </div>
+  				         </div>
+  		            </div>
+  		            <div class="not_idle powertrain_section" id="powertrain_longitudinal">
+  		              <div class="row">
+  		                <div class="columns small-4">
+  		                  <h4>DRIVETRAINS</h4>
+  		                  <h2>1 Longitudinal motor</h2>
+  		                  <p>Longitudinal motors are oriented along the long axis of the vehicle, front to back, and typically can be placed lower than transverse motors, improving weight distribution. In this season, 4 teams have opted for this solution.</p>
+  		                </div>
+                      <div class="columns small-3 small-push-1 extra_info">
+                        <div class="info_block">
+                        <h4>2 GEARS</h4>
+                          <p>Panasonic Jaguar Racing<br>
+                             Venturi Formula E
+                          </p>
+                        </div>
+                      </div>
+                      <div class="columns small-3 small-push-1 extra_info end">
+                        <div class="info_block">
+                        <h4>3 GEARS</h4>
+                          <p>ABT Schaeffler Audi Sport<br>
+                             Andretti Formula E
+                          </p>
+                        </div>
+                      </div>
+  		              </div>
+  		            </div>
+  		            <div class="not_idle powertrain_section" id="powertrain_traverse1">
+  		              <div class="row">
+  		                <div class="columns small-4">
+  		                  <h4>DRIVETRAINS</h4>
+  		                  <h2>1 Transverse motor</h2>
+  		                  <p>Transverse motors make for a more compact – and usually lighter – layout because they are mounted perpendicularly to the direction of travel. In this season, 6 teams have opted for this solution.</p>
+  		                </div>
+                      <div class="columns small-3 small-push-1 extra_info">
+                        <div class="info_block">
+                        <h4>DIRECT DRIVE</h4>
+                          <p>Renault e.dams<br>
+                             Techeetah
+                          </p>
+                        </div>
+                      </div>
+                      <div class="columns small-3 small-push-1 extra_info end">
+                        <div class="info_block">
+                        <h4>2 GEARS</h4>
+                          <p>DS Virgin Racing<br>
+                             Mahindra Racing <br>
+                             Faraday Future Dragon Racing
+                          </p>
+                        </div>
+                      </div>
+  		              </div>
+  		            </div>
+  		            <div class="not_idle powertrain_section" id="powertrain_traverse2">
+  		              <div class="row">
+  		                <div class="columns small-4">
+  		                  <h4>DRIVETRAINS</h4>
+  		                  <h2>2 Transverse motors</h2>
+  		                  <p>Having two motors provides the most torque – so the car can accelerate to top speed without needing a multi-speed gearbox. The downside is that the two motors are heavy. In this season, only one team has opted for this solution.</p>
+  		                </div>
+                      <div class="columns small-3 small-push-1 extra_info end">
+                        <div class="info_block">
+                        <h4>DIRECT DRIVE</h4>
+                          <p>Next EV NIO
+                          </p>
+                        </div>
+                      </div>
+  		              </div>
+  		            </div>
+  		          </div>
+              </div>
+
+
+  					<div class="slide" id="teams_slide">
+  						<div id="car_cursor">
+  							<import-svg name="cursor" location="svg"></import-svg>
+  						</div>
+  						<div id="idle_car_profile" class="car_profile">
+  							<import-svg name="illustration_teams_idle" location="svg"></import-svg>
+  						</div>
+  						<div id="teams_idle" class="idle teams_section">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Teams</h4>
+  									<h2>Competing to move forward</h2>
+  									<p>There are 10 teams of two drivers competing in Season 3 of the Formula E Championship.<br><br>Sébastien Buemi is the defending drivers champion and Renault e.dams is the defending teams champion.</p>
+  								</div>
+  							</div>
+  						</div>
+
+  						<div id="teams_abt" class="not_idle teams_section">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Teams</h4>
+  									<h2>Abt Schaeffler Audi Sport</h2>
+  									<h4 class="car_country">Germany</h4>
+
+  									<div class="car_model">
+  										<h4>Car model</h4>
+  										<p class="u14">ABT Schaeffler FE02</p>
+  										<h4>Drivetrain specs</h4>
+  										<p class="u14">1 Longitudinal motor<br>3 Gears</p>
+  									</div>
+  								</div>
+  								<!-- <div class="columns small-1 small-push-2 helmet">
+  									<import-svg name="icon_teams_helmet" location="svg"></import-svg>
+  								</div> -->
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/ABT SCHAEFFLER_11_LUCAS DI GRASSI.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>L. di Grassi</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">11</span>
+  										</div>
+  									</div>
+  								</div>
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/ABT SCHAEFFLER_66_DANIEL ABT.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>D. Abt</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">66</span>
+  										</div>
+  									</div>
+  								</div>
+  								
+  								<div class="car_profile">
+  									<img src="img/cars/teams_car_profile_audi.png" />
+  								</div>
+  							</div>
+  						</div>
+
+  						<div id="teams_andretti" class="not_idle teams_section">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Teams</h4>
+  									<h2>Andretti<br>Formula e</h2>
+  									<h4 class="car_country">USA</h4>
+
+  									<div class="car_model">
+  										<h4>Car model</h4>
+  										<p class="u14">Andretti ATEC-02</p>
+  										<h4>Drivetrain specs</h4>
+  										<p class="u14">1 Longitudinal motor<br>3 Gears</p>
+  									</div>
+  								</div>
+  								<!-- <div class="columns small-1 small-push-2 helmet">
+  									<import-svg name="icon_teams_helmet" location="svg"></import-svg>
+  								</div> -->
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/ANDRETTI_27_ROBIN FRIJNS.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>R. Frijns</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">27</span>
+  										</div>
+  									</div>
+  								</div>
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/ANDRETTI_28_ANTONIO FELIX DA COSTA.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>A. da Costa</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">28</span>
+  										</div>
+  									</div>
+  								</div>
+  								
+  								<div class="car_profile">
+  									<img src="img/cars/teams_car_profile_andretti.png" />
+  								</div>
+  							</div>
+  						</div>
+
+  						<div id="teams_virgin" class="not_idle teams_section">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Teams</h4>
+  									<h2>DS Virgin<br>Racing</h2>
+  									<h4 class="car_country">UK</h4>
+
+  									<div class="car_model">
+  										<h4>Car model</h4>
+  										<p class="u14">DS-Virgin DSV-02</p>
+  										<h4>Drivetrain specs</h4>
+  										<p class="u14">1 Transverse motor<br>2 Gears</p>
+  									</div>
+  								</div>
+  								<!-- <div class="columns small-1 small-push-2 helmet">
+  									<import-svg name="icon_teams_helmet" location="svg"></import-svg>
+  								</div> -->
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/DS VIRGIN_2_SAM BIRD.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>S. Bird</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">2</span>
+  										</div>
+  									</div>
+  								</div>
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/DS VIRGIN_37_JOSE MARIA LOPEZ.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>J. Lopez</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">37</span>
+  										</div>
+  									</div>
+  								</div>
+  								
+  								<div class="car_profile">
+  									<img src="img/cars/teams_car_profile_virgin.png" />
+  								</div>
+  							</div>
+  						</div>
+
+  						<div id="teams_faraday" class="not_idle teams_section">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Teams</h4>
+  									<h2>Faraday Future Dragon Racing</h2>
+  									<h4 class="car_country">USA</h4>
+
+  									<div class="car_model">
+  										<h4>Car model</h4>
+  										<p class="u14">Penske 701-EV</p>
+  										<h4>Drivetrain specs</h4>
+  										<p class="u14">1 Transverse motor<br>2 Gears</p>
+  									</div>
+  								</div>
+  								<!-- <div class="columns small-1 small-push-2 helmet">
+  									<import-svg name="icon_teams_helmet" location="svg"></import-svg>
+  								</div> -->
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/FARADAY FUTURE_7_JEROME D'AMBROSIO.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>J. D'Ambrosio</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">7</span>
+  										</div>
+  									</div>
+  								</div>
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/FARADAY FUTURE_6_LOIC DUVAL.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>L. Duval</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">6</span>
+  										</div>
+  									</div>
+  								</div>
+  								
+  								<div class="car_profile">
+  									<img src="img/cars/teams_car_profile_faraday.png" />
+  								</div>
+  							</div>
+  						</div>
+
+  						<div id="teams_jaguar" class="not_idle teams_section">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Teams</h4>
+  									<h2>Panasonic Jaguar Racing</h2>
+  									<h4 class="car_country">UK</h4>
+
+  									<div class="car_model">
+  										<h4>Car model</h4>
+  										<p class="u14">Jaguar I-Type 1</p>
+  										<h4>Drivetrain specs</h4>
+  										<p class="u14">1 Longitudinal motor<br>2 Gears</p>
+  									</div>
+  								</div>
+  								<!-- <div class="columns small-1 small-push-2 helmet">
+  									<import-svg name="icon_teams_helmet" location="svg"></import-svg>
+  								</div> -->
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/PANASONIC JAGUAR_47_ADAM CARROLL.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>A. Carrol</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">47</span>
+  										</div>
+  									</div>
+  								</div>
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/PANASONIC JAGUAR_20_MITCH EVANS.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>JM. Evans</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">20</span>
+  										</div>
+  									</div>
+  								</div>
+  								
+  								<div class="car_profile">
+  									<img src="img/cars/teams_car_profile_jaguar.png" />
+  								</div>
+  							</div>
+  						</div>
+
+  						<div id="teams_mahindra" class="not_idle teams_section">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Teams</h4>
+  									<h2>Mahindra<br>Racing</h2>
+  									<h4 class="car_country">India</h4>
+
+  									<div class="car_model">
+  										<h4>Car model</h4>
+  										<p class="u14">Mahindra M3 ELECTRO</p>
+  										<h4>Drivetrain specs</h4>
+  										<p class="u14">1 Transverse motor<br>2 Gears</p>
+  									</div>
+  								</div>
+  								<!-- <div class="columns small-1 small-push-2 helmet">
+  									<import-svg name="icon_teams_helmet" location="svg"></import-svg>
+  								</div> -->
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/MAHINDRA_23_HEIDFELD.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>N. Heidfeld</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">23</span>
+  										</div>
+  									</div>
+  								</div>
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/MAHINDRA_19_FELIX ROSENQVIST.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>F. Rosenqvist</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">19</span>
+  										</div>
+  									</div>
+  								</div>
+  								
+  								<div class="car_profile">
+  									<img src="img/cars/teams_car_profile_mahindra.png" />
+  								</div>
+  							</div>
+  						</div>
+
+  						<div id="teams_nextev" class="not_idle teams_section">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Teams</h4>
+  									<h2>Next EV<br>NIO</h2>
+  									<h4 class="car_country">UK</h4>
+
+  									<div class="car_model">
+  										<h4>Car model</h4>
+  										<p class="u14">NEXTEV TCR Formula 002</p>
+  										<h4>Drivetrain specs</h4>
+  										<p class="u14">2 Transverse pancake motors<br>Direct drive</p>
+  									</div>
+  								</div>
+  								<!-- <div class="columns small-1 small-push-2 helmet">
+  									<import-svg name="icon_teams_helmet" location="svg"></import-svg>
+  								</div> -->
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/NEXTEV NIO_3_NELSON PIQUET JR.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>N. Piquet</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">3</span>
+  										</div>
+  									</div>
+  								</div>
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/NEXTEV NIO_88_OLIVER TURVEY.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>O. Turvey</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">88</span>
+  										</div>
+  									</div>
+  								</div>
+  								
+  								<div class="car_profile">
+  									<img src="img/cars/teams_car_profile_nextev.png" />
+  								</div>
+  							</div>
+  						</div>
+
+  						<div id="teams_renault" class="not_idle teams_section">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Teams</h4>
+  									<h2>Renault<br>e.dams<br>&nbsp;</h2>
+  									<h4 class="car_country">France</h4>
+
+  									<div class="car_model">
+  										<h4>Car model</h4>
+  										<p class="u14">Renault Z.E.16</p>
+  										<h4>Drivetrain specs</h4>
+  										<p class="u14">1 Transverse motor<br>Direct drive</p>
+  									</div>
+  								</div>
+  								<!-- <div class="columns small-1 small-push-2 helmet">
+  									<import-svg name="icon_teams_helmet" location="svg"></import-svg>
+  								</div> -->
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/RENAULT E DAMS_8_NICO PROST.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>N. Prost</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">8</span>
+  										</div>
+  									</div>
+  								</div>
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/RENAULT E DAMS_9_SEBASTIEN BUEMI.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>S. Buemi</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">9</span>
+  										</div>
+  									</div>
+  								</div>
+  								
+  								<div class="car_profile">
+  									<img src="img/cars/teams_car_profile_renault.png" />
+  								</div>
+  							</div>
+  						</div>
+
+  						<div id="teams_techeetah" class="not_idle teams_section">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Teams</h4>
+  									<h2>Techeetah<br>&nbsp;</h2>
+  									<h4 class="car_country">China</h4>
+
+  									<div class="car_model">
+  										<h4>Car model</h4>
+  										<p class="u14">Renault Z.E.16</p>
+  										<h4>Drivetrain specs</h4>
+  										<p class="u14">1 Transverse motor<br>Direct drive</p>
+  									</div>
+  								</div>
+  								<!-- <div class="columns small-1 small-push-2 helmet">
+  									<import-svg name="icon_teams_helmet" location="svg"></import-svg>
+  								</div> -->
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/TECHEETAH_25_JEAN ERIC VERGNE.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>J. Vergne</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">25</span>
+  										</div>
+  									</div>
+  								</div>
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/TECHEETAH_33_MA QING HUA.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>M. Hua</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">33</span>
+  										</div>
+  									</div>
+  								</div>
+  								
+  								<div class="car_profile">
+  									<img src="img/cars/teams_car_profile_techeetah.png" />
+  								</div>
+  							</div>
+  						</div>
+
+  						<div id="teams_venturi" class="not_idle teams_section">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Teams</h4>
+  									<h2>VENTURI FORMULA E</h2>
+  									<h4 class="car_country">Principality of Monaco</h4>
+
+  									<div class="car_model">
+  										<h4>Car model</h4>
+  										<p class="u14">Venturi VM200-FE-02</p>
+  										<h4>Drivetrain specs</h4>
+  										<p class="u14">1 Longitudinal motor<br>2 Gears</p>
+  									</div>
+  								</div>
+  								<!-- <div class="columns small-1 small-push-2 helmet">
+  									<import-svg name="icon_teams_helmet" location="svg"></import-svg>
+  								</div> -->
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/VENTURI_4_STEPHANE SARRAZIN.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>S. Sarrazin</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">4</span>
+  										</div>
+  									</div>
+  								</div>
+                  <div class="columns small-1 small-push-2">
+                    <div class="pilot picture">
+                      <img src="img/pilots/VENTURI_5_MARO ENGEL.png">
+                    </div>
+                  </div>
+  								<div class="columns small-2 small-push-2">
+  									<div class="info_block pilot">
+  										<h4>M. Engel</h4>
+  										<div class="value">
+  											<span class="unit">nr</span> <span class="number">5</span>
+  										</div>
+  									</div>
+  								</div>
+  								
+  								<div class="car_profile">
+  									<img src="img/cars/teams_car_profile_venturi.png" />
+  								</div>
+  							</div>
+  						</div>
+  					</div>
+
+            <div class="slide" id="acquafuel_slide">
+              <div id="acquafuel_container">
+                <!-- Chart goes here -->
+              </div>
+              <div class="idle acquafuel_section" id="acquafuel_idle">
+                <div class="row">
+                  <div class="columns small-4">
+                    <h4>Paddock</h4>
+                    <h2>Where the race begins</h2>
+                    <p>This is where technology and innovation start their engines! Enel's smart energy and advanced monitoring solutions take the race to the next level.</p>
+                  </div>
+                  <div class="columns small-3 small-push-1 end extra_info">
+                    <div class="info_block">
+                      <p>Paddock</p>
+                      <h4>INSTANT POWER DEMAND</h4>
+                      <div class="value">
+                        <span class="number live" data-bind="zone-demand-paddock">0</span> <span class="unit">kW</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="not_idle acquafuel_section" id="acquafuel_charging">
+                <div class="row">
+                  <div class="columns small-4">
+                    <h4>Paddock</h4>
+                    <h2>Charging batteries</h2>
+                    <p>An array of clean energy generators are dedicated exclusively to charging the Formula E cars with zero impact on the environment. <BR>Cars are charged prior to the race and cannot be recharged during the competition.</p>
+                  </div>
+                  <div class="columns small-3 small-push-1 end extra_info">
+                    <div class="info_block">
+                      <p>Charging batteries</p>
+                      <h4>INSTANT POWER DEMAND</h4>
+                      <div class="value">
+                        <span class="number live" data-bind="zone-demand-paddock-charging">0</span> <span class="unit">kW</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="not_idle acquafuel_section" id="acquafuel_auxiliary">
+                <div class="row">
+                  <div class="columns small-4">
+                    <h4>Paddock</h4>
+                    <h2>Equipment and utilities</h2>
+                    <p>There is a lot going on in the paddock – requiring an extra supply of energy for tools used by mechanics, staff facilities, lighting... and much more.</p>
+                  </div>
+                  <div class="columns small-3 small-push-1 end extra_info">
+                    <div class="info_block">
+                      <p>Equipment and utilities</p>
+                      <h4>INSTANT POWER DEMAND</h4>
+                      <div class="value">
+                        <span class="number live" data-bind="zone-demand-paddock-auxiliary">0</span> <span class="unit">kW</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  				</div>
+
+          <!-- CARS AND TEAMS NAV CAROUSEL -->
+  				<div id="carousel-cars-and-teams" class="carousel">
+  					<div class="slide">
+  						<div class="row">
+  							<div class="buttons" data-link="battery_idle">
+  								<div class="button_wrap" data-link="battery_power">
+  									<div class="button_container">
+  										<div class="icon">
+  											<import-svg name="icon_battery_power" location="svg"></import-svg>
+  										</div>
+  									</div>
+  									<div class="button_label u14" >
+  										Battery Power
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+
+  								<div class="button_wrap" data-link="battery_boost">
+  									<div class="button_container">
+  										<div class="icon">
+  											<import-svg name="icon_battery_boost" location="svg"></import-svg>
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Fan boost
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+
+  								<div class="button_wrap" data-link="battery_brakes">
+  									<div class="button_container">
+  										<div class="icon">
+  											<import-svg name="icon_battery_brake" location="svg"></import-svg>
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Regenerative brakes
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+
+  								<div class="button_wrap" data-link="battery_recharge">
+  									<div class="button_container">
+  										<div class="icon">
+  											<import-svg name="icon_battery_recharge" location="svg"></import-svg>
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Fast recharge
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  							</div>
+  						</div>
+  					</div>
+
+  					<div class="slide">
+  						<div class="row">
+  							<div class="buttons" data-link="car_idle">
+  								<div class="button_wrap" data-link="car_engine">
+  									<div class="button_container">
+  										<div class="icon">
+  											<import-svg name="icon_car_engine" location="svg"></import-svg>
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Engine
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+
+  								<div class="button_wrap" data-link="car_tyres">
+  									<div class="button_container">
+  										<div class="icon">
+  											<import-svg name="icon_car_tyres" location="svg"></import-svg>
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Tyres
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+
+  								<div class="button_wrap" data-link="car_sound">
+  									<div class="button_container">
+  										<div class="icon">
+  											<import-svg name="icon_car_sound" location="svg"></import-svg>
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Sound
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>	
+  							</div>
+  						</div>
+  					</div>
+
+            <div class="slide expandable">
+              <label>
+                <span class="slide_plus_btn">
+                  <import-svg name="section_plus" location="svg"></import-svg>
+                </span>
+                Drivetrains overview
+              </label>
+              <div class="row">
+                <div class="buttons" data-link="powertrain_idle">
+                  <div class="button_wrap" data-link="powertrain_longitudinal">
+                    <div class="button_container">
+                      <div class="icon">
+                        <import-svg name="icon_powertrain_longitudinal" location="svg"></import-svg>
+                      </div>
+                    </div>
+                    <div class="button_label u14">
+                      1 LONGITUDINAL MOTOR
+                    </div>
+                    <div class="slide_plus_btn">
+                      <import-svg name="section_plus_alt" location="svg"></import-svg>
+                    </div>
+                  </div>
+
+                  <div class="button_wrap" data-link="powertrain_traverse1">
+                    <div class="button_container">
+                      <div class="icon">
+                        <import-svg name="icon_powertrain_traverse1" location="svg"></import-svg>
+                      </div>
+                    </div>
+                    <div class="button_label u14">
+                      1 TRANSVERSE MOTOR
+                    </div>
+                    <div class="slide_plus_btn">
+                      <import-svg name="section_plus_alt" location="svg"></import-svg>
+                    </div>
+                  </div>
+
+                  <div class="button_wrap" data-link="powertrain_traverse2">
+                    <div class="button_container">
+                      <div class="icon">
+                        <import-svg name="icon_powertrain_traverse2" location="svg"></import-svg>
+                      </div>
+                    </div>
+                    <div class="button_label u14">
+                      2 TRANSVERSE MOTORS
+                    </div>
+                    <div class="slide_plus_btn">
+                      <import-svg name="section_plus_alt" location="svg"></import-svg>
+                    </div>
+                  </div>  
+                </div>
+                <div class="slide_content" data-link="drivetrains_overview">
+                  <div id="chart_sankey">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+  					<div class="slide expandable" id="teams">
+              <label>
+                <span class="slide_plus_btn">
+                  <import-svg name="section_plus" location="svg"></import-svg>
+                </span>
+                Team standings
+              </label>
+  						<div class="buttons buttons_horizontal" data-link="teams_idle">
+  							<div class="button_wrap" data-link="teams_abt">
+  								<div class="button_label u14">
+  									ABT Schaeffler Audi Sport
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  							<div class="button_wrap" data-link="teams_andretti">
+  								<div class="button_label u14">
+  									Andretti Formula E
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  							<div class="button_wrap" data-link="teams_virgin">
+  								<div class="button_label u14">
+  									DS Virgin Racing
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  							<div class="button_wrap" data-link="teams_faraday">
+  								<div class="button_label u14">
+  									Faraday Future Dragon Racing
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  							<div class="button_wrap" data-link="teams_jaguar">
+  								<div class="button_label u14">
+  									Panasonic Jaguar Racing
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  							<div class="button_wrap" data-link="teams_mahindra">
+  								<div class="button_label u14">
+  									Mahindra Racing
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  							<div class="button_wrap" data-link="teams_nextev">
+  								<div class="button_label u14">
+  									Nextev Nio
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  							<div class="button_wrap" data-link="teams_renault">
+  								<div class="button_label u14">
+  									Renault e.dams
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  							<div class="button_wrap" data-link="teams_techeetah">
+  								<div class="button_label u14">
+  									Techeetah
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  							<div class="button_wrap" data-link="teams_venturi">
+  								<div class="button_label u14">
+  									Venturi Formula E
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  						</div>
+              <div class="slide_content" data-link="standings">
+                <div id="chart_standings">
+                  <ul id="chart_standings_wrap">
+                    <!-- FILLED BY JS : TO BE UPDATED AFTER EACH GP -->
+                    <!-- HERE STRUCTURE EXAMPLE -->
+                    <li class="team_standing">
+                      <div class="team_name">team name</div>
+                      <div class="bar_container">
+                        <div class="bar">
+                          <div class="first_place"></div>
+                          <div class="second_place"></div>
+                          <div class="third_place"></div>
+                          <div class="fastest_lap"></div>
+                          <div class="pole_position"></div>
+                        </div>
+                      </div>
+                    </li>
+                    <!-- EOF EXAMPLE -->
+                  </ul>
+                  
+                  <div id="chart_standings_legend">
+                    <ul>
+                      <li class="place_1">1st<strong>+25pt</strong></li>
+                      <li class="place_2">2nd<strong>+18pt</strong></li>
+                      <li class="place_3">3rd<strong>+15pt</strong></li>
+                      <li class="place_4">4th place <strong>+12pt</strong></li>
+                      <li class="place_5">5th place <strong>+10pt</strong></li>
+                      <li class="place_6">6th place <strong>+8pt</strong></li>
+                      <li class="place_7">7th place <strong>+6pt</strong></li>
+                      <li class="place_8">8th place <strong>+4pt</strong></li>
+                      <li class="place_9">9th place <strong>+2pt</strong></li>
+                      <li class="place_10">10th place <strong>+1pt</strong></li>
+                      <li class="divider">&nbsp;</li>
+                      <li class="pole_position">Pole position <strong>+3pt</strong></li>
+                      <li class="fastest_lap">Fastest Lap <strong>+1pt</strong></li>
+                      <li class="divider">&nbsp;</li>
+                      <li class="progress">
+                        <div class="bar bar_segment">&nbsp;</div>
+                      </li>
+                      <li class="strong"><b>SEASON<br>PROGRESS</b></li>
+                      <li class="laps"><span class="number"><span id="currentRace">0</span>/12</span> races</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+  					</div>
+
+            <div class="slide">
+              <div class="row">
+                <div class="buttons" data-link="acquafuel_idle">
+
+                  <div class="button_wrap" data-link="acquafuel_charging">
+                    <div class="button_container">
+                      <div class="icon">
+                        <import-svg name="icon_battery_power" location="svg"></import-svg>
+                      </div>
+                    </div>
+                    <div class="button_label u14" >
+                      CHARGING BATTERIES
+                    </div>
+                    <div class="slide_plus_btn">
+                      <import-svg name="section_plus_alt" location="svg"></import-svg>
+                    </div>
+                  </div>
+
+                  <div class="button_wrap" data-link="acquafuel_auxiliary">
+                    <div class="button_container">
+                      <div class="icon">
+                        <import-svg name="icon_car_engine" location="svg"></import-svg>
+                      </div>
+                    </div>
+                    <div class="button_label u14">
+                      EQUIPMENT AND UTILITIES
+                    </div>
+                    <div class="slide_plus_btn">
+                      <import-svg name="section_plus_alt" location="svg"></import-svg>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+  				</div>
+  			</div>
+  		</section>
+  		<!-- /FE cars and teams -->
+
+  		<!-- City and racetrack -->
+  		<section id="city-and-racetrack" class="section">
+  			<div class="content">
+
+  				<div id="circuit_consumption_wrap">
+  					<div id="circuit_consumption">
+  						<import-svg name="circuit_mexicocity" location="svg"></import-svg>
+  					</div>
+  					<div id="circuit_consumption_electricity">
+  						<import-svg name="circuit_mexicocity_electricity" location="svg"></import-svg>
+  					</div>
+  					<div id="circuit_consumption_buildings">
+  						<import-svg name="circuit_mexicocity_buildings" location="svg"></import-svg>
+  					</div>
+  				</div>
+
+          <!-- CONTENTS -->
+  				<div id="bg-city-and-racetrack" class="bg_container">
+  					
+            <!-- URBAN SMARTGRID CONTENTS -->
+  					<div class="slide" id="smartgrid_slide">
+  						<div id="smartgrid_idle" class="smartgrid_section idle">
+  							<div id="smartgrid_container">
+  								<div id="illustration_smartgrid_idle_container">
+  									<import-svg name="illustration_smartgrid_idle" location="svg"></import-svg>
+  								</div>
+  								<div id="illustration_smartgrid_idle_bottomleft_container">
+  									<import-svg name="illustration_smartgrid_idle_bottomleft-01" location="svg"></import-svg>
+  								</div>
+  								<div id="illustration_smartgrid_idle_bottomright_container">
+  									<import-svg name="illustration_smartgrid_idle_bottomright" location="svg"></import-svg>
+  								</div>
+  								<div id="illustration_smartgrid_idle_topright_container">
+  									<import-svg name="illustration_smartgrid_idle_topright" location="svg"></import-svg>
+  								</div>
+  								<div id="illustration_smartgrid_idle_topleft_container">
+  									<import-svg name="illustration_smartgrid_idle_topleft" location="svg"></import-svg>
+  								</div>
+  								<div id="illustration_smartgrid_hand_container">
+  									<import-svg name="illustration_smartgrid_hand" location="svg"></import-svg>
+  								</div>
+  							</div>
+
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>From microgrid to smart grid</h4>
+  									<h2>Active control</h2>
+  									<p>Enel technologies such as the ones deployed in Formula E are creating new ways for people to use energy and make it more central to their everyday lives. The Enel smart meter is at the core of this new energy system. </p>
+  								</div>
+  							</div>
+  						</div>
+  						<div id="smartgrid_urban" class="smartgrid_section not_idle">
+  							<div id="illustration_microgrid_urban_container">
+  								<import-svg name="illustration_microgrid_urban" location="svg"></import-svg>
+  								<import-svg name="illustration_microgrid_urban_electricity" location="svg"></import-svg>
+  							</div>
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>From microgrid to smart grid</h4>
+  									<h2>Urban smart grid</h2>
+  									<div class="info_block">
+                      <p>In 2009, Buenos Aires adopted a comprehensive climate change action plan to cut CO2 emissions by 30% by 2030 thanks to a range of initiatives for energy efficiency, sustainable mobility and waste management.
+                      </p>
+      								<h4>LED PUBLIC LIGHTING</h4>
+      								<div class="value">
+      									<span class="number">72</span><span class="unit">%</span>
+      								</div>
+      							</div>
+  								</div>
+  							</div>
+  						</div>
+  						<div id="smartgrid_race" class="smartgrid_section not_idle">
+  							<div id="illustration_microgrid_race_container">
+  								<import-svg name="illustration_microgrid_racetrack-01" location="svg"></import-svg>
+  								<import-svg name="illustration_microgrid_racetrack_electricity" location="svg"></import-svg>
+  							</div>
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>From microgrid to smart grid</h4>
+  									<h2>Race microgrid</h2>
+  									<div class="info_block">
+  	    								<h4>Smart meters</h4>
+  	    								<div class="value">
+  	    									<span class="number">40</span>
+  	    								</div>
+  	    							</div>
+  	    							<div class="info_block">
+  	    								<h4>Solar panels</h4>
+  	    								<div class="value">
+  	    									<span class="number">32</span>
+  	    									<span class="unit">sqm</span>
+  	    								</div>
+  	    							</div>
+  	    							<div class="info_block">
+  	    								<h4>Enel storage</h4>
+  	    								<div class="value">
+  	    									<span class="number">12.5</span>
+  	    									<span class="unit">KWH</span>
+  	    								</div>
+  	    							</div>
+  	    							<div class="info_block">
+  	    								<h4>Charging poles</h4>
+  	    								<div class="value">
+  	    									<span class="number">2</span>
+  	    									<!-- <span class="unit">hours for 80% charge</span> -->
+  	    								</div>
+  	    							</div>
+  								</div>
+  							</div>
+  						</div>
+
+  						<div id="smartgrid_latinamerica" class="smartgrid_section not_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>From microgrid to smart grid</h4>
+  									<h2>Enel in Latin America</h2>
+  									<div class="info_block">
+      								<p>Supplying energy to Rio de Janeiro, Bogota, Buenos Aires, Santiago de Chile and Lima, Enel brings power to 16 million clients in Latin America, opening the region to innovations that can improve people’s quality of life.</p>
+      							</div>
+                  </div>
+                  <div class="columns small-8">
+                    <div id="latinamerica_container">
+                      <div class="svg_container">
+                        <import-svg name="latin_america" location="components/slideLatinAmerica/svg"></import-svg>
+                      </div>
+                    </div>
+                  </div>
+  							</div>
+  						</div>
+  					</div>
+
+  					<!-- TODO BA: review areas to be highlighted -->
+            <!-- MICROGRID CONTENTS -->
+  					<div class="slide" id="microgrid_slide">
+  						<div id="microgrid_idle" class="microgrid_section idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Enel smart energy</h4>
+  									<h2>Energy balance</h2>
+  									
+                    <!-- ENERGY PRODUCTION -->
+      							<!-- <div class="info_block">
+      								<h4>Instant power production</h4>
+      								<div class="value">
+      									<span class="number live" data-bind="instant-power-production"></span>
+      									<span class="unit">kW</span>
+      								</div>
+      							</div>
+      							<div class="info_block">
+      								<h4>Total energy production</h4>
+      								<div class="value">
+      									<span class="number live" data-bind="total-energy-production"></span>
+      									<span class="unit">kWh</span>
+      								</div>
+      							</div> -->
+                    <!-- ENERGY CONSUMPTION -->
+      							<!-- <div class="info_block">
+      								<h4>Instant power demand</h4>
+      								<div class="value">
+      									<span class="number live" data-bind="instant-power-consumption"></span>
+      									<span class="unit">kW</span>
+      								</div>
+      							</div> -->
+      							<div class="info_block">
+      								<h4>Total energy consumption</h4>
+      								<div class="value">
+      									<span class="number live" data-bind="total-energy-consumption">0</span>
+      									<span class="unit">kWh</span>
+      								</div>
+      							</div>
+  								</div>
+  							</div>
+  						</div>
+  						<div id="microgrid_media" class="microgrid_section not_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Enel smart energy</h4>
+  									<h2>Media</h2>
+      							<div class="info_block">
+                      <p>Media bring the excitement of Formula E to the world, thanks to journalists' reports, live streaming and more – powered by Enel's energy solutions.</p>
+      								<h4>Total energy consumption</h4>
+      								<div class="value">
+      									<span class="number live" data-bind="zone-consumption-tv">0</span>
+      									<span class="unit">kWh</span>
+      									<p>Enough for an average e-vehicle <br>to cover <span data-bind="zone-consumption-tv-vehicle">0</span> km</p>
+      								</div>
+      							</div>
+  								</div>
+  							</div>
+  						</div>
+       				<div id="microgrid_paddock" class="microgrid_section not_idle">
+                <div class="row">
+                  <div class="columns small-4">
+                    <h4>Enel smart energy</h4>
+                    <h2>Paddock</h2>
+                    <div class="info_block">
+                      <p>Enel's solutions ensure batteries are fully charged, equipment is ready, and teams have all the energy they need to bring their innovation to the track.</p>
+                      <h4>Total energy consumption</h4>
+                      <div class="value">
+                        <span class="number live" data-bind="zone-consumption-paddock">0</span>
+                        <span class="unit">kWh</span>
+                        <p>Enough for an average e-vehicle <br>to cover <span data-bind="zone-consumption-paddock-vehicle">0</span> km</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  						<div id="microgrid_fans" class="microgrid_section not_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Enel smart energy</h4>
+  									<h2>Fans</h2>
+      							<div class="info_block">
+                      <p>Formula E events are not all about the race: with great food, fun and music there are plenty of options to have a great day at the track – with great energy for all fans!</p>
+      								<h4>Total energy consumption</h4>
+      								<div class="value">
+      									<span class="number live" data-bind="zone-consumption-evillage">0</span>
+      									<span class="unit">kWh</span>
+      									<p>Enough for an average e-vehicle <br>to cover <span data-bind="zone-consumption-evillage-vehicle">0</span> km</p>
+      								</div>
+      							</div>
+  								</div>
+  							</div>
+  						</div>
+       				<div id="microgrid_facilities" class="microgrid_section not_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Enel smart energy</h4>
+  									<h2>Race Facilities</h2>
+      							<div class="info_block">
+                      <p>Look under the hood of the event: there are offices, official cars, a medical centre and more – all of which run on the energy provided by Enel's smart grid.</p>
+      								<h4>Total energy consumption</h4>
+      								<div class="value">
+      									<span class="number live" data-bind="zone-consumption-hospitality">0</span>
+      									<span class="unit">kWh</span>
+      									<p>Enough for an average e-vehicle <br>to cover <span data-bind="zone-consumption-hospitality-vehicle">0</span> km</p>
+      								</div>
+      							</div>
+  								</div>
+  							</div>
+  						</div>
+              <!-- NOT IN USE -->
+              <div id="microgrid_kid_zone" class="microgrid_section not_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Enel smart energy</h4>
+  									<h2>Kid Zone</h2>
+  									<div class="info_block">
+      								<h4>Instant power demand</h4>
+      								<div class="value">
+      									<span class="number live" data-bind="zone-demand-evillage">0</span>
+      									<span class="unit">kW</span>
+      								</div>
+      							</div>
+      							<div class="info_block">
+      								<h4>Total energy demand</h4>
+      								<div class="value">
+      									<span class="number live" data-bind="zone-consumption-evillage">0</span>
+      									<span class="unit">kWh</span>
+      									<p>Enough for an average e-vehicle <br>to cover <span data-bind="zone-consumption-tv-vehicle">0</span> km</p>
+      								</div>
+      							</div>
+  								</div>
+  							</div>
+  						</div>
+              <!-- NOT IN USE -->
+              <div id="microgrid_drive" class="microgrid_section not_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Enel smart energy</h4>
+  									<h2>Drive Zone</h2>
+  									<div class="info_block">
+      								<h4>Instant power demand</h4>
+      								<div class="value">
+      									<span class="number live">0</span>
+      									<span class="unit">kW</span>
+      								</div>
+      							</div>
+      							<div class="info_block">
+      								<h4>Total energy demand</h4>
+      								<div class="value">
+      									<span class="number live" data-bind="zone-consumption">0</span>
+      									<span class="unit">kWh</span>
+      									<p>Enough for an average e-vehicle <br>to cover <span data-bind="zone-consumption-vehicle">0</span> km</p>
+      								</div>
+      							</div>
+  								</div>
+  							</div>
+  						</div>
+              <!-- NOT IN USE -->
+              <div id="microgrid_tribune_central" class="microgrid_section not_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Enel smart energy</h4>
+  									<h2>Tribune Centrale</h2>
+  									<div class="info_block">
+      								<h4>Instant power demand</h4>
+      								<div class="value">
+      									<span class="number live">0</span>
+      									<span class="unit">kW</span>
+      								</div>
+      							</div>
+      							<div class="info_block">
+      								<h4>Total energy demand</h4>
+      								<div class="value">
+      									<span class="number live" data-bind="zone-consumption">0</span>
+      									<span class="unit">kWh</span>
+      									<p>Enough for an average e-vehicle <br>to cover <span data-bind="zone-consumption-vehicle">0</span> km</p>
+      								</div>
+      							</div>
+  								</div>
+  							</div>
+  						</div>
+              <!-- NOT IN USE -->
+              <div id="microgrid_emotion" class="microgrid_section not_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Enel smart energy</h4>
+  									<h2>EMOTION Club</h2>
+  									<div class="info_block">
+      								<h4>Instant power demand</h4>
+      								<div class="value">
+      									<span class="number live">0</span>
+      									<span class="unit">kW</span>
+      								</div>
+      							</div>
+      							<div class="info_block">
+      								<h4>Total energy demand</h4>
+      								<div class="value">
+      									<span class="number live" data-bind="zone-consumption">0</span>
+      									<span class="unit">kWh</span>
+      									<p>Enough for an average e-vehicle <br>to cover <span data-bind="zone-consumption-vehicle">0</span> km</p>
+      								</div>
+      							</div>
+  								</div>
+  							</div>
+  						</div>
+              <!-- NOT IN USE -->
+              <div id="microgrid_meters_overview" class="microgrid_section not_idle">
+                <div class="row">
+                  <div id="microgrid_meters_overview_extra_info">
+                    <import-svg name="illustration_microgrid_esports" location="svg"></import-svg>
+                  </div>
+                  <div class="columns small-4">
+                    <h4>Enel smart energy</h4>
+                    <h2>Meters overview</h2>
+                    <!-- <div class="info_block">
+                      <h4>Instant power demand</h4>
+                      <div class="value">
+                        <span class="number live" data-bind="zone-demand-esports"> LIVE </span>
+                        <span class="unit">kW</span>
+                      </div>
+                    </div> -->
+                    <!-- <div class="info_block">
+                      <h4>Total energy demand</h4>
+                      <div class="value">
+                        <span class="number live" data-bind="zone-consumption-esports"> LIVE </span>
+                        <span class="unit">kWh</span>
+                        <p>Enough for an average e-vehicle <br>to cover <span data-bind="zone-consumption-esports-vehicle"> LIVE </span> km</p>
+                      </div>
+                    </div> -->
+                  </div>
+                  <div class="columns small-3" id="meters_overview_extra_info_text">
+                    <p>Enough for an average e-vehicle <br>to cover <span data-bind="zone-consumption-esports-vehicle">0</span> km</p>
+                    <p>The eSPORTS arena is completely powered by Enel's solar panels and storage units.</p>
+                  </div>
+                </div>
+              </div>
+  					</div>
+
+  					<div class="slide" id="track_slide">
+  						<div class="row">
+  							<div class="columns small-4">
+  								<h4>The track</h4>
+  								<h2>Autódromo H. Rodríguez</h2>
+                    <div class="info_block">
+      								<h4>CARS' ENERGY DEMAND</h4>
+      								<div class="value">
+      									<span class="number">
+                					<span class="number">1,115</span>
+                					<span class="unit">kWh</span>
+              					</span>
+              					<p>Calculated for 20 drivers completing the race. <BR>With the same amount of energy, a regular commercial e-vehicle could cover 9,293 km.</p>
+      								</div>
+      							</div>
+  							</div>
+  							<div class="columns end small-2">
+  								<div class="info_block" id="track_flag">
+  	  								<h4>Mexico</h4>
+  	  								<div class="flag_circle">
+  	  									<!-- FLAG filled as background in CSS -->
+  	  								</div>
+  	  							</div>
+  							</div>
+  						</div>
+  					</div>
+
+  					<div class="slide" id="energy_mix_slide">
+  						<div id="donut_energy_mix">
+  							<import-svg name="illustration_energymix" location="svg"></import-svg>
+  							<div id="donut_labels">
+  								<div class="info_block" id="donut_label_clean">
+  									<h4>Clean energy</h4>
+  									<div class="value">
+  										<span class="number">27</span> <span class="unit">%</span>
+  									</div>
+  								</div>
+  								<div class="info_block" id="donut_label_temporary">
+  									<h4>Temporary<br>power supply</h4>
+  									<div class="value">
+  										<span class="number">73</span> <span class="unit">%</span>
+  									</div>
+  								</div>
+  							</div>
+  						</div>
+  						<div id="energy_mix_idle" class="energy_mix_section idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Energy mix</h4>
+  									<h2>Generation for the race</h2>
+                    <div class="info_block" id="donut_label_temporary">
+                      <p>Traditional sources of energy are being gradually replaced thanks to Enel and Formula E's ongoing efforts to innovate and make every race a zero-impact event.</p>
+                    </div>
+  								</div>
+  							</div>
+  						</div>
+  						<!--div id="energy_mix_urban" class="energy_mix_section not_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Energy mix</h4>
+  									<h2>Urban grid</h2>
+  									<p>Energy from the local urban grid is used to complement the dedicated clean energy generation of the race site.</p>
+  								</div>
+  							</div>
+  						</div-->
+  						<div id="energy_mix_clean" class="energy_mix_section not_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Energy mix</h4>
+  									<h2>Clean energy</h2>
+  									<p>Highly-advanced glycerine (glycerol) generators and Enel solar panels provide clean energy for the entire racing site.</p>
+  								</div>
+  							</div>
+  						</div>
+  						<div id="energy_mix_temporary" class="energy_mix_section not_idle">
+  							<div class="row">
+  								<div class="columns small-4">
+  									<h4>Energy mix</h4>
+  									<h2>Temporary power supply</h2>
+  									<p>The whole event in Buenos Aires is independent of the urban power grid and relies solely on the temporary infrastructure put in place for the race.</p>
+  								</div>
+  							</div>
+  						</div>
+  					</div>
+  				</div>
+
+          <!-- CAROUSEL -->
+  				<div id="carousel-city-and-racetrack" class="carousel">
+  					<div class="slide" id="smartgrid">
+              <div class="small-3 columns">
+                <h4>SCALABILITY</h4>
+                <p>The race microgrid is a small-scale implementation of state-of-the-art energy technologies that Enel is developing for our smart cities.</p>
+              </div>
+  						<div class="buttons small-9 columns" data-link="smartgrid_idle">
+                <div class="button_wrap" data-link="smartgrid_race">
+  								<div class="button_container">
+  									<div class="icon">
+  										<import-svg name="icon_smartgrid_race" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="button_label u14">
+  									RACE MICROGRID
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  							<div class="button_wrap" data-link="smartgrid_urban">
+  								<div class="button_container">
+  									<div class="icon">
+  										<import-svg name="icon_smartgrid_urban" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="button_label u14">
+  									URBAN <br>SMART GRID
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  							<div class="button_wrap" data-link="smartgrid_latinamerica">
+  								<div class="button_container">
+  									<div class="icon">
+  										<import-svg name="icon_smartgrid_world" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="button_label u14">
+  									ENEL IN LATIN AMERICA
+  								</div>
+  								<div class="slide_plus_btn">
+  									<import-svg name="section_plus_alt" location="svg"></import-svg>
+  								</div>
+  							</div>
+  						</div>						
+  					</div>
+
+  					<!-- STRUTTURA A ISTOGRAMMA -->
+  					<!-- TODO BA: review areas and data binding -->
+  					<div class="slide" id="microgrid">
+              <!--label>
+                <span class="slide_plus_btn">
+                  <import-svg name="section_plus" location="svg"></import-svg>
+                </span>
+                Smart meter map
+              </label-->
+              <div class="rows chart_container">
+  							<div class="chart chart_bar chart_bar_vertical buttons" data-link="microgrid_idle">
+  								<div class="bar_wrap button_wrap" data-link="media">
+  									<div class="bar_container">
+  										<div class="bar" data-percentage="tv" id="esports-histogram">
+  											<span class="value"><strong data-bind="zone-demand-tv">0</strong><small>kW</small></span>
+  										</div>
+  									</div>
+  									<div class="bar_label chart_label u14">
+  										MEDIA
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="bar_wrap button_wrap" data-link="paddock">
+  									<div class="bar_container">
+  										<div id="debug0" class="bar" data-percentage="paddock">
+  											<span class="value"><strong data-bind="zone-demand-paddock">0</strong><small>kW</small></span>
+  										</div>
+  									</div>
+  									<div class="bar_label chart_label u14">
+  										PADDOCK
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="bar_wrap button_wrap" data-link="fans">
+  									<div class="bar_container">
+  										<div id="debug0" class="bar" data-percentage="evillage">
+  											<span class="value"><strong data-bind="zone-demand-evillage">0</strong><small>kW</small></span>
+  										</div>
+  									</div>
+  									<div class="bar_label chart_label u14">
+  										FANS
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="bar_wrap button_wrap" data-link="facilities">
+  									<div class="bar_container">
+  										<div id="debug1" class="bar" data-percentage="hospitality">
+  											<span class="value"><strong data-bind="zone-demand-hospitality">0</strong><small>kW</small></span>
+  										</div>
+  									</div>
+  									<div class="bar_label chart_label u14">
+  										RACE FACILITIES
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  							</div>
+                <!--div class="slide_content" id="meters_map_container" data-link="meters_map">
+                  <div class="svg_container">
+                    <import-svg name="circuit_buenosaires_meters" location="components/slideMetersMap/svg"></import-svg>
+                  </div>
+                </div-->
+  						</div>
+  					</div>
+
+
+  					<!-- STRUTTURA A BLOCCHI -->
+  					<!--div class="slide" id="microgrid">
+  						<div class="row chart_container">
+  							<div class="buttons_horizontal buttons chart_horizontal" data-link="microgrid_idle">
+  								<div class="button_wrap" data-link="e_village">
+  									<div class="hor_bar_container">
+  										<div class="bar" data-percentage="60" data-value="120">
+  											&nbsp;
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										eVillage
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="button_wrap" data-link="podium">
+  									<div class="hor_bar_container">
+  										<div class="bar" data-percentage="60" data-value="120">
+  											&nbsp;
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Podium
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="button_wrap" data-link="e_sports">
+  									<div class="hor_bar_container">
+  										<div class="bar" data-percentage="60" data-value="120">
+  											&nbsp;
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										eSPORTS Arena
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="button_wrap" data-link="entertainment">
+  									<div class="hor_bar_container">
+  										<div class="bar" data-percentage="60" data-value="120">
+  											&nbsp;
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Entertainment
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="button_wrap" data-link="food">
+  									<div class="hor_bar_container">
+  										<div class="bar" data-percentage="60" data-value="120">
+  											&nbsp;
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Food
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="button_wrap" data-link="kid_zone">
+  									<div class="hor_bar_container">
+  										<div class="bar" data-percentage="60" data-value="120">
+  											&nbsp;
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Kid Zone
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="button_wrap" data-link="tribune_atlas">
+  									<div class="hor_bar_container">
+  										<div class="bar" data-percentage="60" data-value="120">
+  											&nbsp;
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Tribune atlas
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="button_wrap" data-link="tribune_central">
+  									<div class="hor_bar_container">
+  										<div class="bar" data-percentage="60" data-value="120">
+  											&nbsp;
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Tribune centrale
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="button_wrap" data-link="emotion">
+  									<div class="hor_bar_container">
+  										<div class="bar" data-percentage="60" data-value="120">
+  											&nbsp;
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										EMOTION Club
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  								<div class="button_wrap" data-link="media">
+  									<div class="hor_bar_container">
+  										<div class="bar" data-percentage="60" data-value="120">
+  											&nbsp;
+  										</div>
+  									</div>
+  									<div class="button_label u14">
+  										Media
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  							</div>
+  						</div>
+  					</div-->
+
+  					<div class="slide" id="track">
+  						<div class="row">
+  							<div class="columns small-12 small-centered">
+  								<div class="row">
+                    <div class="columns small-6 fastest_lap_container">
+                      <h4 class="fastest_lap">Season 2 fastest lap</h4>
+                      <div class="row">
+                        <div class="columns small-6">
+                          <p>Race</p>
+                          <span class="number">1:04.569</span>
+                          <span class="unit">Nicolas<br>Prost</span>
+                        </div>
+                        <div class="columns small-6">
+                          <p>Outright</p>
+                          <span class="number">1:03.341</span>
+                          <span class="unit">Sébastien<br>Buemi</span>
+                        </div>  
+                      </div>
+                    </div>
+                    <div class="columns small-6">
+                      <div class="row">
+                        <div class="columns small-6">
+                          <div class="info_block info_block_small">
+                                <h4>Laps</h4>
+                            <span class="number">43</span>
+                          </div>
+                          
+                        </div>
+                        <div class="columns small-6">
+                          <div class="info_block info_block_small">
+                                <h4>Length</h4>
+                            <span class="number">2.093</span>
+                            <span class="unit">km</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="columns small-6">
+                          <div class="info_block info_block_small">
+                                <h4>Qualifying</h4>
+                            <span class="number">12:00</span>
+                            <span class="unit">PM</span>
+                          </div>
+                          
+                        </div>
+                        <div class="columns small-6">
+                          <div class="info_block info_block_small">
+                                <h4>Race</h4>
+                            <span class="number">04:00</span>
+                            <span class="unit">PM</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>									
+  								</div>
+  							</div>
+  						</div>
+  					</div>
+
+  					<div class="slide" id="energymix">
+  						<div class="row">
+  							<div class="buttons" data-link="energy_mix_idle">
+  								
+  								<!--div class="button_wrap" data-link="energy_mix_urban">
+  									<div class="button_container">
+  										<div class="icon">
+  											<import-svg name="icon_mix_urban" location="svg"></import-svg>
+  										</div>
+  									</div>
+  									<div class="button_label u14" >
+  										Urban <br>grid
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div-->
+
+  								<div class="button_wrap" data-link="energy_mix_clean">
+  									<div class="button_container">
+  										<div class="icon">
+  											<import-svg name="icon_green" location="svg"></import-svg>
+  										</div>
+  									</div>
+  									<div class="button_label u14" >
+  										Clean energy
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+
+  								<div class="button_wrap" data-link="energy_mix_temporary">
+  									<div class="button_container">
+  										<div class="icon">
+  											<import-svg name="icon_mix_temporary" location="svg"></import-svg>
+  										</div>
+  									</div>
+  									<div class="button_label u14" >
+  										Temporary solution
+  									</div>
+  									<div class="slide_plus_btn">
+  										<import-svg name="section_plus_alt" location="svg"></import-svg>
+  									</div>
+  								</div>
+  							</div>
+  						</div>
+  					</div>
+  				</div>
+  			</div>
+  		</section>
+  		<!-- /City and racetrack -->
+  	</div>
+    
+    <div data-bind="anonymous-model"></div>
+
+  </div>
+</body>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-7954920-14', 'auto');
+  //ga('send', 'pageview');
+</script>
+
+<!-- GSAP -->
+<script src="vendor/gsap/TweenMax.min.js"></script>
+<script src="vendor/gsap/TimelineLite.min.js"></script>
+<script src="vendor/gsap/plugins/DrawSVGPlugin.min.js"></script>
+<script src="vendor/foundation-6.2.4-custom/js/foundation.js"></script>
+
+<!-- CAROUSEL -->
+<script src="vendor/owl.carousel.2.0.0-beta.2.4/owl.carousel.js"></script>
+
+<script src="bower_components/lodash/dist/lodash.js"></script>
+<script src="bower_components/stateman/stateman.js"></script>
+
+<!-- D3js -->
+<script src="bower_components/d3/d3.js" charset="utf-8"></script>
+
+<script src="bower_components/fastclick/lib/fastclick.js" charset="utf-8"></script>
+<script src="bower_components/later/later.js" charset="utf-8"></script>
+<script src="bower_components/numeral/numeral.js" charset="utf-8"></script>
+
+<script src="js/env.js" charset="utf-8"></script>
+<script src="bower_components/emitonoff/dist/emitonoff.js" charset="utf-8"></script>
+<script src="js/api/depend.js" charset="utf-8"></script>
+<script src="js/api/dom-bind.js" charset="utf-8"></script>
+<script src="js/api/persist.js" charset="utf-8"></script>
+<script src="js/api/model.js" charset="utf-8"></script>
+<script src="js/models/instant-power-consumption.js" charset="utf-8"></script>
+<script src="js/models/instant-area-chart-paddock.js" charset="utf-8"></script>
+<script src="js/models/instant-power-consumption-washmachine.js" charset="utf-8"></script>
+<script src="js/models/total-energy-consumption-washmachine.js" charset="utf-8"></script>
+<script src="js/models/total-energy-consumption.js" charset="utf-8"></script>
+<script src="js/models/total-energy-consumption-by-zones.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-vehicle.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption.js" charset="utf-8"></script>
+
+<script src="js/models/zone-consumption-esports-vehicle.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-esports.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-esports-percentage.js" charset="utf-8"></script>
+<script src="js/models/zone-demand-esports.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-hospitality-vehicle.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-hospitality.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-hospitality-percentage.js" charset="utf-8"></script>
+<script src="js/models/zone-demand-hospitality.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-evillage-vehicle.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-evillage.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-evillage-percentage.js" charset="utf-8"></script>
+<script src="js/models/zone-demand-evillage.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-tv-vehicle.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-tv.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-tv-percentage.js" charset="utf-8"></script>
+<script src="js/models/zone-demand-tv.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock-vehicle.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock-percentage.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock-charging.js" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock-auxiliary.js" charset="utf-8"></script>
+<script src="js/models/zone-demand-paddock.js" charset="utf-8"></script>
+<script src="js/models/zone-demand-paddock-charging.js" charset="utf-8"></script>
+<script src="js/models/zone-demand-paddock-auxiliary.js" charset="utf-8"></script>
+
+<!-- COMPONENTS -->
+<script src="components/standings/standings.js"></script>
+<script src="components/sidebarDonutChart/sidebarDonutChart.js"></script>
+<script src="components/teamAreaChart/teamAreaChart.js"></script>
+<script src="components/teamSankey/teamSankey.js"></script>
+<script src="components/slideLatinAmerica/slideWrapper.js"></script>
+<script src="components/slideMetersMap/slideWrapper.js"></script>
+
+<!-- SLIDE SCRIPTS -->
+<script src="js/animations/dashboard.js"></script>
+<script src="js/animations/city-and-racetrack/background.js"></script>
+<script src="js/animations/cars-and-teams/background.js"></script>
+<script src="js/animations/sidebar.js"></script>
+
+<!-- IDLE SCRIPTS -->
+<script src="js/animations/idle/fe_structure.js"></script>
+<script src="js/animations/idle/timeline.js"></script>
+<script src="js/animations/idle/background.js"></script>
+
+<script src="js/ui.js"></script>
+<script src="js/ui/carousel.js"></script>
+<script src="js/ui/slide.js"></script>
+<script src="js/ui/streamgraph.js"></script>
+
+<script src="js/states/dashboard.js"></script>
+<script src="js/states/cars-and-teams.js"></script>
+<script src="js/states/city-and-racetrack.js"></script>
+<script src="js/states.js"></script>
+
+<script src="js/cache-busting.js"></script>
+<script src="js/ga.js"></script>
+<script src="js/app.js"></script>
+
+<!-- <script src="js/app.js"></script> -->
+<!-- <script src="js/section_map.js"></script> -->
+
+</html>

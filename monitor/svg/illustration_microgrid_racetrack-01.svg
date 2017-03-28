@@ -1,0 +1,37 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 415">
+  <title>Artboard 1</title>
+  <g id="Layer_7" data-name="Layer 7">
+    <g>
+      <g>
+        <path d="M804.8,310.4H812a2,2,0,0,0,1.3-3.4l-12.4-10.6a1.93,1.93,0,0,0-3.2,1.5,1.92,1.92,0,0,1-1.94,1.9H790.2a1.9,1.9,0,0,1-1.9-1.9h0v-6.7a1.9,1.9,0,0,0-1.9-1.9h-2.6a2,2,0,0,0-1.4.6l-8.3,8.3v-4.9a1.9,1.9,0,0,0-1.9-1.9h-7.4a1.9,1.9,0,0,0-1.9,1.9h0v9.9a2,2,0,0,0,.6,1.4l5.6,5.6a2,2,0,0,0,1.4.6h3.8a4.5,4.5,0,0,0,9,0h8.6a4.5,4.5,0,1,0,9,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 3px"/>
+        <path d="M620.6,280.1a1.47,1.47,0,0,0-1.44-1.5H613a1.47,1.47,0,0,0-1.5,1.44s0,0,0,.06v4.5H604a1.47,1.47,0,0,0-1.5,1.44s0,0,0,.06v30.4a1.47,1.47,0,0,0,1.44,1.5H628.3a1.47,1.47,0,0,0,1.5-1.44s0,0,0-.06V286.1a1.47,1.47,0,0,0-1.44-1.5H616" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 3px"/>
+        <path d="M538.8,285.5a35.16,35.16,0,0,1-8.5.9c-7.5,0-13.6-1.9-13.6-4.2s6.1-4.2,13.6-4.2,13.6,1.9,13.6,4.2v31.3c0,2.3-6.1,4.2-13.6,4.2s-13.6-1.9-13.6-4.2v-9.9c0,2.3,6.1,4.2,13.6,4.2a35.1,35.1,0,0,0,6.8-.6V295.8a35.1,35.1,0,0,1-6.8.6c-7.5,0-13.6-1.9-13.6-4.2v-4.3" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 3px"/>
+        <path d="M451.3,295.7a7,7,0,1,0-.6,4.4l5.8,4,10.8-6.9-10.8-6.9-.6-12.9-11.4,5.9-11.4-5.9-.6,12.9-10.8,6.9,10.8,6.9.6,12.9,11.4-5.9,11.4,5.9.4-9.1" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 3px"/>
+        <polyline points="726.3 307.2 726.3 318.2 678.4 318.2 678.4 278.6 726.3 278.6 726.3 300.6 708.7 300.6 714.2 295 705.9 293.7 702.3 286 698.7 293.7 690.5 295 696.4 301.1 695.1 309.7 702.3 305.6 709.6 309.6 708.8 304.6" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 3px"/>
+      </g>
+      <g style="opacity: 0.30000001192092896">
+        <path d="M446.9,256.4a85,85,0,1,1,170,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 2px"/>
+        <path d="M446.9,256.4a42.5,42.5,0,1,1,85,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 2px"/>
+        <path d="M531.9,256.4a42.5,42.5,0,0,1,85,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 2px"/>
+        <path d="M617,256.4a42.5,42.5,0,0,1,85,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 2px"/>
+        <path d="M702,256.4a42.5,42.5,0,0,1,85,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 2px"/>
+        <path d="M617,256.4a85,85,0,0,1,170,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 2px"/>
+        <path d="M531.9,256.4a85,85,0,0,1,170,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 2px"/>
+        <path d="M447.3,256.4a127.5,127.5,0,1,1,255,0h0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 2px"/>
+        <path d="M532,256.4a127.5,127.5,0,0,1,255,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 2px"/>
+        <path d="M447.4,256.4a169.8,169.8,0,1,1,339.6,0" style="fill: none;stroke: #fff;stroke-linejoin: round;stroke-width: 2px"/>
+      </g>
+    </g>
+    <g>
+      <path d="M642.8,72.7H594.9a3,3,0,0,0-3,3V149a3,3,0,0,0,3,3h47.9a3,3,0,0,0,3-3V75.6A3.06,3.06,0,0,0,642.8,72.7Z" style="fill: #f7331d;stroke: #fff;stroke-miterlimit: 10;stroke-width: 4px"/>
+      <path d="M646.5,95.7a5.16,5.16,0,0,0-5.2,5.12s0,.05,0,.08v1.7a1.18,1.18,0,0,1-1.15,1.21H640a1.16,1.16,0,0,1-1.2-1.12s0-.05,0-.08V97.7a5.25,5.25,0,0,0-10.5,0v12.1a1.16,1.16,0,0,1-1.12,1.2H627a1.16,1.16,0,0,1-1.2-1.12s0-.05,0-.08V91.2a5.2,5.2,0,1,0-10.4,0v8.9a1.2,1.2,0,0,1-2.4,0V98.4a5.16,5.16,0,0,0-5.12-5.2h-.18a5.16,5.16,0,0,0-5.2,5.12s0,.05,0,.08v12.2a1.18,1.18,0,0,1-1.15,1.21h-.15a1.16,1.16,0,0,1-1.2-1.12s0-.05,0-.08V86.4a5.19,5.19,0,0,0-5.18-5.2h-.12a5.53,5.53,0,0,0-2.5.7V99.6a5.13,5.13,0,0,0,1.3-3.4V86.4a1.18,1.18,0,0,1,1.15-1.21h.15a1.16,1.16,0,0,1,1.2,1.12s0,.05,0,.08v24.3a5.25,5.25,0,0,0,10.5,0V98.5a1.16,1.16,0,0,1,1.12-1.2h.18a1.16,1.16,0,0,1,1.2,1.12s0,.05,0,.08v1.7a5.2,5.2,0,1,0,10.4,0V91.3a1.2,1.2,0,1,1,2.4,0v18.6a5.16,5.16,0,0,0,5.12,5.2h.18a5.16,5.16,0,0,0,5.2-5.12s0-.05,0-.08V97.7a1.18,1.18,0,0,1,1.15-1.21h.15a1.16,1.16,0,0,1,1.2,1.12s0,.05,0,.08v4.9a5.25,5.25,0,0,0,10.5,0v-1.7a1.16,1.16,0,0,1,1.12-1.2h.08Z" style="fill: #fff"/>
+      <circle id="smartmeter_point_racetrack" data-name="smartmeter point racetrack" cx="607.8" cy="136.1" r="2.6" style="fill: #fff"/>
+      <path d="M606.6,142.8H618a6.7,6.7,0,0,0,6.7-6.7h0a6.7,6.7,0,0,0-6.7-6.7H606.6a6.7,6.7,0,0,0-6.7,6.7h0a6.7,6.7,0,0,0,6.7,6.7Z" style="fill: none;stroke: #fff;stroke-miterlimit: 10;stroke-width: 4px"/>
+    </g>
+  </g>
+  <text transform="translate(423.8 342.57)" style="font-size: 14px;fill: #fff;font-family: UniversLTPro-55Roman, Univers LT Pro"><tspan style="letter-spacing: -0.019984654017857144em">S</tspan><tspan x="9.06" y="0">olar</tspan><tspan x="0" y="16.8">power</tspan></text>
+  <text transform="translate(500.47 342.57)" style="font-size: 14px;fill: #fff;font-family: UniversLTPro-55Roman, Univers LT Pro"><tspan style="letter-spacing: -0.094970703125em">T</tspan><tspan x="7.22" y="0">ra</tspan><tspan x="20.45" y="0" style="letter-spacing: 0.0010114397321428572em">d</tspan><tspan x="29.02" y="0" style="letter-spacing: -0.00003487723214285714em">i</tspan><tspan x="32.91" y="0" style="letter-spacing: 0.0009765625em">t</tspan><tspan x="37.59" y="0" style="letter-spacing: 0.00003487723214285714em">ional</tspan><tspan x="0" y="16.8">power</tspan></text>
+  <text transform="translate(598.1 342.57)" style="font-size: 14px;fill: #fff;font-family: UniversLTPro-55Roman, Univers LT Pro">Storage</text>
+  <text transform="translate(681.1 342.57)" style="font-size: 14px;fill: #fff;font-family: UniversLTPro-55Roman, Univers LT Pro">O<tspan x="10.89" y="0" style="letter-spacing: 0.0009765625em">t</tspan><tspan x="15.57" y="0">her</tspan><tspan x="0" y="16.8">services</tspan></text>
+  <text transform="translate(772.57 342.57)" style="font-size: 14px;fill: #fff;font-family: UniversLTPro-55Roman, Univers LT Pro"><tspan style="letter-spacing: -0.019984654017857144em">R<tspan x="9.06" y="0" style="letter-spacing: -0.00003487723214285714em">ace</tspan></tspan><tspan x="0" y="16.8">ca</tspan><tspan x="14.78" y="16.8" style="letter-spacing: 0.019984654017857144em">r</tspan><tspan x="20.51" y="16.8">s</tspan></text>
+</svg>

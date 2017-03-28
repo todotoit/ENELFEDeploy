@@ -1,0 +1,80 @@
+#sidebar {
+  height: 768px;
+  width: 330px;
+  display: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: #222222;
+  color: #FFF;
+}
+
+#sidebar #side_topbar{
+  background: #111111;
+  height: 85px;
+  padding: 25px 20px;
+}
+
+#sidebar #side_topbar p{
+  float: left;
+  margin-right: 10px;
+}
+
+#sidebar #donut_consumption{
+  height: 310px;
+}
+
+.side_numbers_container .number{
+  color: #55be5a;
+}
+
+.side_content {
+  padding: 20px; 
+}
+
+.side_content h2{
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #FFF;
+}
+
+.side_content .bar_label{
+  color: #909090;
+  display: inline-block;
+  position: relative;
+  left: 25px;
+}
+
+.side_content #donut_histogram{
+  margin-top: 20px;
+}
+
+.side_content .hor_bar_container{
+    margin-top: 10px;
+}
+
+.side_content .bar_container{
+  width: 57%;
+  margin-right: 10px;
+  float: left;
+}
+
+.side_content .bar_container{
+  height: 50px;
+}
+
+.side_content .bar{
+  height: 50px;
+  /*background: url(../img/hor_bar_green_bg.png);*/
+  background: linear-gradient(to left, rgb(0, 140, 90), rgba(85,190,90,0));
+  border-right: 12px solid #FFF;
+}
+
+.side_content .bar_label .number{
+  color: #FFF;
+  font-size: 1.8em;
+}
+
+#sidebar .donut_area_data {
+  opacity: 0;
+}
+
