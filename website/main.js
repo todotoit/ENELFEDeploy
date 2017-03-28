@@ -959,6 +959,78 @@
   'use strict'
 
   /**
+    BatteryAnimation
+  **/
+
+  angular
+    .module('EnelStandAnimation', [
+      'MainApp'
+    ])
+
+}(window.angular));
+
+(function (angular, jq) {
+  'use strict'
+
+  /**
+  **/
+
+  angular
+    .module('EnelStandAnimation')
+    .component('enelStand', {
+      templateUrl: '../js/components/enelStandAnimation/assets/svg/illustration_enel_stand.svg',
+      controller: enelStandCtrl,
+      controllerAs: 'enelStand',
+      bindings: {}
+    })
+
+  /* @ngInject */
+  function enelStandCtrl($scope, $element, $attrs, TweenMax) {
+    var ctrl = this
+    ctrl.componentPath = '../js/components/enelStandAnimation'
+    ctrl.svgPath = ctrl.componentPath + '/assets/svg'
+
+    // https://github.com/angular/angular.js/issues/14433
+    // for the issue above we decided to use just $onChanges
+    ctrl.$onInit = init
+    // ctrl.$onChanges = update
+
+    var solarMexicoTimeline = new TimelineMax({repeat:-1});
+
+    // -------
+
+    // init after dom loaded
+    function init() {
+      standAnimation()
+    }
+    // function update(changedObj) {}
+
+    function standAnimation() {
+      TweenMax.set(['path','line','circle','rect'], { drawSVG:"0%" })
+      TweenMax.to(['path','line','circle','rect'],  1.5, { drawSVG:"100%", delay:.4, ease:Power2.easeOut })
+
+      TweenMax.from('#enel_logo',  1, { opacity:0, x:'-=45', delay:1, ease:Power2.easeOut })
+    }
+
+
+    // event handlers
+    // $scope.$on('svg:all-loaded', function() {
+    //   console.log('init animation')
+    //   carAnimation()
+    //   batteryAnimation()
+    // })
+
+    // deregister event handlers
+    // $scope.$on events will be automatically deleted on $destroy
+    // $scope.$on('$destroy', function () {})
+  }
+
+}(window.angular, window.angular.element));
+
+(function (angular) {
+  'use strict'
+
+  /**
     SnippetManager
   **/
 
@@ -1255,19 +1327,21 @@
         onPrevious: '&',
         onNext: '&',
         debounceTime: '=',
-        rotate: '='
+        rotate: '=',
+        itemsToDisplay: '='
       }
     }
     return directive
 
     function postLinkFunction (scope, element, attributes) {
       if (!scope.items) return console.error('No items to paginate!')
-      scope.currentIdx = 0
-      scope.lastIdx = scope.items.length -1
       var currentItem = scope.items[0]
       var debounce = null
       var debounceTime = angular.copy(scope.debounceTime) || 200
       var rotate = angular.copy(scope.rotate)
+      var itemsToDisplay = scope.itemsToDisplay || 1
+      scope.currentIdx = 0
+      scope.lastIdx = Math.floor((scope.items.length-1)/itemsToDisplay)
 
       scope.select = scope.onChange()
       scope.selectPrev = scope.onPrevious()
@@ -1303,6 +1377,12 @@
 
       scope.$watch('currentItem', function() {
         scope.currentIdx = scope.currentItem? scope.items.indexOf(scope.currentItem) : 0
+      })
+      scope.$watch('itemsToDisplay', function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          scope.currentIdx = 0
+          scope.lastIdx = Math.floor((scope.items.length-1)/newVal)
+        }
       })
     }
   }
@@ -1435,7 +1515,7 @@
     // should be made using credentials such as cookies or authorization headers.
     // The default is false. Set to true to send credentials in cross-site XMLHttpRequest invocations.
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Requests_with_credentials
-    $httpProvider.defaults.withCredentials = true
+    $httpProvider.defaults.withCredentials = false
   }
 }(window.angular));
 
@@ -1523,10 +1603,10 @@
         url: '/landing',
         resolve: {
           streamData: function(PaddockAreaChart) {
-            return PaddockAreaChart.get1()
+            // return PaddockAreaChart.get1()
           },
           donutData: function(PaddockAreaChart) {
-            return PaddockAreaChart.get2()
+            // return PaddockAreaChart.get2()
           },
           snippets: function(SnippetSrv) {
             return SnippetSrv.getAvailableSnippets()
@@ -1535,6 +1615,15 @@
                              }, function(err) {
                                 console.error(err)
                              })
+          },
+          tweetfeed: function($http) {
+            return $http.get('https://runkit.io/marcoaimo/58da1fffabf0fd0014889904/branches/master')
+                 .then(function(res) {
+                    console.log(res.data)
+                    return res.data
+                 }, function(err) {
+                    console.error(err)
+                 })
           }
         },
         controller: 'LandingCtrl',
@@ -1594,12 +1683,48 @@
     .controller('LandingCtrl', landingCtrl)
 
   /* @ngInject */
-  function landingCtrl ($scope, streamData, donutData, snippets, $timeout, _) {
+  function landingCtrl ($scope, streamData, donutData, snippets, tweetfeed, $timeout, _) {
     var vm = this
-    vm.streamData = angular.copy(streamData.zones)
-    vm.donutData = angular.copy(donutData.zones)
+    vm.streamData = streamData? angular.copy(streamData.zones) : []
+    vm.donutData = donutData? angular.copy(donutData.zones) : []
     vm.snippets = angular.copy(snippets)
+    vm.tweets = tweetfeed.items
 
+    $scope.twitDisplayNum = _getTwitDisplayNum()
+    // twit carousel
+    angular.element(window).bind('resize', function() {
+      var newVal = _getTwitDisplayNum()
+      if ($scope.twitDisplayNum !== newVal) {
+        TweenMax.to('.twitter-tweet', .5, { x: '0%' })
+        $scope.twitDisplayNum = newVal
+      }
+      // manuall $digest required as resize event
+      // is outside of angular
+      $scope.$digest()
+    })
+    function _getTwitDisplayNum() {
+      if (window.matchMedia("(max-width: 40em)").matches) {
+        return 1
+      } else if (window.matchMedia("(max-width: 52em)").matches) {
+        return 2
+      } else {
+        return 3
+      }
+    }
+    $scope.twit_previous = function() {
+      var wrapw = $('.twitfeed-wrapper').width()
+      // var span = wrapw * 2.5 /100
+      var span = +$('.twitter-tweet').css('margin').split('px')[1]
+      TweenMax.to('.twitter-tweet', .5, { x: '+='+(wrapw+span-0.5) })
+    }
+    $scope.twit_next = function() {
+      var wrapw = $('.twitfeed-wrapper').width()
+      // var span = wrapw * 2.5 /100
+      var span = +$('.twitter-tweet').css('margin').split('px')[1]
+      TweenMax.to('.twitter-tweet', .5, { x: '-='+(wrapw+span-0.5) })
+    }
+
+    // snippet carousel
     var duration = 0.6
     var lastId = vm.snippets.length-1
     var idPreOut = vm.snippets.length-2
@@ -1616,7 +1741,7 @@
         vm.snippets.push(el)
       }, (duration*1000)-500)
     }
-    $scope.next = function() {
+    $scope.snip_next = function() {
       var $el     = $('#snip-0')
       var $elNext = $('#snip-1')
       var $elPre  = $('#snip-'+lastId)
@@ -1629,7 +1754,7 @@
       tl.to($elPre,     duration, {x: '-120%', z: '-200', opacity: 0, zIndex: -2}, 0)
       _shiftRight()
     }
-    $scope.previous = function() {
+    $scope.snip_previous = function() {
       var $el     = $('#snip-0')
       var $elNext = $('#snip-1')
       var $elPre  = $('#snip-'+lastId)

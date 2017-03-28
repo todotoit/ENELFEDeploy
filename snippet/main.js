@@ -1051,19 +1051,21 @@
         onPrevious: '&',
         onNext: '&',
         debounceTime: '=',
-        rotate: '='
+        rotate: '=',
+        itemsToDisplay: '='
       }
     }
     return directive
 
     function postLinkFunction (scope, element, attributes) {
       if (!scope.items) return console.error('No items to paginate!')
-      scope.currentIdx = 0
-      scope.lastIdx = scope.items.length -1
       var currentItem = scope.items[0]
       var debounce = null
       var debounceTime = angular.copy(scope.debounceTime) || 200
       var rotate = angular.copy(scope.rotate)
+      var itemsToDisplay = scope.itemsToDisplay || 1
+      scope.currentIdx = 0
+      scope.lastIdx = Math.floor((scope.items.length-1)/itemsToDisplay)
 
       scope.select = scope.onChange()
       scope.selectPrev = scope.onPrevious()
@@ -1099,6 +1101,12 @@
 
       scope.$watch('currentItem', function() {
         scope.currentIdx = scope.currentItem? scope.items.indexOf(scope.currentItem) : 0
+      })
+      scope.$watch('itemsToDisplay', function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          scope.currentIdx = 0
+          scope.lastIdx = Math.floor((scope.items.length-1)/newVal)
+        }
       })
     }
   }
@@ -1218,7 +1226,7 @@
     // should be made using credentials such as cookies or authorization headers.
     // The default is false. Set to true to send credentials in cross-site XMLHttpRequest invocations.
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Requests_with_credentials
-    $httpProvider.defaults.withCredentials = true
+    $httpProvider.defaults.withCredentials = false
   }
 }(window.angular));
 
