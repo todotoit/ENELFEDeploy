@@ -339,7 +339,7 @@
         datasource: '<',
         onSelect: '&',
         grName: '@',
-        initialKey: '@'
+        initialKey: '<'
       }
     })
 
@@ -429,7 +429,8 @@
       // https://github.com/angular/angular.js/issues/14433
       // for some weird reason component $onChanges is called before $onInit
       // so we assume that if we don't have prevData the components is never being initialized
-      if (_.isEmpty(prevData)) init()
+      // if (_.isEmpty(prevData))
+      init()
       console.log('update donutChart')
 
       // -------- DATA MAP ---------
@@ -1642,15 +1643,18 @@
   /* @ngInject */
   function landingCtrl ($scope, snippets, streamData, $timeout, $http, _) {
     var vm = this
+    vm.races = []
     vm.streamData = []
     vm.totalConsumption = {
       total_energy: 0,
       zones: []
     }
-    vm.snippets = angular.copy(snippets)
+    console.log(snippets)
+    vm.snippets = angular.copy(_.initial(snippets))
     vm.tweets = []
 
     // donut
+    $scope.donutSelectedKey = 'Paddock'
     vm.donutSelection = {
       energy: 0,
       percentage: 0,
@@ -1660,10 +1664,11 @@
       if (!area) return console.error('No area selected')
       var percentage = (+area.energy/+vm.totalConsumption.total_energy)*100
       vm.donutSelection = {
-        energy: area.energy,
+        energy: Math.round(area.energy),
         name: area.name,
         percentage: Math.round(percentage*100)/100
       }
+      $scope.donutSelectedKey = angular.copy(area.name)
       if (!$scope.$$phase) $scope.$digest()
     }
 
@@ -1675,9 +1680,10 @@
     function retrieveRacesFeed() {
       return $http.get('../assets/jsonData/races.json')
                   .then(function(res) {
+                    vm.races = res.data.races
                     var currentRace = _.last(res.data.races)
                     console.log(currentRace)
-                    vm.currentRace  = angular.copy(currentRace)
+                    vm.currentRace = angular.copy(currentRace)
                     vm.streamData = angular.copy(currentRace.streamData.zones)
                     vm.totalConsumption = angular.copy(currentRace.totalConsumption)
                   }, function(err) {
@@ -1685,15 +1691,11 @@
                   })
     }
     $scope.selectRace = function(id) {
-      console.log(streamData.zones)
-      if (id==='r2') {
-        vm.currentRace.id = 'r2'
-        vm.streamData = streamData.zones
-      }
-      if (id==='r3') {
-        vm.currentRace.id = 'r3'
-        vm.streamData = angular.copy(vm.currentRace.streamData.zones)
-      }
+      var currentRace = _.find(vm.races, {id: id})
+      vm.currentRace = angular.copy(currentRace)
+      console.log(currentRace.streamData, !_.isEmpty(currentRace.streamData) )
+      vm.streamData = angular.copy(vm.streamData)
+      vm.totalConsumption = angular.copy(vm.totalConsumption)
     }
 
     // twit feed

@@ -14,7 +14,7 @@
         datasource: '<',
         onSelect: '&',
         grName: '@',
-        initialKey: '@'
+        initialKey: '<'
       }
     })
 
@@ -104,7 +104,8 @@
       // https://github.com/angular/angular.js/issues/14433
       // for some weird reason component $onChanges is called before $onInit
       // so we assume that if we don't have prevData the components is never being initialized
-      if (_.isEmpty(prevData)) init()
+      // if (_.isEmpty(prevData))
+      init()
       console.log('update donutChart')
 
       // -------- DATA MAP ---------

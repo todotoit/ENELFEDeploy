@@ -2,6 +2,52 @@
 {
   "races": [
     {
+      "id": "r1",
+      "name": "Central Harbourfront",
+      "location": "Hong Kong",
+      "country": "Hong Kong",
+      "date": "09 Oct 2016",
+      "circuit": {
+        "length": "1.86 km",
+        "laps": "37",
+        "fastestLap": {
+          "race": {
+            "firstName": "Felix",
+            "lastName": "Rosenqvist",
+            "time": "1:02.947"
+          },
+          "outright": {
+            "firstName": "Nelson",
+            "lastName": "Piquet Jr",
+            "time": "1:03.099"
+          }
+        }
+      }
+    },
+    {
+      "id": "r2",
+      "name": "Moulay El Hassan",
+      "location": "Marrakesh",
+      "country": "Morocco",
+      "date": "12 Nov 2016",
+      "circuit": {
+        "length": "2.97 km",
+        "laps": "33",
+        "fastestLap": {
+          "race": {
+            "firstName": "Loïc",
+            "lastName": "Duval",
+            "time": "1:24.382"
+          },
+          "outright": {
+            "firstName": "Sébastien",
+            "lastName": "Buemi",
+            "time": "1:23.663"
+          }
+        }
+      }
+    },
+    {
       "id": "r3",
       "name": "Puerto Madero",
       "location": "Buenos Aires",
