@@ -1876,7 +1876,7 @@
     var duration = 0.6
     var lastId = vm.snippets.length-1
     var idPreOut = vm.snippets.length-2
-    if(bowser.safari || bowser.firefox){
+    if(bowser.safari || bowser.firefox || bowser.msie){
      $timeout(_setCarouselSize, 500)
     }
     function _setCarouselSize(){
@@ -1978,6 +1978,29 @@
           }
         break
       }
+    }
+
+    // fix ie svg
+    if (bowser.msie) {
+      $timeout(_setSvgSize, 500)
+      angular.element(window).bind('resize', _setSvgSize)
+    }
+    function _setSvgSize() {
+      var svgs = $('svg')
+      _.each(svgs, function(svg) {
+        console.log(svg)
+        var $svg = $(svg)
+        var w = $svg.width(),
+            h = $svg.height(),
+            vw = $svg.attr('viewBox').split(' ')[2],
+            vh = $svg.attr('viewBox').split(' ')[3]
+        var hstyle = Math.round((w*vh)/vw)
+        var wstyle = Math.round((h*vw)/vh)
+        console.log(w, h, vw, vh, hstyle, wstyle)
+        if (hstyle === wstyle) return
+        $svg.css({ height: hstyle/10 +'rem' })
+        // $svg.css({ width: wstyle/10 +'rem' })
+      })
     }
 
 
