@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "deploy_common": "git add -A && git commit -m \"deploy\" && npm version patch && git push",
-    "deploy_fillergame": "node deploy.js fillergame && npm run deploy_common",
-    "deploy_website": "node deploy.js website && npm run deploy_common",
-    "deploy_tablet": "node deploy.js tablet && npm run deploy_common"
+    "deploy_fillergame": "git pull && node deploy.js fillergame && npm run deploy_common",
+    "deploy_website": "git pull && node deploy.js website && npm run deploy_common",
+    "deploy_tablet": "git pull && node deploy.js tablet && npm run deploy_common"
   },
   "dependencies": {
     "copy-dir": "^0.3.0",
