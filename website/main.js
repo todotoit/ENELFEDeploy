@@ -25,7 +25,8 @@
       controller: StreamgraphCtrl,
       controllerAs: 'streamgraph',
       bindings: {
-        datasource: '<'
+        datasource: '<',
+        onSelect: '&'
       }
     })
 
@@ -42,6 +43,9 @@
     // for the issue above we decided to use just $onChanges
     // ctrl.$onInit = init
     ctrl.$onChanges = update
+
+    // -------- CALLBACK ---------
+    var _callback = null
 
     // discarding timezone makes data apper to the relevant hour at every timezone
     // so for example hong kong data are displayed at the proper hours even if
@@ -125,6 +129,7 @@
       console.log('init streamgraph')
       var data = ctrl.datasource
       $element.find('svg').empty()
+      _callback = ctrl.onSelect()
 
       // -------- INITIALIZE CHART ---------
       svg = d3.select($element.find('svg').get(0))
@@ -304,6 +309,12 @@
       tooltip.select('.key').text(d.key)
       tooltip.select('.time').text(time)
       tooltip.select('.number-lg').text(selected.value)
+      var data = {
+        name: d.key,
+        time: time,
+        power: selected.value
+      }
+      if(_callback) _callback(data)
     }
   }
 
@@ -1122,6 +1133,60 @@
 
 }(window.angular));
 
+;(function(window, $, undefined){
+
+	document.documentElement.classList.remove("no-js");
+	document.documentElement.classList.add("js");
+
+	FastClick.attach(document.body);
+
+	$('html').addClass('js');
+
+	if(window.isMobile){
+		$('html').addClass('mobile');
+	}else{
+		$('html').addClass('desktop');
+	}
+
+	if ('ontouchstart' in window) {
+     	$('html').addClass('touch')
+    }else{
+     	$('html').addClass('mouse')
+    }
+
+	var styles = window.getComputedStyle(document.documentElement, '')
+	var pre = (Array.prototype.slice
+	      .call(styles)
+	      .join('') 
+	      .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
+	    )[1]
+	var dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
+	pre = (pre == 'webkit' && bowser.blink) ? 'blink' : pre
+	$('html').addClass(pre);
+	$('html').addClass(bowser.name.toLowerCase());
+
+	  
+	$('[fouc]').css('visibility', 'visible')
+
+	if(window.isMobile){
+		$('[pressable]').on('touchstart', function(){
+			$(this).addClass('pressed')
+		})
+		$('[pressable]').on('touchend', function(){
+			$(this).removeClass('pressed')
+		})
+	}
+
+	Date.prototype.yyyymmdd = function() {
+    	var yyyy = this.getFullYear().toString()
+    	var mm = (this.getMonth()+1).toString()
+    	var dd  = this.getDate().toString()
+    	return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0])
+    };
+
+
+
+})(window, window.jQuery)
 (function (angular) {
   'use strict'
 
@@ -1614,9 +1679,6 @@
       .state('landing', {
         url: '/landing',
         resolve: {
-          streamData: function(PaddockAreaChart) {
-            return PaddockAreaChart.get()
-          },
           snippets: function(SnippetSrv) {
             return SnippetSrv.getAvailableSnippets()
                              .then(function(res) {
@@ -1641,7 +1703,7 @@
     .controller('LandingCtrl', landingCtrl)
 
   /* @ngInject */
-  function landingCtrl ($scope, snippets, streamData, $timeout, $http, _) {
+  function landingCtrl ($scope, snippets, $timeout, $interval, $http, _, moment) {
     var vm = this
     vm.races = []
     vm.streamData = []
@@ -1649,26 +1711,60 @@
       total_energy: 0,
       zones: []
     }
-    console.log(snippets)
     vm.snippets = angular.copy(_.initial(snippets))
     vm.tweets = []
+
+    // countdown
+    $scope.countDown = {
+      // date: '2017-03-29 04:52', // test
+      date: '2017-04-01 00:00',
+      tz: 'America/Mexico_City',
+      currentTime: null,
+      raceTime: null,
+      isRaceTime: false
+    }
+
+    _initializeCountDown()
+    function _initializeCountDown() {
+      // set moment times
+      $scope.countDown.currentTime = moment().tz($scope.countDown.tz)
+      $scope.countDown.raceTime    = moment.tz($scope.countDown.date, $scope.countDown.tz)
+      $scope.countDown.isRaceTime  = $scope.countDown.currentTime.isAfter($scope.countDown.raceTime)
+      //from then until now
+      console.log('Mexico time: ' +$scope.countDown.raceTime.format(),
+                  'Local time: '  +$scope.countDown.raceTime.clone().tz("Europe/Rome").format(),
+                  'Missing time: '+moment.tz($scope.countDown.date, $scope.countDown.tz).countdown().toString())
+
+      var cdownint = $interval(function(){
+        // console.log(moment.tz($scope.raceTime.date, $scope.raceTime.tz).countdown().toString())
+        var cdown = moment.tz($scope.countDown.date, $scope.countDown.tz).countdown()
+        $scope.countDown.d = cdown.days
+        $scope.countDown.h = cdown.hours
+        $scope.countDown.m = cdown.minutes
+        $scope.countDown.s = cdown.seconds
+        $scope.countDown.isRaceTime = moment().tz($scope.countDown.tz).isAfter($scope.countDown.raceTime)
+        if ($scope.countDown.isRaceTime) $interval.cancel(cdownint)
+      }, 1000)
+    }
+
 
     // donut
     $scope.donutSelectedKey = 'Paddock'
     vm.donutSelection = {
       energy: 0,
       percentage: 0,
-      name: ''
+      name: 'Paddock'
     }
     $scope.donut_select = function(area) {
       if (!area) return console.error('No area selected')
-      var percentage = (+area.energy/+vm.totalConsumption.total_energy)*100
+      var areasel = _.find(vm.totalConsumption.zones, function(a) { return a.name.toLowerCase() === area.name.toLowerCase() })
+      var percentage = (+areasel.energy/+vm.totalConsumption.total_energy)*100
       vm.donutSelection = {
-        energy: Math.round(area.energy),
-        name: area.name,
+        energy: Math.round(areasel.energy),
+        name: areasel.name,
         percentage: Math.round(percentage*100)/100
       }
-      $scope.donutSelectedKey = angular.copy(area.name)
+      $scope.donutSelectedKey = areasel.name
       if (!$scope.$$phase) $scope.$digest()
     }
 

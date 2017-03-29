@@ -11,7 +11,8 @@
       controller: StreamgraphCtrl,
       controllerAs: 'streamgraph',
       bindings: {
-        datasource: '<'
+        datasource: '<',
+        onSelect: '&'
       }
     })
 
@@ -28,6 +29,9 @@
     // for the issue above we decided to use just $onChanges
     // ctrl.$onInit = init
     ctrl.$onChanges = update
+
+    // -------- CALLBACK ---------
+    var _callback = null
 
     // discarding timezone makes data apper to the relevant hour at every timezone
     // so for example hong kong data are displayed at the proper hours even if
@@ -111,6 +115,7 @@
       console.log('init streamgraph')
       var data = ctrl.datasource
       $element.find('svg').empty()
+      _callback = ctrl.onSelect()
 
       // -------- INITIALIZE CHART ---------
       svg = d3.select($element.find('svg').get(0))
@@ -290,6 +295,12 @@
       tooltip.select('.key').text(d.key)
       tooltip.select('.time').text(time)
       tooltip.select('.number-lg').text(selected.value)
+      var data = {
+        name: d.key,
+        time: time,
+        power: selected.value
+      }
+      if(_callback) _callback(data)
     }
   }
 
