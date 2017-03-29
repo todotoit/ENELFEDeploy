@@ -6,8 +6,10 @@
     var state = Application.stateman.current
     var section = null
 
+    var loc = window.location.pathname
+
   	if(state){
-    	var v = state.name
+    	var v = loc + state.name
     	ga('set', 'page', v);
     	ga('send', 'pageview', v);
       console.log('ga send ', v)
@@ -17,7 +19,7 @@
     	var v = e.path
       section = Application.animations.idle.feStructure[e.current.name].slides[e.name]
              || Application.animations.idle.feStructure[e.current.name].slides[0]
-      if (section) v += '/' + section.name
+      if (section) v += loc + section.name
     	ga('set', 'page', v);
     	ga('send', 'pageview', v);
       console.log('ga send ', v)
@@ -33,7 +35,7 @@
       section = Application.animations.idle.feStructure[state.name].slides[e.name]
              || Application.animations.idle.feStructure[state.name].slides[0]
     	if(state && section && e){
-    		var v = state.name + '/' + section.name
+    		var v = loc + state.name + '/' + section.name
     		ga('set', 'page', v);
     		ga('send', 'pageview', v);
         console.log('ga send ', v);
@@ -44,7 +46,7 @@
       var state = Application.stateman.current
       section = section || Application.animations.idle.feStructure[state.name].slides[0]
       if(state && section && e){
-        var v = state.name + '/' + section.name + '/' + e.name
+        var v = loc + state.name + '/' + section.name + '/' + e.name
         ga('set', 'page', v);
         ga('send', 'pageview', v);
         console.log('ga send ', v);
@@ -52,7 +54,7 @@
     })
 
     Application.stateman.on('event', function(e){
-      ga('send', 'event', e.name);
+      ga('send', 'event', 'tabletapp', e.name);
       console.log('ga event', e.name);
     })
   })
