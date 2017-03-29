@@ -29,6 +29,7 @@
 
     // -------- CALLBACK ---------
     var _callback = null
+    $scope.$on('donut:select', function(e,k) { _select(k) })
 
     // -------- SVG ELEMENTS ---------
     var svg, box, w, h, p,                      // svg config

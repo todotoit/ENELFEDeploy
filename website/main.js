@@ -365,6 +365,7 @@
 
     // -------- CALLBACK ---------
     var _callback = null
+    $scope.$on('donut:select', function(e,k) { _select(k) })
 
     // -------- SVG ELEMENTS ---------
     var svg, box, w, h, p,                      // svg config
@@ -1756,6 +1757,9 @@
       percentage: 0,
       name: 'Paddock'
     }
+    $scope.stream_select = function(area) {
+      $scope.$broadcast('donut:select',_.capitalize(area.name))
+    }
     $scope.donut_select = function(area) {
       if (!area) return console.error('No area selected')
       var areasel = _.find(vm.totalConsumption.zones, function(a) { return a.name.toLowerCase() === area.name.toLowerCase() })
@@ -1765,7 +1769,7 @@
         name: areasel.name,
         percentage: Math.round(percentage*100)/100
       }
-      $scope.donutSelectedKey = areasel.name
+      $scope.donutSelectedKey = _.capitalize(areasel.name)
       if (!$scope.$$phase) $scope.$digest()
     }
 
