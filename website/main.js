@@ -1133,7 +1133,7 @@
 
 }(window.angular));
 
-;(function(window, $, undefined){
+(function(window, $, undefined){
 
 	document.documentElement.classList.remove("no-js");
 	document.documentElement.classList.add("js");
@@ -1157,7 +1157,7 @@
 	var styles = window.getComputedStyle(document.documentElement, '')
 	var pre = (Array.prototype.slice
 	      .call(styles)
-	      .join('') 
+	      .join('')
 	      .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
 	    )[1]
 	var dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
@@ -1165,7 +1165,7 @@
 	$('html').addClass(pre);
 	$('html').addClass(bowser.name.toLowerCase());
 
-	  
+
 	$('[fouc]').css('visibility', 'visible')
 
 	if(window.isMobile){
@@ -1186,7 +1186,8 @@
 
 
 
-})(window, window.jQuery)
+})(window, window.jQuery);
+
 (function (angular) {
   'use strict'
 
