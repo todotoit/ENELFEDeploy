@@ -1880,7 +1880,7 @@
      $timeout(_setCarouselSize, 500)
     }
     function _setCarouselSize(){
-      var snip_width = $('#snip-0').width();
+      var snip_width = $('#snip-0').width()
       console.log(snip_width)
       $('#snippet-carousel').css({
         width: snip_width*2
@@ -1888,8 +1888,6 @@
       $('#snippet-carousel .snip-wrapper').css({
         transform: 'translateX('+(-snip_width/2)+'px)'
       })
-
-
     }
 
     function _shiftLeft() {
