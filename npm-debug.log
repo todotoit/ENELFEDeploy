@@ -1,0 +1,48 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/marco/.nvm/versions/node/v6.6.0/bin/node',
+1 verbose cli   '/Users/marco/.nvm/versions/node/v6.6.0/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'deploy_website' ]
+2 info using npm@3.10.3
+3 info using node@v6.6.0
+4 verbose run-script [ 'predeploy_website', 'deploy_website', 'postdeploy_website' ]
+5 info lifecycle fedeploy@1.0.23~predeploy_website: fedeploy@1.0.23
+6 silly lifecycle fedeploy@1.0.23~predeploy_website: no script for predeploy_website, continuing
+7 info lifecycle fedeploy@1.0.23~deploy_website: fedeploy@1.0.23
+8 verbose lifecycle fedeploy@1.0.23~deploy_website: unsafe-perm in lifecycle true
+9 verbose lifecycle fedeploy@1.0.23~deploy_website: PATH: /Users/marco/.nvm/versions/node/v6.6.0/lib/node_modules/npm/bin/node-gyp-bin:/Users/marco/Code/Todo/ENELFEDeploy/node_modules/.bin:/Users/marco/.nvm/versions/node/v6.6.0/bin:/Users/marco/.nvm/versions/node/v6.6.0/bin:./node_modules/.bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:/opt/ImageMagick/bin:/usr/local/MacGPG2/bin:/usr/local/mysql/bin/:/usr/local/sublime/bin/
+10 verbose lifecycle fedeploy@1.0.23~deploy_website: CWD: /Users/marco/Code/Todo/ENELFEDeploy
+11 silly lifecycle fedeploy@1.0.23~deploy_website: Args: [ '-c', 'node deploy.js website && npm run deploy_common' ]
+12 silly lifecycle fedeploy@1.0.23~deploy_website: Returned: code: 1  signal: null
+13 info lifecycle fedeploy@1.0.23~deploy_website: Failed to exec deploy_website script
+14 verbose stack Error: fedeploy@1.0.23 deploy_website: `node deploy.js website && npm run deploy_common`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (/Users/marco/.nvm/versions/node/v6.6.0/lib/node_modules/npm/lib/utils/lifecycle.js:242:16)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at EventEmitter.emit (events.js:191:7)
+14 verbose stack     at ChildProcess.<anonymous> (/Users/marco/.nvm/versions/node/v6.6.0/lib/node_modules/npm/lib/utils/spawn.js:40:14)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at ChildProcess.emit (events.js:191:7)
+14 verbose stack     at maybeClose (internal/child_process.js:877:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+15 verbose pkgid fedeploy@1.0.23
+16 verbose cwd /Users/marco/Code/Todo/ENELFEDeploy
+17 error Darwin 14.5.0
+18 error argv "/Users/marco/.nvm/versions/node/v6.6.0/bin/node" "/Users/marco/.nvm/versions/node/v6.6.0/bin/npm" "run" "deploy_website"
+19 error node v6.6.0
+20 error npm  v3.10.3
+21 error code ELIFECYCLE
+22 error fedeploy@1.0.23 deploy_website: `node deploy.js website && npm run deploy_common`
+22 error Exit status 1
+23 error Failed at the fedeploy@1.0.23 deploy_website script 'node deploy.js website && npm run deploy_common'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the fedeploy package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     node deploy.js website && npm run deploy_common
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs fedeploy
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls fedeploy
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]
