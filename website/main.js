@@ -245,55 +245,78 @@
     function _attachToolipEvents() {
       svg.selectAll('.layer')
          .attr('opacity', 1)
-         .on('touchstart', function(d, i) {
-           svg.selectAll('.layer')
-              .transition()
-              .duration(250)
-              .attr('opacity', function(d, j) { return j == i ? 1 : .8 })
-           _drawTooltip.bind(this)(d)
-           vertical.style('visibility', 'visible')
-           tooltip.style('visibility', 'visible')
-        })
-        .on('touchend', function(d, i) {
-          svg.selectAll('.layer')
-             .transition()
-             .duration(250)
-             .attr('opacity', '1')
-          vertical.style('visibility', 'hidden')
-          tooltip.style('visibility', 'hidden')
-        })
-        .on('touchmove', function(d, i) {
-          _drawTooltip.bind(this)(d)
-        })
-      d3.select('streamgraph').on('touchstart', function() {
-        var elemBBox    = this.getBoundingClientRect()
-        var tooltipBBox = tooltip.node().getBoundingClientRect()
-        var vleft = d3.mouse(this)[0]
-        var left  = d3.mouse(this)[0]
-        var top   = d3.mouse(this)[1]
-        if (top   <= (tooltipBBox.height/2)) top = (tooltipBBox.height/2)
-        if (top   >= (elemBBox.height - tooltipBBox.height/2)) top = (elemBBox.height - tooltipBBox.height/2)
-        if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
-        if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
-        if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
-
-        vertical.style('left', vleft + 'px' )
-        tooltip.style('left',  left  - (tooltipBBox.width/2)  + 'px' )
-        tooltip.style('top',   top   - (tooltipBBox.height/2) + 'px' )
-      })
-      .on('touchmove', function() {
-        var elemBBox    = this.getBoundingClientRect()
-        var tooltipBBox = tooltip.node().getBoundingClientRect()
-        var vleft = d3.mouse(this)[0]
-        var left  = d3.mouse(this)[0]
-        if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
-        if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
-        if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
-        vertical.style('left', vleft + 'px' )
-        tooltip.style('left',  left - (tooltipBBox.width/2) + 'px' )
-      })
+         .on('touchstart', function(d,i) {
+            _showTooltip(d,i)
+            _drawTooltip.bind(this)(d)
+          })
+         .on('mouseover', function(d,i) {
+            _showTooltip(d,i)
+            _drawTooltip.bind(this)(d)
+          })
+         .on('touchend',  function(d,i) { _hideTooltip(d,i) })
+         .on('touchmove', function(d,i) { _drawTooltip.bind(this)(d) })
+         .on('mousemove',  function(d,i) {
+            _touchmove.bind(this)(true)
+            _drawTooltip.bind(this)(d)
+          })
+         .on('mouseout',  function(d,i) { _hideTooltip(d,i) })
+      d3.select('streamgraph')
+        .on('touchstart', function() { _streamgraphTouch.bind(this)() })
+        .on('touchmove',  function() { _touchmove.bind(this)() })
     }
 
+    function _touchmove(isDesktop) {
+      var elemBBox    = this.getBoundingClientRect()
+      var tooltipBBox = tooltip.node().getBoundingClientRect()
+      var vleft = d3.mouse(this)[0]
+      var left  = d3.mouse(this)[0]
+      if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
+      if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
+      if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
+      // if desktop remap coordinates based on viewport dimensions
+      if (isDesktop) {
+        var top   = d3.mouse(this)[1]
+        left = vleft = (left * $('streamgraph svg').width()) / w
+        top = (top * $('streamgraph svg').height()) / h
+        top -= (tooltipBBox.height/2 +20) // offset
+        tooltip.style('top', top - (tooltipBBox.height/2) + 'px' )
+      }
+      vertical.style('left', vleft + 'px' )
+      tooltip.style('left',  left - (tooltipBBox.width/2) + 'px' )
+    }
+    function _streamgraphTouch() {
+      var elemBBox    = this.getBoundingClientRect()
+      var tooltipBBox = tooltip.node().getBoundingClientRect()
+      var vleft = d3.mouse(this)[0]
+      var left  = d3.mouse(this)[0]
+      var top   = d3.mouse(this)[1]
+      if (top   <= (tooltipBBox.height/2)) top = (tooltipBBox.height/2)
+      if (top   >= (elemBBox.height - tooltipBBox.height/2)) top = (elemBBox.height - tooltipBBox.height/2)
+      if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
+      if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
+      if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
+
+      vertical.style('left', vleft + 'px' )
+      tooltip.style('left',  left  - (tooltipBBox.width/2)  + 'px' )
+      tooltip.style('top',   top   - (tooltipBBox.height/2) + 'px' )
+    }
+
+    function _showTooltip(d,i) {
+      svg.selectAll('.layer')
+         .transition()
+         .duration(250)
+         .attr('opacity', function(d, j) { return j == i ? 1 : .8 })
+      vertical.style('visibility', 'visible')
+      tooltip.style('visibility', 'visible')
+    }
+    function _hideTooltip(d,i) {
+      svg.selectAll('.layer')
+         .transition()
+         .duration(250)
+         .attr('opacity', '1')
+      vertical.style('visibility', 'hidden')
+      tooltip.style('visibility', 'hidden')
+    }
     function _drawTooltip(d) {
       var mouseX = d3.mouse(this)[0]
       var selectedDate = X.invert(mouseX)
@@ -1853,6 +1876,22 @@
     var duration = 0.6
     var lastId = vm.snippets.length-1
     var idPreOut = vm.snippets.length-2
+    if(bowser.safari || bowser.firefox){
+     $timeout(_setCarouselSize, 500)
+    }
+    function _setCarouselSize(){
+      var snip_width = $('#snip-0').width();
+      console.log(snip_width)
+      $('#snippet-carousel').css({
+        width: snip_width*2
+      })
+      $('#snippet-carousel .snip-wrapper').css({
+        transform: 'translateX('+(-snip_width/2)+'px)'
+      })
+
+
+    }
+
     function _shiftLeft() {
       $timeout(function(){
         var el = _.last(vm.snippets)
