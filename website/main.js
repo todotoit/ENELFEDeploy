@@ -31,7 +31,7 @@
     })
 
   /* @ngInject */
-  function StreamgraphCtrl($scope, $element, $attrs, d3, _, everpolate) {
+  function StreamgraphCtrl($scope, $element, $attrs, d3, _, everpolate, isMobile) {
     var ctrl = this
 
     // TODO: move in main config
@@ -295,6 +295,8 @@
       if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
       if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
       if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
+
+      if (isMobile) top = 0
 
       vertical.style('left', vleft + 'px' )
       tooltip.style('left',  left  - (tooltipBBox.width/2)  + 'px' )
@@ -1210,6 +1212,21 @@
 
 })(window, window.jQuery);
 
+window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+      t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+  return t;
+}(document, "script", "twitter-wjs"));
+
 (function (angular) {
   'use strict'
 
@@ -1833,13 +1850,21 @@
                     // after loaded the tweet feed append embed script from twitter
                     var twitScript = $('<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>')
                     $('.twitfeed-wrapper').append(twitScript)
+                    // _.each(vm.tweets, function(tw) {
+                    //   twttr.widgets
+                    //        .createTweet(tw.id, $('.twitfeed-wrapper')[0], {theme: 'light'})
+                    //        .then(function(el) {
+                    //         // $(el).attr('style')
+                    //         // var twbody = $(el.contentDocument.body).find('.EmbeddedTweet')
+                    //        })
+                    // })
+                    $scope.twitDisplayNum = _getTwitDisplayNum()
                   }, function(err) {
                     console.error(err)
                   })
     }
 
     // twit carousel
-    $scope.twitDisplayNum = _getTwitDisplayNum()
     angular.element(window).bind('resize', function() {
       var newVal = _getTwitDisplayNum()
       if ($scope.twitDisplayNum !== newVal) {
@@ -1851,6 +1876,7 @@
       if (!$scope.$$phase) $scope.$digest()
     })
     function _getTwitDisplayNum() {
+      var twWrapW = $('.twitfeed-wrapper').width()
       if (window.matchMedia("(max-width: 40em)").matches) {
         return 1
       } else if (window.matchMedia("(max-width: 52em)").matches) {
@@ -1863,6 +1889,7 @@
       var wrapw = $('.twitfeed-wrapper').width()
       // var span = wrapw * 2.5 /100
       var span = +$('.twitter-tweet').css('margin').split('px')[1]
+      var twwidth = $('.twitter-tweet').width()
       TweenMax.to('.twitter-tweet', .5, { x: '+='+(wrapw+span-0.5) })
     }
     $scope.twit_next = function() {
@@ -1993,7 +2020,7 @@
 
     // fix ie svg
     if (bowser.msie) {
-      $timeout(_setSvgSize, 500)
+      $timeout(_setSvgSize, 1000)
       angular.element(window).bind('resize', _setSvgSize)
     }
     function _setSvgSize() {
