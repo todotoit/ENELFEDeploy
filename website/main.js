@@ -1874,18 +1874,29 @@
     var duration = 0.6
     var lastId = vm.snippets.length-1
     var idPreOut = vm.snippets.length-2
-    if(bowser.safari || bowser.firefox || bowser.msie){
-     $timeout(_setCarouselSize, 500)
-    }
+    // alert(JSON.stringify(bowser))
+
+    $timeout(_setCarouselSize, 500)
     function _setCarouselSize(){
-      var snip_width = $('#snip-0').width()
-      console.log(snip_width)
-      $('#snippet-carousel').css({
-        width: snip_width*2
-      })
-      $('#snippet-carousel .snip-wrapper').css({
-        transform: 'translateX('+(-snip_width/2)+'px)'
-      })
+      if(window.isMobile) {
+      var snip_width = Math.min($(window).width()*0.8, 350);
+      var snip_height = Math.min($(window).height()*0.8, 548);
+      $('.snip-wrapper .snip').width(snip_width)
+      $('.snip-wrapper .snip').height(snip_height)
+      $('.snip-wrapper').height(snip_height)
+      $('#snippet-info, #snippet-carousel').css('height', 'auto')
+      } else {
+        var snip_width = 350
+        var snip_height = 548
+      }
+      if(bowser.safari || (bowser.chrome && bowser.iphone) || (bowser.firefox && +bowser.version < 52 || bowser.msie)){
+        $('#snippet-carousel').css({
+          width: snip_width*2
+        })
+        $('#snippet-carousel .snip-wrapper').css({
+          transform: 'translateX('+(-snip_width/2)+'px)'
+        })
+      }
     }
 
     function _shiftLeft() {
