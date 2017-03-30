@@ -794,14 +794,14 @@
   angular
     .module('Solar25kmAnimation')
     .component('solar25km', {
-      templateUrl: '../js/components/solar25kmAnimation/assets/svg/illustration_solar25km.svg',
-      controller: NightDayAnimationCtrl,
+      templateUrl: '../js/components/solar25kmAnimation/assets/svg/illustration_solar.svg',
+      controller: solarAnimationCtrl,
       controllerAs: 'solar25km',
       bindings: {}
     })
 
   /* @ngInject */
-  function NightDayAnimationCtrl($scope, $element, $attrs, TweenMax) {
+  function solarAnimationCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
     ctrl.componentPath = '../js/components/solar25kmAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
@@ -810,8 +810,6 @@
     // for the issue above we decided to use just $onChanges
     ctrl.$onInit = init
     // ctrl.$onChanges = update
-
-    var animationTiming = 6 //seconds
 
     // -------
 
