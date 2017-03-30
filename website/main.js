@@ -297,6 +297,7 @@
       if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
 
       if (isMobile) top = 0
+      if (bowser.tablet) top = d3.mouse(this)[1] - (tooltipBBox.height/2) -40
 
       vertical.style('left', vleft + 'px' )
       tooltip.style('left',  left  - (tooltipBBox.width/2)  + 'px' )
@@ -307,7 +308,7 @@
       svg.selectAll('.layer')
          .transition()
          .duration(250)
-         .attr('opacity', function(d, j) { return j == i ? 1 : .8 })
+         .attr('opacity', function(d, j) { return j == i ? 1 : .3 })
       vertical.style('visibility', 'visible')
       tooltip.style('visibility', 'visible')
     }
@@ -375,7 +376,7 @@
         datasource: '<',
         onSelect: '&',
         grName: '@',
-        initialKey: '<'
+        initialKey: '='
       }
     })
 
@@ -513,6 +514,7 @@
           .attr('d', pieArc)
           .attr('fill', function(d,i) { return 'url(#donutChart_gr'+i+ctrl.grName+')' })
           .on('click', function(d,i) { return _select(d.data.name) })
+          .on('mouseover', function(d,i) { return _select(d.data.name) })
 
       if (ctrl.initialKey) _select(ctrl.initialKey)
     }
@@ -823,7 +825,12 @@
 
     function mexicoAnimation() {
       TweenMax.set('#mexico path', { drawSVG:"0%" })
-      TweenMax.to('#mexico path',  1.5, { drawSVG:"100%", delay:.4, ease:Power2.easeOut })
+      TweenMax.to('#mexico path',  1.5, { drawSVG:"100%", delay:.4, ease:Power1.easeOut, onComplete:mexicoAnimationReverse })
+
+    }
+
+    function mexicoAnimationReverse() {
+      TweenMax.to('#mexico path',  1.5, { drawSVG:"0%", delay:.4, ease:Power1.easeOut, onComplete:mexicoAnimation })
 
     }
 
@@ -952,13 +959,13 @@
     .module('FastRechargeAnimation')
     .component('fastRecharge', {
       templateUrl: '../js/components/fastRechargeAnimation/assets/svg/illustration_fastcharge.svg',
-      controller: NightDayAnimationCtrl,
+      controller: FastRechargeCtrl,
       controllerAs: 'fastRecharge',
       bindings: {}
     })
 
   /* @ngInject */
-  function NightDayAnimationCtrl($scope, $element, $attrs, TweenMax) {
+  function FastRechargeCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
     ctrl.componentPath = '../js/components/fastRechargeAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
@@ -977,8 +984,13 @@
     // function update(changedObj) {}
 
     function chargeAnimation() {
-       TweenMax.to('#fast',  2, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone })
-       TweenMax.to('#slow',  6, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone })
+       TweenMax.set(['#fast','#slow'], { css: { scaleY: "1", transformOrigin:'0% 100%'}})
+       TweenMax.to('#fast',  2, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone, delay:.2 })
+       TweenMax.to('#slow',  6, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone, delay:.2, onComplete:resetAnimation })
+    }
+
+    function resetAnimation(){
+      TweenMax.to(['#fast','#slow'],  .4, { css: { scaleY: "1", transformOrigin:'0% 100%'}, ease:Linear.easeNone, delay:.5, onComplete:chargeAnimation })
     }
 
 
@@ -1103,54 +1115,84 @@
   function ContructorForSnippetSrv($q, _) {
     var self  = this
     self.path = '../js/modules/snippetManager/templates'
+    var solarSnippetsKeys = ['mexico','panel','more']
+    var ecarSnippetsKeys = ['v2g','recharge','more']
     var _availableSnippets = {
-      'the_power_of_the_sun': {
+      'mexico': {
         desc: 'How much energy is there in Mexican skies?',
+        label: 'The power of the sun',
         tpl: self.path + '/solar25km.html'
       },
-      'solar_energy_for_the_race': {
+      'panel': {
         desc: 'Can you guess how much solar panels can power?',
+        label: 'Solar energy for the race',
         tpl: self.path + '/solarmexico.html'
       },
-      'fast_recharge': {
+      'recharge': {
         desc: 'Innovation is ready to charge! Recharging e-cars is faster than you think.',
+        label: 'Fast recharge',
         tpl: self.path + '/fastrecharge.html'
       },
-      'a_battery_on_wheels': {
+      'v2g': {
         desc: 'What if electricity could move around as freely as you do in your car? Soon, it will.',
+        label: 'A battery on wheels',
         tpl: self.path + '/v2g.html'
       },
-      'would_you_like_to_find_out_more_about_smart_energy?': {
+      'more': {
         desc: 'The Enel staff is happy to answer any questions you may have.',
+        label: 'Would you like to find out more about smart energy?',
         tpl: self.path + '/enelstand.html'
       }
     }
 
     self.getAvailableSnippets = _getAvailableSnippets
+    self.getSolarSnippets = _getSolarSnippets
+    self.getEcarSnippets = _getECarSnippets
     self.getSnippet = _getSnippet
     return self
 
     // -------
 
-    function _getAvailableSnippets() {
+    function _getSolarSnippets() {
       return $q(function(resolve, reject) {
-        var snippets = _.map(_availableSnippets, function(value, key) {
-          value.key = key.replace(/_/g, ' ')
-          return value
-        })
+        var snippets = _(_availableSnippets).map(function(value, key) {
+            value.key = key
+            if (_.includes(solarSnippetsKeys, key)) return value
+          }).compact().value()
         if (!_.isEmpty(snippets)) resolve(snippets)
-        else reject('No available snippets are  defined!')
+        else reject('No snippets!')
+      })
+    }
+    function _getECarSnippets() {
+      return $q(function(resolve, reject) {
+        var snippets = _(_availableSnippets).map(function(value, key) {
+            value.key = key
+            if (_.includes(ecarSnippetsKeys, key)) return value
+          }).compact().value()
+        if (!_.isEmpty(snippets)) resolve(snippets)
+        else reject('No snippets!')
       })
     }
 
-    function _getSnippet(key) {
+    function _getAvailableSnippets() {
       return $q(function(resolve, reject) {
-        var searchKey = _.snakeCase(key)
-        var snippet = _availableSnippets[searchKey]
-        if (!_.isEmpty(snippet)) {
-          snippet.key = key.replace(/_/g, ' ')
-          resolve(snippet)
-        } else reject('Snippet not found!')
+        var snippets = _.map(_availableSnippets, function(value, key) {
+          value.key = key
+          return value
+        })
+        if (!_.isEmpty(snippets)) resolve(snippets)
+        else reject('No available snippets are defined!')
+      })
+    }
+
+    function _getSnippet(key,appKey) {
+      return $q(function(resolve, reject) {
+        var searchKey = key.replace(/ /g, '_')
+        if (appKey === 'solar' && !_.includes(solarSnippetsKeys, key)) return reject('Snippet not found!')
+        if (appKey === 'ecar' && !_.includes(ecarSnippetsKeys, key)) return reject('Snippet not found!')
+        var snippet = _availableSnippets[key]
+        if (!_.isEmpty(snippet)) resolve(snippet)
+        else reject('Snippet not found!')
       })
     }
   }
@@ -1832,7 +1874,7 @@ window.twttr = (function(d, s, id) {
       vm.streamData = angular.copy(currentRace.streamData.zones)
       vm.totalConsumption = angular.copy(currentRace.totalConsumption)
 
-      var ytvideo = '<iframe class="race-video" src="https://www.youtube.com/embed/'+currentRace.videoId+'?rel=0" frameborder="0" allowfullscreen></iframe>'
+      var ytvideo = '<iframe class="race-video" width="100" src="https://www.youtube.com/embed/'+currentRace.videoId+'?rel=0" frameborder="0" allowfullscreen></iframe>'
       var ytvideoTitl = '<figure-caption>'+currentRace.videoTitle+'</figure-caption>'
       $('#eprix-history .video-wrapper').html(ytvideo)
       $('#eprix-history-sidebar .video-wrapper').html(ytvideo)
@@ -1849,7 +1891,9 @@ window.twttr = (function(d, s, id) {
                     vm.tweets = res.data.items
                     // after loaded the tweet feed append embed script from twitter
                     var twitScript = $('<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>')
-                    $('.twitfeed-wrapper').append(twitScript)
+                    $timeout(function() {
+                      $('.twitfeed-wrapper').append(twitScript)
+                    },100)
                     // _.each(vm.tweets, function(tw) {
                     //   twttr.widgets
                     //        .createTweet(tw.id, $('.twitfeed-wrapper')[0], {theme: 'light'})
@@ -1905,7 +1949,7 @@ window.twttr = (function(d, s, id) {
     var idPreOut = vm.snippets.length-2
     // alert(JSON.stringify(bowser))
 
-    $timeout(_setCarouselSize, 500)
+    $timeout(_setCarouselSize, 1500)
     function _setCarouselSize(){
       if(window.isMobile) {
       var snip_width = Math.min($(window).width()*0.8, 350);
