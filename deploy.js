@@ -17,8 +17,8 @@ if(process.argv[2]){
 
 	if(process.argv[2] == 'snippet'){
 		console.log('deploying snippet')
-		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/snippet'), 'solar');
-		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/snippet'), 'ecar');
+		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/solar'), 'solar');
+		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/ecar'), 'ecar');
 	}
 
 	if(process.argv[2] == 'tablet'){
