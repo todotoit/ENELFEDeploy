@@ -828,7 +828,6 @@
             value.key = key
             if (_.includes(solarSnippetsKeys, key)) return value
           }).compact().value()
-        console.log(snippets)
         if (!_.isEmpty(snippets)) resolve(snippets)
         else reject('No snippets!')
       })
