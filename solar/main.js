@@ -477,14 +477,14 @@
   angular
     .module('Solar25kmAnimation')
     .component('solar25km', {
-      templateUrl: '../js/components/solar25kmAnimation/assets/svg/illustration_solar25km.svg',
-      controller: NightDayAnimationCtrl,
+      templateUrl: '../js/components/solar25kmAnimation/assets/svg/illustration_solar.svg',
+      controller: solarAnimationCtrl,
       controllerAs: 'solar25km',
       bindings: {}
     })
 
   /* @ngInject */
-  function NightDayAnimationCtrl($scope, $element, $attrs, TweenMax) {
+  function solarAnimationCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
     ctrl.componentPath = '../js/components/solar25kmAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
@@ -493,8 +493,6 @@
     // for the issue above we decided to use just $onChanges
     ctrl.$onInit = init
     // ctrl.$onChanges = update
-
-    var animationTiming = 6 //seconds
 
     // -------
 
@@ -786,54 +784,85 @@
   function ContructorForSnippetSrv($q, _) {
     var self  = this
     self.path = '../js/modules/snippetManager/templates'
+    var solarSnippetsKeys = ['mexico','panel','more']
+    var ecarSnippetsKeys = ['v2g','recharge','more']
     var _availableSnippets = {
-      'the_power_of_the_sun': {
+      'mexico': {
         desc: 'How much energy is there in Mexican skies?',
+        label: 'The power of the sun',
         tpl: self.path + '/solar25km.html'
       },
-      'solar_energy_for_the_race': {
+      'panel': {
         desc: 'Can you guess how much solar panels can power?',
+        label: 'Solar energy for the race',
         tpl: self.path + '/solarmexico.html'
       },
-      'fast_recharge': {
+      'recharge': {
         desc: 'Innovation is ready to charge! Recharging e-cars is faster than you think.',
+        label: 'Fast recharge',
         tpl: self.path + '/fastrecharge.html'
       },
-      'a_battery_on_wheels': {
+      'v2g': {
         desc: 'What if electricity could move around as freely as you do in your car? Soon, it will.',
+        label: 'A battery on wheels',
         tpl: self.path + '/v2g.html'
       },
-      'would_you_like_to_find_out_more_about_smart_energy?': {
+      'more': {
         desc: 'The Enel staff is happy to answer any questions you may have.',
+        label: 'Would you like to find out more about smart energy?',
         tpl: self.path + '/enelstand.html'
       }
     }
 
     self.getAvailableSnippets = _getAvailableSnippets
+    self.getSolarSnippets = _getSolarSnippets
+    self.getEcarSnippets = _getECarSnippets
     self.getSnippet = _getSnippet
     return self
 
     // -------
 
-    function _getAvailableSnippets() {
+    function _getSolarSnippets() {
       return $q(function(resolve, reject) {
-        var snippets = _.map(_availableSnippets, function(value, key) {
-          value.key = key.replace(/_/g, ' ')
-          return value
-        })
+        var snippets = _(_availableSnippets).map(function(value, key) {
+            value.key = key
+            if (_.includes(solarSnippetsKeys, key)) return value
+          }).compact().value()
+        console.log(snippets)
         if (!_.isEmpty(snippets)) resolve(snippets)
-        else reject('No available snippets are  defined!')
+        else reject('No snippets!')
+      })
+    }
+    function _getECarSnippets() {
+      return $q(function(resolve, reject) {
+        var snippets = _(_availableSnippets).map(function(value, key) {
+            value.key = key
+            if (_.includes(ecarSnippetsKeys, key)) return value
+          }).compact().value()
+        if (!_.isEmpty(snippets)) resolve(snippets)
+        else reject('No snippets!')
       })
     }
 
-    function _getSnippet(key) {
+    function _getAvailableSnippets() {
       return $q(function(resolve, reject) {
-        var searchKey = _.snakeCase(key)
-        var snippet = _availableSnippets[searchKey]
-        if (!_.isEmpty(snippet)) {
-          snippet.key = key.replace(/_/g, ' ')
-          resolve(snippet)
-        } else reject('Snippet not found!')
+        var snippets = _.map(_availableSnippets, function(value, key) {
+          value.key = key
+          return value
+        })
+        if (!_.isEmpty(snippets)) resolve(snippets)
+        else reject('No available snippets are defined!')
+      })
+    }
+
+    function _getSnippet(key,appKey) {
+      return $q(function(resolve, reject) {
+        var searchKey = key.replace(/ /g, '_')
+        if (appKey === 'solar' && !_.includes(solarSnippetsKeys, key)) return reject('Snippet not found!')
+        if (appKey === 'ecar' && !_.includes(ecarSnippetsKeys, key)) return reject('Snippet not found!')
+        var snippet = _availableSnippets[key]
+        if (!_.isEmpty(snippet)) resolve(snippet)
+        else reject('Snippet not found!')
       })
     }
   }
@@ -1328,7 +1357,7 @@
         controllerAs: 'snippet',
         resolve: {
           snippets: function(SnippetSrv) {
-            return SnippetSrv.getAvailableSnippets()
+            return SnippetSrv.getSolarSnippets()
                              .then(function(res) {
                                 return res
                              }, function(err) {
@@ -1337,7 +1366,7 @@
           },
           currentSnippet: function(SnippetSrv, $stateParams) {
             var snippetKey = $stateParams.snippetKey
-            return SnippetSrv.getSnippet(snippetKey)
+            return SnippetSrv.getSnippet(snippetKey,'solar')
                              .then(function(res) {
                                 return res
                              }, function(err) {
@@ -1357,7 +1386,7 @@
     .controller('SnippetCtrl', snippetCtrl)
 
   /* @ngInject */
-  function snippetCtrl($scope, $state, snippets, currentSnippet, SnippetSrv, _) {
+  function snippetCtrl($scope, $state, snippets, currentSnippet) {
     var vm = this
     vm.allSnippets = snippets
     vm.selectedSnippet = currentSnippet
@@ -1371,7 +1400,7 @@
 
     function select(snippet) {
       if (!snippet) return console.error('No snippet selected!')
-      var searchKey = _.snakeCase(snippet.key)
+      var searchKey = snippet.key
       vm.selectedSnippet = snippet
       // update url without reload the page
       $state.go('landing', {snippetKey: searchKey}, {notify: false})
