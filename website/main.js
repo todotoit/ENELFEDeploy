@@ -1804,10 +1804,7 @@
                   .then(function(res) {
                     vm.races = res.data.races
                     var currentRace = _.last(res.data.races)
-                    console.log(currentRace)
-                    vm.currentRace = angular.copy(currentRace)
-                    vm.streamData = angular.copy(currentRace.streamData.zones)
-                    vm.totalConsumption = angular.copy(currentRace.totalConsumption)
+                    $scope.selectRace(currentRace.id)
                   }, function(err) {
                     console.error(err)
                   })
@@ -1815,9 +1812,14 @@
     $scope.selectRace = function(id) {
       var currentRace = _.find(vm.races, {id: id})
       vm.currentRace = angular.copy(currentRace)
-      console.log(currentRace.streamData, !_.isEmpty(currentRace.streamData) )
-      vm.streamData = angular.copy(vm.streamData)
-      vm.totalConsumption = angular.copy(vm.totalConsumption)
+      vm.streamData = angular.copy(currentRace.streamData.zones)
+      vm.totalConsumption = angular.copy(currentRace.totalConsumption)
+
+      var ytvideo = '<iframe class="race-video" src="https://www.youtube.com/embed/'+currentRace.videoId+'?rel=0" frameborder="0" allowfullscreen></iframe>'
+      var ytvideoTitl = '<figure-caption>'+currentRace.videoTitle+'</figure-caption>'
+      $('#eprix-history .video-wrapper').html(ytvideo)
+      $('#eprix-history-sidebar .video-wrapper').html(ytvideo)
+      if (!$scope.$$phase) $scope.$digest()
     }
 
     // twit feed
@@ -1846,7 +1848,7 @@
       }
       // manuall $digest required as resize event
       // is outside of angular
-      $scope.$digest()
+      if (!$scope.$$phase) $scope.$digest()
     })
     function _getTwitDisplayNum() {
       if (window.matchMedia("(max-width: 40em)").matches) {
