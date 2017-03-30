@@ -12,7 +12,13 @@ if(process.argv[2]){
 
 	if(process.argv[2] == 'website'){
 		console.log('deploying website')
-		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/'), '');
+		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/website'), 'website');
+	}
+
+	if(process.argv[2] == 'snippet'){
+		console.log('deploying snippet')
+		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/snippet'), 'solar');
+		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/snippet'), 'ecar');
 	}
 
 	if(process.argv[2] == 'tablet'){
