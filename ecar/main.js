@@ -1343,7 +1343,7 @@
 
     $urlRouterProvider.when('', '')
     $urlRouterProvider.when('/', '')
-    $urlRouterProvider.otherwise('')
+    $urlRouterProvider.otherwise('/')
 
     $stateProvider
       // .state('404', {
