@@ -1859,7 +1859,7 @@ window.twttr = (function(d, s, id) {
     $timeout(function(){ retrieveRacesFeed() }, 1000)
 
     function retrieveRacesFeed() {
-      return $http.get('../assets/jsonData/history_races.json')
+      return $http.get('../assets/jsonData/races.json')
                   .then(function(res) {
                     vm.races = res.data.races
                     var currentRace = _.last(res.data.races)
