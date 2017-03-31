@@ -54,6 +54,14 @@ if(process.argv[2]){
 		    paths: ['app/index.html', 'monitor/index.html'],
 		    recursive: true
 		});
+
+		// replace({
+		//     regex: '<img src="img/',
+		//     replacement: '<img src="http://1974130908.rsc.cdn77.org/app/img/',
+		//     paths: ['app/index.html'],
+		//     recursive: true
+		// });
+
 	}
 
 }else{
