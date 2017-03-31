@@ -2258,6 +2258,23 @@ window.twttr = (function(d, s, id) {
       })
     }
 
+    //DISABLE SCROLL
+    var firstMove
+    window.addEventListener('touchstart', function (e) {
+      firstMove = true
+    }, { passive: false })
+
+    window.addEventListener('touchend', function (e) {
+      firstMove = true
+    }, { passive: false })
+
+    window.addEventListener('touchmove', function (e) {
+      if (firstMove) {
+        e.preventDefault()
+        firstMove = false
+      }
+    }, { passive: false })
+
     // -------
 
     // deregister event handlers
