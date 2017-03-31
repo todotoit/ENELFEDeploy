@@ -237,3 +237,42 @@ div#illustration_microgrid_hand_container{
 #track_slide.slide h2{
 	height: auto;
 }
+
+
+
+#latinamerica_text_container{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#latinamerica_text_container svg{
+  height: 40px;
+}
+
+#latinamerica_text_container .info_block{
+	padding: 0;
+}
+
+#latinamerica_text_container #hydro_power{
+  position: absolute;
+  bottom: 80px;
+}
+
+#latinamerica_text_container #wind_power{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#latinamerica_text_container #solar_power{
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+}
+
+
+
+
+

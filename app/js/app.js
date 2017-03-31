@@ -20,6 +20,7 @@
 	$(document).ready(function () {
 
     //TEST FULLSCREEN
+    if (bowser.mobile || bowser.tablet) $('#fullscreen').css({'display': 'none'})
     $('#fullscreen').click(function(){
       requestFullscreen(document.documentElement)
     })

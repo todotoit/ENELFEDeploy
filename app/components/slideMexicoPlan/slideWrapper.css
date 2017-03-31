@@ -1,0 +1,50 @@
+.latinamerica-map {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.latinamerica-info {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.latinamerica-map .svg_container {
+  width: 690px;
+  display: flex;
+  height: 415px;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  align-content: center
+}
+.latinamerica-map .svg_container svg {
+  position: relative;
+  top: -45px;
+  left: -35px;
+  width: 100%;
+}
+.latinamerica-map .svg_container svg #bg {
+  display: none;
+}
+
+.latinamerica-info .info_block {
+  position: absolute;
+  max-width: 200px;
+}
+.latinamerica-info #info_chile {
+  right: -25px;
+  top: 168px;
+}
+.latinamerica-info #info_brazil {
+  top: 10px;
+  right: -25px;
+}
+.latinamerica-info #info_peru {
+  top: 254px;
+}
+.latinamerica-info #info_colombia {
+  top: 95px;
+}

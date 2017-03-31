@@ -278,3 +278,8 @@ h4.car_country{
     stroke-dashoffset: 1000;
   }
 }
+
+#paddock_slide{
+	background: url(../../svg/paddock_cars.svg) no-repeat right -50px;
+	background-size: 380px;
+}

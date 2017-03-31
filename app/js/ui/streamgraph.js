@@ -424,8 +424,9 @@
   function interpolateGroup(data, total, layers) {
     var yInv = d3.scale.linear()
       .range([0, total])
-      .domain([height-10, 10])
+      .domain([height, 0])
     var offset = yInv(dashboardEnelCursorDimension/2)/layers
+    var offset = yInv(dashboardEnelCursorDimension-50)/((height-50)/dashboardEnelCursorDimension)
     // if (data[0].value == 0) offset = 0
 
     var initialValue = offset/layers

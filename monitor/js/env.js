@@ -21,7 +21,7 @@
   
   Application.environment = 'production'
   if (_.startsWith(window.location.host, "localhost")) {
-    if (window.location.port === "3000") {
+    if (window.location.port >= "3000") {
       console.debug('localhost detected, forcing environment to "development"')
       Application.environment = 'development'
     } else {

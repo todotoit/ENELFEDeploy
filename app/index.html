@@ -10,22 +10,23 @@
 	<link rel="apple-touch-icon-precomposed" href="img/enel-icon.png" />
 	<title>Enel</title>
 
-	<link rel="stylesheet" href="bower_components/normalize-css/normalize.css?v=1.0.32" />
-	<link rel="stylesheet" href="vendor/owl.carousel.2.0.0-beta.2.4/assets/owl.carousel.css?v=1.0.32" />
-	<link rel="stylesheet" href="vendor/foundation-6.2.4-custom/css/foundation.css?v=1.0.32" />
+	<link rel="stylesheet" href="bower_components/normalize-css/normalize.css?v=1.0.59" />
+	<link rel="stylesheet" href="vendor/owl.carousel.2.0.0-beta.2.4/assets/owl.carousel.css?v=1.0.59" />
+	<link rel="stylesheet" href="vendor/foundation-6.2.4-custom/css/foundation.css?v=1.0.59" />
   <!-- COMPONENTS -->
-  <link rel="stylesheet" href="components/standings/standings.css?v=1.0.32">
-  <link rel="stylesheet" href="components/sidebarDonutChart/sidebarDonutChart.css?v=1.0.32">
-  <link rel="stylesheet" href="components/teamAreaChart/teamAreaChart.css?v=1.0.32">
-  <link rel="stylesheet" href="components/slideLatinAmerica/slideWrapper.css?v=1.0.32">
-  <link rel="stylesheet" href="components/slideMetersMap/slideWrapper.css?v=1.0.32">
+  <link rel="stylesheet" href="components/standings/standings.css?v=1.0.59">
+  <link rel="stylesheet" href="components/sidebarDonutChart/sidebarDonutChart.css?v=1.0.59">
+  <link rel="stylesheet" href="components/teamAreaChart/teamAreaChart.css?v=1.0.59">
+  <link rel="stylesheet" href="components/slideLatinAmerica/slideWrapper.css?v=1.0.59">
+  <link rel="stylesheet" href="components/slideMetersMap/slideWrapper.css?v=1.0.59">
 	<!-- MAIN STYLE WRAPPER -->
-  <link rel="stylesheet" href="css/style.css?v=1.0.32" />
+  <link rel="stylesheet" href="css/style.css?v=1.0.59" />
 
-	<!-- required by svg-importer -->
-	<script src="bower_components/jquery/dist/jquery.js?v=1.0.32"></script>
-	<script src="js/svg-importer.js?v=1.0.32"></script>
-	<script src="bower_components/everpolate/everpolate.browserified.js?v=1.0.32"></script>
+	<script src="bower_components/bowser/src/bowser.js?v=1.0.59"></script>
+  <!-- required by svg-importer -->
+  <script src="bower_components/jquery/dist/jquery.js?v=1.0.59"></script>
+	<script src="js/svg-importer.js?v=1.0.59"></script>
+	<script src="bower_components/everpolate/everpolate.browserified.js?v=1.0.59"></script>
 	<script type="text/javascript">
 		// initialize global namespace for application
 		window.Application = {
@@ -1566,9 +1567,12 @@
               </div>
   					</div>
 
-            <div class="slide">
+            <div class="slide" id="paddock_slide">
               <div class="row">
-                <div class="buttons" data-link="acquafuel_idle">
+              <div class="small-5 columns">
+                 <p>An array of clean energy generators are dedicated exclusively to charging the Formula E cars with zero impact on the environment. <BR>Cars are charged prior to the race and cannot be recharged during the competition.</p>
+              </div>
+              <!--div class="buttons small-9 columns" data-link="acquafuel_idle">
 
                   <div class="button_wrap" data-link="acquafuel_charging">
                     <div class="button_container">
@@ -1598,7 +1602,7 @@
                     </div>
                   </div>
 
-                </div>
+                </div-->
               </div>
             </div>
   				</div>
@@ -1667,12 +1671,13 @@
   									<h4>From microgrid to smart grid</h4>
   									<h2>Urban smart grid</h2>
   									<div class="info_block">
-                      <p>In 2009, Buenos Aires adopted a comprehensive climate change action plan to cut CO2 emissions by 30% by 2030 thanks to a range of initiatives for energy efficiency, sustainable mobility and waste management.
+                      <p>TSmart cities of the future will have cleaner air, reduced noise polution and altogethe run more efficiently.<br>
+                    Enel contributes to bringing this vision to life by integrating renewable energy into the urban grid.
                       </p>
-      								<h4>LED PUBLIC LIGHTING</h4>
+      								<!--h4>LED PUBLIC LIGHTING</h4>
       								<div class="value">
       									<span class="number">72</span><span class="unit">%</span>
-      								</div>
+      								</div-->
       							</div>
   								</div>
   							</div>
@@ -1689,7 +1694,7 @@
   									<div class="info_block">
   	    								<h4>Smart meters</h4>
   	    								<div class="value">
-  	    									<span class="number">40</span>
+  	    									<span class="number">30</span>
   	    								</div>
   	    							</div>
   	    							<div class="info_block">
@@ -1706,13 +1711,13 @@
   	    									<span class="unit">KWH</span>
   	    								</div>
   	    							</div>
-  	    							<div class="info_block">
-  	    								<h4>Charging poles</h4>
+  	    							<!--div class="info_block">
+  	    								<h4>Charging stations</h4>
   	    								<div class="value">
   	    									<span class="number">2</span>
-  	    									<!-- <span class="unit">hours for 80% charge</span> -->
+  	    									<span class="unit">hours for 80% charge</span>
   	    								</div>
-  	    							</div>
+  	    							</div-->
   								</div>
   							</div>
   						</div>
@@ -1721,17 +1726,48 @@
   							<div class="row">
   								<div class="columns small-4">
   									<h4>From microgrid to smart grid</h4>
-  									<h2>Enel in Latin America</h2>
+  									<h2>Enel in Mexico</h2>
   									<div class="info_block">
-      								<p>Supplying energy to Rio de Janeiro, Bogota, Buenos Aires, Santiago de Chile and Lima, Enel brings power to 16 million clients in Latin America, opening the region to innovations that can improve people’s quality of life.</p>
+      								<p>In Mexico, we supply over 2TWh of clean energy to our clients every year, an amount of energy able to satisfy the energy needs of over a million of Mexican families.</p>
       							</div>
                   </div>
                   <div class="columns small-8">
                     <div id="latinamerica_container">
                       <div class="svg_container">
-                        <import-svg name="latin_america" location="components/slideLatinAmerica/svg"></import-svg>
+                        <import-svg name="enel_mexico" location="svg"></import-svg>
+                      </div>
+
+
+                      <div id="latinamerica_text_container">
+                        <div class="info_block columns small-4" id="hydro_power">
+                          <import-svg name="icon_hydro" location="svg"></import-svg>
+                          <h4>Hydro Power</h4>
+                          <div class="value">
+                            <span class="number">53</span>
+                            <span class="unit">MW</span>
+                          </div>
+                        </div>
+                        <div class="info_block columns small-4" id="wind_power">
+                          <import-svg name="icon_wind" location="svg"></import-svg>
+                          <h4>Wind Power</h4>
+                          <div class="value">
+                            <span class="number">729</span>
+                            <span class="unit">MW</span>
+                            <p><small>Additionally, Enel is set to increase production adding +93MW</small></p>
+                          </div>
+                        </div>
+                        <div class="info_block columns small-4" id="solar_power">
+                          <import-svg name="icon_solar" location="svg"></import-svg>
+                          <h4>Solar Power</h4>
+                          <div class="value">
+                            <span class="number">+1000</span>
+                            <span class="unit">MW</span>
+                            <p><small>Enel is set to begin construction of three solar PV projects</small></p>
+                          </div>
+                        </div>
                       </div>
                     </div>
+                    
                   </div>
   							</div>
   						</div>
@@ -1978,9 +2014,9 @@
 
   					<div class="slide" id="track_slide">
   						<div class="row">
-  							<div class="columns small-4">
+  							<div class="columns small-3">
   								<h4>The track</h4>
-  								<h2>Autódromo H. Rodríguez</h2>
+  								<h2>Autódromo H.Rodríguez</h2>
                     <div class="info_block">
       								<h4>CARS' ENERGY DEMAND</h4>
       								<div class="value">
@@ -1994,11 +2030,11 @@
   							</div>
   							<div class="columns end small-2">
   								<div class="info_block" id="track_flag">
-  	  								<h4>Mexico</h4>
-  	  								<div class="flag_circle">
-  	  									<!-- FLAG filled as background in CSS -->
-  	  								</div>
-  	  							</div>
+	  								<h4>Mexico</h4>
+	  								<div class="flag_circle">
+	  									<!-- FLAG filled as background in CSS -->
+	  								</div>
+	  							</div>
   							</div>
   						</div>
   					</div>
@@ -2103,7 +2139,7 @@
   									</div>
   								</div>
   								<div class="button_label u14">
-  									ENEL IN LATIN AMERICA
+  									MEXICO <br>PLAN
   								</div>
   								<div class="slide_plus_btn">
   									<import-svg name="section_plus_alt" location="svg"></import-svg>
@@ -2452,98 +2488,98 @@
 </script>
 
 <!-- GSAP -->
-<script src="vendor/gsap/TweenMax.min.js?v=1.0.32"></script>
-<script src="vendor/gsap/TimelineLite.min.js?v=1.0.32"></script>
-<script src="vendor/gsap/plugins/DrawSVGPlugin.min.js?v=1.0.32"></script>
-<script src="vendor/foundation-6.2.4-custom/js/foundation.js?v=1.0.32"></script>
+<script src="vendor/gsap/TweenMax.min.js?v=1.0.59"></script>
+<script src="vendor/gsap/TimelineLite.min.js?v=1.0.59"></script>
+<script src="vendor/gsap/plugins/DrawSVGPlugin.min.js?v=1.0.59"></script>
+<script src="vendor/foundation-6.2.4-custom/js/foundation.js?v=1.0.59"></script>
 
 <!-- CAROUSEL -->
-<script src="vendor/owl.carousel.2.0.0-beta.2.4/owl.carousel.js?v=1.0.32"></script>
+<script src="vendor/owl.carousel.2.0.0-beta.2.4/owl.carousel.js?v=1.0.59"></script>
 
-<script src="bower_components/lodash/dist/lodash.js?v=1.0.32"></script>
-<script src="bower_components/stateman/stateman.js?v=1.0.32"></script>
+<script src="bower_components/lodash/dist/lodash.js?v=1.0.59"></script>
+<script src="bower_components/stateman/stateman.js?v=1.0.59"></script>
 
 <!-- D3js -->
-<script src="bower_components/d3/d3.js?v=1.0.32" charset="utf-8"></script>
+<script src="bower_components/d3/d3.js?v=1.0.59" charset="utf-8"></script>
 
-<script src="bower_components/fastclick/lib/fastclick.js?v=1.0.32" charset="utf-8"></script>
-<script src="bower_components/later/later.js?v=1.0.32" charset="utf-8"></script>
-<script src="bower_components/numeral/numeral.js?v=1.0.32" charset="utf-8"></script>
+<script src="bower_components/fastclick/lib/fastclick.js?v=1.0.59" charset="utf-8"></script>
+<script src="bower_components/later/later.js?v=1.0.59" charset="utf-8"></script>
+<script src="bower_components/numeral/numeral.js?v=1.0.59" charset="utf-8"></script>
 
-<script src="js/env.js?v=1.0.32" charset="utf-8"></script>
-<script src="bower_components/emitonoff/dist/emitonoff.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/api/depend.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/api/dom-bind.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/api/persist.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/api/model.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/instant-power-consumption.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/instant-area-chart-paddock.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/instant-power-consumption-washmachine.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/total-energy-consumption-washmachine.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/total-energy-consumption.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/total-energy-consumption-by-zones.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-vehicle.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption.js?v=1.0.32" charset="utf-8"></script>
+<script src="js/env.js?v=1.0.59" charset="utf-8"></script>
+<script src="bower_components/emitonoff/dist/emitonoff.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/api/depend.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/api/dom-bind.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/api/persist.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/api/model.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/instant-power-consumption.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/instant-area-chart-paddock.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/instant-power-consumption-washmachine.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/total-energy-consumption-washmachine.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/total-energy-consumption.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/total-energy-consumption-by-zones.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-vehicle.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption.js?v=1.0.59" charset="utf-8"></script>
 
-<script src="js/models/zone-consumption-esports-vehicle.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-esports.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-esports-percentage.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-demand-esports.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-hospitality-vehicle.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-hospitality.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-hospitality-percentage.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-demand-hospitality.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-evillage-vehicle.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-evillage.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-evillage-percentage.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-demand-evillage.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-tv-vehicle.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-tv.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-tv-percentage.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-demand-tv.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-paddock-vehicle.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-paddock-percentage.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-paddock.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-paddock-charging.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-consumption-paddock-auxiliary.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-demand-paddock.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-demand-paddock-charging.js?v=1.0.32" charset="utf-8"></script>
-<script src="js/models/zone-demand-paddock-auxiliary.js?v=1.0.32" charset="utf-8"></script>
+<script src="js/models/zone-consumption-esports-vehicle.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-esports.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-esports-percentage.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-demand-esports.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-hospitality-vehicle.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-hospitality.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-hospitality-percentage.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-demand-hospitality.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-evillage-vehicle.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-evillage.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-evillage-percentage.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-demand-evillage.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-tv-vehicle.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-tv.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-tv-percentage.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-demand-tv.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock-vehicle.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock-percentage.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock-charging.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock-auxiliary.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-demand-paddock.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-demand-paddock-charging.js?v=1.0.59" charset="utf-8"></script>
+<script src="js/models/zone-demand-paddock-auxiliary.js?v=1.0.59" charset="utf-8"></script>
 
 <!-- COMPONENTS -->
-<script src="components/standings/standings.js?v=1.0.32"></script>
-<script src="components/sidebarDonutChart/sidebarDonutChart.js?v=1.0.32"></script>
-<script src="components/teamAreaChart/teamAreaChart.js?v=1.0.32"></script>
-<script src="components/teamSankey/teamSankey.js?v=1.0.32"></script>
-<script src="components/slideLatinAmerica/slideWrapper.js?v=1.0.32"></script>
-<script src="components/slideMetersMap/slideWrapper.js?v=1.0.32"></script>
+<script src="components/standings/standings.js?v=1.0.59"></script>
+<script src="components/sidebarDonutChart/sidebarDonutChart.js?v=1.0.59"></script>
+<script src="components/teamAreaChart/teamAreaChart.js?v=1.0.59"></script>
+<script src="components/teamSankey/teamSankey.js?v=1.0.59"></script>
+<script src="components/slideLatinAmerica/slideWrapper.js?v=1.0.59"></script>
+<script src="components/slideMetersMap/slideWrapper.js?v=1.0.59"></script>
 
 <!-- SLIDE SCRIPTS -->
-<script src="js/animations/dashboard.js?v=1.0.32"></script>
-<script src="js/animations/city-and-racetrack/background.js?v=1.0.32"></script>
-<script src="js/animations/cars-and-teams/background.js?v=1.0.32"></script>
-<script src="js/animations/sidebar.js?v=1.0.32"></script>
+<script src="js/animations/dashboard.js?v=1.0.59"></script>
+<script src="js/animations/city-and-racetrack/background.js?v=1.0.59"></script>
+<script src="js/animations/cars-and-teams/background.js?v=1.0.59"></script>
+<script src="js/animations/sidebar.js?v=1.0.59"></script>
 
 <!-- IDLE SCRIPTS -->
-<script src="js/animations/idle/fe_structure.js?v=1.0.32"></script>
-<script src="js/animations/idle/timeline.js?v=1.0.32"></script>
-<script src="js/animations/idle/background.js?v=1.0.32"></script>
+<script src="js/animations/idle/fe_structure.js?v=1.0.59"></script>
+<script src="js/animations/idle/timeline.js?v=1.0.59"></script>
+<script src="js/animations/idle/background.js?v=1.0.59"></script>
 
-<script src="js/ui.js?v=1.0.32"></script>
-<script src="js/ui/carousel.js?v=1.0.32"></script>
-<script src="js/ui/slide.js?v=1.0.32"></script>
-<script src="js/ui/streamgraph.js?v=1.0.32"></script>
+<script src="js/ui.js?v=1.0.59"></script>
+<script src="js/ui/carousel.js?v=1.0.59"></script>
+<script src="js/ui/slide.js?v=1.0.59"></script>
+<script src="js/ui/streamgraph.js?v=1.0.59"></script>
 
-<script src="js/states/dashboard.js?v=1.0.32"></script>
-<script src="js/states/cars-and-teams.js?v=1.0.32"></script>
-<script src="js/states/city-and-racetrack.js?v=1.0.32"></script>
-<script src="js/states.js?v=1.0.32"></script>
+<script src="js/states/dashboard.js?v=1.0.59"></script>
+<script src="js/states/cars-and-teams.js?v=1.0.59"></script>
+<script src="js/states/city-and-racetrack.js?v=1.0.59"></script>
+<script src="js/states.js?v=1.0.59"></script>
 
-<script src="js/cache-busting.js?v=1.0.32"></script>
-<script src="js/ga.js?v=1.0.32"></script>
-<script src="js/app.js?v=1.0.32"></script>
+<script src="js/cache-busting.js?v=1.0.59"></script>
+<script src="js/ga.js?v=1.0.59"></script>
+<script src="js/app.js?v=1.0.59"></script>
 
-<!-- <script src="js/app.js?v=1.0.32"></script> -->
-<!-- <script src="js/section_map.js?v=1.0.32"></script> -->
+<!-- <script src="js/app.js?v=1.0.59"></script> -->
+<!-- <script src="js/section_map.js?v=1.0.59"></script> -->
 
 </html>

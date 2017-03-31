@@ -325,11 +325,19 @@
 
   
   var buildingCoordinates = {
-    'media': -10,
+    'media': 20,
     'paddock': 150,
     'fans': 100,
-    'facilities': 180,
+    'facilities': 220,
     'meters_overview': 105
+  }
+
+  var buildingRotationX = {
+    'media': 30,
+    'paddock': 50,
+    'fans': 55,
+    'facilities': 50,
+    'meters_overview': 55
   }
 
 
@@ -339,7 +347,7 @@
 
     mapMarginTop = 0;
     if(buildingCoordinates[data_link] > 0 && buildingCoordinates[data_link] <= 55){
-      mapMarginTop = 30;
+      mapMarginTop = -20;
     }else if(buildingCoordinates[data_link] > 25 && buildingCoordinates[data_link] <= 55){
       mapMarginTop = -65;
     }else if(buildingCoordinates[data_link] > 80 && buildingCoordinates[data_link] <= 130){
@@ -349,7 +357,7 @@
     }
 
     //move circuit
-    TweenMax.to($('#circuit_consumption_wrap'), 1.6, {"rotationX":55, "z":-20, top:mapMarginTop, scaleX:.8, scaleY:.8, ease:Power2.easeInOut})
+    TweenMax.to($('#circuit_consumption_wrap'), 1.6, {"rotationX":buildingRotationX[data_link], "z":-20, top:mapMarginTop, scaleX:.8, scaleY:.8, ease:Power2.easeInOut})
     TweenMax.to($('#circuit_consumption_wrap div'), 1.6, {"rotationZ":buildingCoordinates[data_link], ease:Power2.easeInOut},'-=3')
 
     //building

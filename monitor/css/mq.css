@@ -1,4 +1,4 @@
-@media screen and (min-width: 1920px) {
+@media screen and (min-width: 1920px) and (min-height: 1080px) {
   body {
     transform: scale(1.41);
     transform-origin: center;
@@ -18,4 +18,12 @@
     left: -126px;
   }
 
+  a#fullscreen {
+    display: none;
+  }
+}
+@media screen and (min-width: 1024px) and (min-height: 768px) {
+  a#fullscreen {
+    display: none;
+  }
 }

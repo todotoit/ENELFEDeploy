@@ -388,6 +388,10 @@ span.number.live::before{
   line-height: 1.4em;
 }
 
+.slide #acquafuel_idle h2 + p{
+  padding-right: 0;
+}
+
 .extra_info{
   padding-top: 30px;
 }
@@ -435,9 +439,9 @@ a#fullscreen{
   text-decoration: none;
   font-size: 12px;
 }
-
-a#fullscreen:-webkit-full-screen, a#fullscreen:-moz-full-screen, a#fullscreen:-ms-fullscreen, a#fullscreen:fullscreen{
+:-webkit-full-screen a#fullscreen,
+:-moz-full-screen a#fullscreen,
+:-ms-fullscreen a#fullscreen,
+:fullscreen a#fullscreen {
   display: none;
-  background: #f00;
 }
-

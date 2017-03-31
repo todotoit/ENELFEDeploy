@@ -12,9 +12,9 @@
 }
 
 .latinamerica-map .svg_container {
-  width: 690px;
+  width: 661px;
   display: flex;
-  height: 415px;
+  height: 416px;
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
@@ -22,8 +22,8 @@
 }
 .latinamerica-map .svg_container svg {
   position: relative;
-  top: -45px;
-  left: -35px;
+  top: -26px;
+  left: 0px;
   width: 100%;
 }
 .latinamerica-map .svg_container svg #bg {
@@ -48,3 +48,4 @@
 .latinamerica-info #info_colombia {
   top: 95px;
 }
+
