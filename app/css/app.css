@@ -113,6 +113,11 @@ h4{ /*14pt*/
   margin-top: 0;
 }
 
+.info_block .icon {
+  height: 65px;
+  width: 65px;
+}
+
 .number{
   font-size: 32px;
   position: relative;

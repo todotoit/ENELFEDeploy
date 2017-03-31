@@ -1985,7 +1985,6 @@ window.twttr = (function(d, s, id) {
     var lastId = vm.snippets.length-1
     var idPreOut = vm.snippets.length-2
     // alert(JSON.stringify(bowser))
-
     $timeout(_setCarouselSize, 1500)
     function _setCarouselSize(){
       if(window.isMobile) {
@@ -2007,8 +2006,12 @@ window.twttr = (function(d, s, id) {
           transform: 'translateX('+(-snip_width/2)+'px)'
         })
       }
+      //
+      var $elPre = $('#snip-'+lastId)
+      var $elNext = $('#snip-1')
+      $elPre.click($scope.snip_previous)
+      $elNext.click($scope.snip_next)
     }
-
     function _shiftLeft() {
       $timeout(function(){
         var el = _.last(vm.snippets)
@@ -2034,6 +2037,14 @@ window.twttr = (function(d, s, id) {
                                   {x: '60%',   z: '-100', opacity: 1, zIndex: -1}, 0)
       tl.to($elPre,     duration, {x: '-120%', z: '-200', opacity: 0, zIndex: -2}, 0)
       _shiftRight()
+
+      //
+      $el.off()
+      $elNext.off()
+      $elPre.off()
+      $elOut.off()
+      $el.click($scope.snip_previous)
+      $elOut.click($scope.snip_next)
     }
     $scope.snip_previous = function() {
       var $el     = $('#snip-0')
@@ -2047,6 +2058,14 @@ window.twttr = (function(d, s, id) {
                                   {x: '-60%',  z: '-100', opacity: 1, zIndex: -1}, 0)
       tl.to($elNext,    duration, {x: '120%',  z: '-200', opacity: 0, zIndex: -2}, 0)
       _shiftLeft()
+
+      //
+      $el.off()
+      $elNext.off()
+      $elPre.off()
+      $elOut.off()
+      $elOut.click($scope.snip_previous)
+      $el.click($scope.snip_next)
     }
     $scope.getPosition = function(elIdx) {
       var numOfSnip = vm.snippets.length-1
@@ -2062,7 +2081,8 @@ window.twttr = (function(d, s, id) {
           // right
           return {
             'transform': 'translateX(60%) translateZ(-100px)',
-            'z-index': -1
+            'z-index': -1,
+            'cursor': 'pointer'
           }
         break
         case 2:
@@ -2085,7 +2105,8 @@ window.twttr = (function(d, s, id) {
           // left
           return {
             'transform': 'translateX(-60%) translateZ(-100px)',
-            'z-index': -1
+            'z-index': -1,
+            'cursor': 'pointer'
           }
         break
         default:

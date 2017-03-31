@@ -163,7 +163,7 @@
             var cursg = curs.enter()
                 .append('g')
                 .append('image')
-                .attr('xlink:href', '../components/sidebarDonutChart/assets/cursor.png')
+                .attr('xlink:href', '/app/components/sidebarDonutChart/assets/cursor.png')
                 
             curs.attr('transform', function(d, i){
                     var a = d.endAngle * 180/Math.PI

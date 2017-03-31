@@ -24,7 +24,7 @@
         Application.animations.cars_and_teams.background.animate(e.page);
         resetCurrentSlide()
         toggleButtonsActive()
-
+        if (e.page.index == 2 || e.page.index == 3) animateLabel()
         // emit event for ga
         Application.stateman.emit('section', {name:e.page.index})
         // 
@@ -621,6 +621,15 @@
     TweenMax.to(carousel.currentSlide.$element.find('.slide_content'), .3, {css:{opacity: 0, display: 'none'}} );
     // remove expanded class
     TweenMax.to(carousel.currentSlide.$element, .6, {className:'-=expanded', delay:.3, ease:Power3.easeOut} );
+  }
+
+  function animateLabel() {
+    setTimeout(function() {
+      var $label = $('.owl-item.active').find('label').first()
+      TweenMax.set($label, { height: 0, y: 35, opacity: 0 })
+      TweenMax.to($label, 1.5, { height: 28, y: 0, ease: Elastic.easeOut, delay: 1})
+      TweenMax.to($label, .1, { opacity: 1, ease:Power3.easeOut, delay: 1.1 })
+    }, 100);
   }
 
   function unregisterButtons() {

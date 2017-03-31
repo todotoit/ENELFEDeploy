@@ -51,9 +51,11 @@
   padding: 0px 15px;
   border-radius: 7px 7px 0 0;
   position: absolute;
-  top: -25px;
+  top: -28px;
   left: 50%;
   transform: translateX(-50%);
+  opacity: 0;
+  z-index: -1;
 }
 .carousel .slide.expandable label .slide_plus_btn {
   display: none;
