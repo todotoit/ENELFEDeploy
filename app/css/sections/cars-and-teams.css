@@ -10,6 +10,10 @@
 	height: 768px;
 }
 
+.teams_section .columns {
+  z-index: 9;
+}
+
 #car_cursor{
 	position: absolute;
 	top: 230px;
