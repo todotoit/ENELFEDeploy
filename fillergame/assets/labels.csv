@@ -10,7 +10,7 @@ gameover_label,Oh no! You missed
 gameover_panel_label,Game over
 gameover_panel_title,Time's up! You found XX targets
 gameover_panel_button,PLAY AGAIN
-win_title,Congratulations! You completed the smart grid
+win_title,Congratulations! <br />You completed the smart grid
 win_panel_label,Well done!
 win_panel_title,You found all your targets
 win_panel_button,PLAY AGAIN
