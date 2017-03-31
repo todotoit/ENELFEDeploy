@@ -34,7 +34,12 @@
 
     function mexicoAnimation() {
       TweenMax.set('#mexico path', { drawSVG:"0%" })
-      TweenMax.to('#mexico path',  1.5, { drawSVG:"100%", delay:.4, ease:Power2.easeOut })
+      TweenMax.to('#mexico path',  1.5, { drawSVG:"100%", delay:.4, ease:Power1.easeOut, onComplete:mexicoAnimationReverse })
+
+    }
+
+    function mexicoAnimationReverse() {
+      TweenMax.to('#mexico path',  1.5, { drawSVG:"0%", delay:.4, ease:Power1.easeOut, onComplete:mexicoAnimation })
 
     }
 

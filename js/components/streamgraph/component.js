@@ -17,7 +17,7 @@
     })
 
   /* @ngInject */
-  function StreamgraphCtrl($scope, $element, $attrs, d3, _, everpolate) {
+  function StreamgraphCtrl($scope, $element, $attrs, d3, _, everpolate, isMobile) {
     var ctrl = this
 
     // TODO: move in main config
@@ -29,6 +29,16 @@
     // for the issue above we decided to use just $onChanges
     // ctrl.$onInit = init
     ctrl.$onChanges = update
+
+    $scope.$on('streamgraph:select', function(e,k) {
+      svg.selectAll('.layer')
+         .transition()
+         .duration(250)
+         .attr('opacity', function(d, i) {
+            if (k == 'all') return 1
+            return d.key == k ? 1 : .3
+          })
+    })
 
     // -------- CALLBACK ---------
     var _callback = null
@@ -282,6 +292,9 @@
       if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
       if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
 
+      if (isMobile) top = 0
+      if (bowser.tablet) top = d3.mouse(this)[1] - (tooltipBBox.height/2) -40
+
       vertical.style('left', vleft + 'px' )
       tooltip.style('left',  left  - (tooltipBBox.width/2)  + 'px' )
       tooltip.style('top',   top   - (tooltipBBox.height/2) + 'px' )
@@ -291,7 +304,7 @@
       svg.selectAll('.layer')
          .transition()
          .duration(250)
-         .attr('opacity', function(d, j) { return j == i ? 1 : .8 })
+         .attr('opacity', function(d, j) { return j == i ? 1 : .3 })
       vertical.style('visibility', 'visible')
       tooltip.style('visibility', 'visible')
     }
@@ -312,7 +325,7 @@
       selectedDate.setMinutes(roundedMinutes)
       var selected = _.first(_.filter(d.values, function (e) { return e.date.getTime() === selectedDate.getTime() }))
       if (!selected) return
-      var time = selected.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+      var time = moment(selected.date).format('h:mm A')
       // angular two way databinding seems not work here...
       // use d3 instead
       tooltip.select('.key').text(d.key)

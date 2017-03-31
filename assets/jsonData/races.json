@@ -7,8 +7,9 @@
       "location": "Hong Kong",
       "country": "Hong Kong",
       "date": "09 Oct 2016",
-      "videoId": "",
+      "videoId": "circuit_hongkong",
       "circuit": {
+        "map": "",
         "length": "1.86 km",
         "laps": "37",
         "fastestLap": {
@@ -28,12 +29,13 @@
     {
       "id": "r2",
       "name": "Moulay El Hassan",
-      "location": "Marrakesh",
+      "location": "Marrakech",
       "country": "Morocco",
       "date": "12 Nov 2016",
       "videoId": "m0VwMGgJkDo",
       "videoTitle": "Formula E gains momentum under the Marrakech sun",
       "circuit": {
+        "map": "circuit_marrakech",
         "length": "2.97 km",
         "laps": "33",
         "fastestLap": {
@@ -8678,6 +8680,7 @@
       "videoId": "zKgf8PxO1QI",
       "videoTitle": "Formula E, Gone With The Wind",
       "circuit": {
+        "map": "circuit_buenosaires",
         "length": "2.48 km",
         "laps": "37",
         "fastestLap": {

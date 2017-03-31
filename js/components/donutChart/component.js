@@ -14,7 +14,7 @@
         datasource: '<',
         onSelect: '&',
         grName: '@',
-        initialKey: '<'
+        initialKey: '='
       }
     })
 
@@ -152,6 +152,7 @@
           .attr('d', pieArc)
           .attr('fill', function(d,i) { return 'url(#donutChart_gr'+i+ctrl.grName+')' })
           .on('click', function(d,i) { return _select(d.data.name) })
+          .on('mouseover', function(d,i) { return _select(d.data.name) })
 
       if (ctrl.initialKey) _select(ctrl.initialKey)
     }
