@@ -1,10 +1,10 @@
 Label_id,Text
 splash_label,What's hidden in the grid
-splash_title,Find all the hidden targets in the smart city
+splash_title,Explore the smart city to find all the things that make it smart!
 splash_panel_label,Your first target
 splash_panel_button,PLAY!
 nexttarget_label,"Great, you found"
-nexttarget_panel_label,Your next target
+nexttarget_panel_label,"Now, let's find"
 next_target_panel_button,GO!
 gameover_label,Oh no! You missed
 gameover_panel_label,Game over
