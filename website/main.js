@@ -44,6 +44,16 @@
     // ctrl.$onInit = init
     ctrl.$onChanges = update
 
+    $scope.$on('streamgraph:select', function(e,k) {
+      svg.selectAll('.layer')
+         .transition()
+         .duration(250)
+         .attr('opacity', function(d, i) {
+            if (k == 'all') return 1
+            return d.key == k ? 1 : .3
+          })
+    })
+
     // -------- CALLBACK ---------
     var _callback = null
 
@@ -329,7 +339,7 @@
       selectedDate.setMinutes(roundedMinutes)
       var selected = _.first(_.filter(d.values, function (e) { return e.date.getTime() === selectedDate.getTime() }))
       if (!selected) return
-      var time = selected.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+      var time = moment(selected.date).format('h:mm A')
       // angular two way databinding seems not work here...
       // use d3 instead
       tooltip.select('.key').text(d.key)
@@ -720,12 +730,13 @@
     ctrl.$onInit = init
     // ctrl.$onChanges = update
 
-    var v2gTimeline = new TimelineMax({repeat:-1});
+    var v2gTimeline = null
 
     // -------
 
     // init after dom loaded
     function init() {
+      v2gTimeline = new TimelineMax({repeat:-1});
       streetAnimation()
     }
     // function update(changedObj) {}
@@ -738,20 +749,20 @@
 
 
       v2gTimeline.to($('#background_container'),3, {x:'-=530', ease:Power2.easeInOut})
-                 
+
                  .from([$('#cara'),$('#carb')],1, {y:'+=100', ease:Power1.easeOut}, "-=2")
                  .to([$('#cara'),$('#carb')],1, {y:'-=300', ease:Power1.easeIn}, "-=.5")
-                 
+
                  .to($('#cable'),.5, {css:{opacity:.3}, ease:Power2.easeOut})
                  .to($('#cable_electricity_out'),.5, {css:{opacity:1}, ease:Power2.easeOut}, "-=.5")
                  .to($('#battery'),2, {css:{scaleX:.2}, ease:Linear.easeNone}, "-=.5")
-                 
+
                  .to($('#cable'),.5, {css:{opacity:0}, ease:Power2.easeOut})
                  .to($('#cable_electricity_out'),.5, {css:{opacity:0}, ease:Power2.easeOut}, "-=.5")
 
                  .to($('#background_container'),3, {x:'-=430', ease:Power2.easeInOut})
                  .to($('#battery'),1, {css:{scaleX:.35}, ease:Linear.easeNone}, "-=2")
-                 
+
                  .to($('#cable'),.5, {css:{opacity:.3}, ease:Power2.easeOut})
                  .to($('#cable_electricity_in'),.5, {css:{opacity:1}, ease:Power2.easeOut}, "-=.5")
                  .to($('#battery'),2, {scaleX:1, ease:Linear.easeNone}, "-=.5")
@@ -770,7 +781,11 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      v2gTimeline.kill()
+      v2gTimeline.clear()
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));
@@ -889,12 +904,13 @@
     ctrl.$onInit = init
     // ctrl.$onChanges = update
 
-    var solarMexicoTimeline = new TimelineMax({repeat:-1});
+    var solarMexicoTimeline = null
 
     // -------
 
     // init after dom loaded
     function init() {
+      solarMexicoTimeline = new TimelineMax({repeat:-1});
       skyAnimation()
     }
     // function update(changedObj) {}
@@ -930,7 +946,11 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      solarMexicoTimeline.kill()
+      solarMexicoTimeline.clear()
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));
@@ -1003,7 +1023,9 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));
@@ -1048,12 +1070,13 @@
     ctrl.$onInit = init
     // ctrl.$onChanges = update
 
-    var solarMexicoTimeline = new TimelineMax({repeat:-1});
+    var solarMexicoTimeline = null
 
     // -------
 
     // init after dom loaded
     function init() {
+      solarMexicoTimeline = new TimelineMax({repeat:-1});
       standAnimation()
     }
     // function update(changedObj) {}
@@ -1075,7 +1098,11 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      solarMexicoTimeline.kill()
+      solarMexicoTimeline.clear()
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));
@@ -1751,7 +1778,7 @@ window.twttr = (function(d, s, id) {
 
     $urlRouterProvider.when('', 'landing')
     $urlRouterProvider.when('/', 'landing')
-    $urlRouterProvider.otherwise('')
+    $urlRouterProvider.otherwise('landing')
 
     $stateProvider
       // .state('404', {
@@ -1773,6 +1800,12 @@ window.twttr = (function(d, s, id) {
         controller: 'LandingCtrl',
         controllerAs: 'landing',
         templateUrl: 'templates/landing.html'
+      })
+      .state('history', {
+        url: '/race-history',
+        controller: 'HistoryCtrl',
+        controllerAs: 'history',
+        templateUrl: 'templates/race-history.html'
       })
   }
 }(window.angular));
@@ -1798,13 +1831,16 @@ window.twttr = (function(d, s, id) {
 
     // countdown
     $scope.countDown = {
-      // date: '2017-03-29 04:52', // test
+      date: '2017-03-31 03:12', // test
       date: '2017-04-01 00:00',
       tz: 'America/Mexico_City',
       currentTime: null,
       raceTime: null,
       isRaceTime: false
     }
+    $scope.compatibilityMsg = ''
+    if (bowser.msie) $scope.compatibilityMsg = 'Please use Chrome to enjoy the experience.'
+    if (!bowser.chrome) $scope.compatibilityMsg = 'Experience optimised for Chrome.'
 
     _initializeCountDown()
     function _initializeCountDown() {
@@ -1850,6 +1886,7 @@ window.twttr = (function(d, s, id) {
         percentage: Math.round(percentage*100)/100
       }
       $scope.donutSelectedKey = _.capitalize(areasel.name)
+      // $scope.$broadcast('streamgraph:select',areasel.name.toLowerCase())
       if (!$scope.$$phase) $scope.$digest()
     }
 
@@ -2091,6 +2128,141 @@ window.twttr = (function(d, s, id) {
     // deregister event handlers
     // $scope.$on('$destroy', function () {})
   }
-}(window.angular))
+}(window.angular));
+
+(function (angular) {
+  'use strict'
+
+  angular
+    .module('WebApp')
+    .controller('HistoryCtrl', historyCtrl)
+
+  /* @ngInject */
+  function historyCtrl ($scope, $timeout, $interval, $http, _, moment) {
+    var vm = this
+    vm.races = []
+    vm.streamData = []
+    vm.totalConsumption = {
+      total_energy: 0,
+      zones: []
+    }
+
+    // countdown
+    $scope.countDown = {
+      date: '2017-03-31 03:12', // test
+      date: '2017-04-01 00:00',
+      tz: 'America/Mexico_City',
+      currentTime: null,
+      raceTime: null,
+      isRaceTime: false
+    }
+    $scope.compatibilityMsg = ''
+    // if (bowser.msie) $scope.compatibilityMsg = 'Please use Chrome to enjoy the experience.'
+    // if (!bowser.chrome) $scope.compatibilityMsg = 'Experience optimised for Chrome.'
+
+    _initializeCountDown()
+    function _initializeCountDown() {
+      // set moment times
+      $scope.countDown.currentTime = moment().tz($scope.countDown.tz)
+      $scope.countDown.raceTime    = moment.tz($scope.countDown.date, $scope.countDown.tz)
+      $scope.countDown.isRaceTime  = $scope.countDown.currentTime.isAfter($scope.countDown.raceTime)
+      //from then until now
+      console.log('Mexico time: ' +$scope.countDown.raceTime.format(),
+                  'Local time: '  +$scope.countDown.raceTime.clone().tz("Europe/Rome").format(),
+                  'Missing time: '+moment.tz($scope.countDown.date, $scope.countDown.tz).countdown().toString())
+
+      var cdownint = $interval(function(){
+        // console.log(moment.tz($scope.raceTime.date, $scope.raceTime.tz).countdown().toString())
+        var cdown = moment.tz($scope.countDown.date, $scope.countDown.tz).countdown()
+        $scope.countDown.d = cdown.days
+        $scope.countDown.h = cdown.hours
+        $scope.countDown.m = cdown.minutes
+        $scope.countDown.s = cdown.seconds
+        $scope.countDown.isRaceTime = moment().tz($scope.countDown.tz).isAfter($scope.countDown.raceTime)
+        if ($scope.countDown.isRaceTime) $interval.cancel(cdownint)
+      }, 1000)
+    }
+
+    // donut
+    $scope.donutSelectedKey = 'Paddock'
+    vm.donutSelection = {
+      energy: 0,
+      percentage: 0,
+      name: 'Paddock'
+    }
+    $scope.stream_select = function(area) {
+      $scope.$broadcast('donut:select',_.capitalize(area.name))
+    }
+    $scope.donut_select = function(area) {
+      if (!area) return console.error('No area selected')
+      var areasel = _.find(vm.totalConsumption.zones, function(a) { return a.name.toLowerCase() === area.name.toLowerCase() })
+      var percentage = (+areasel.energy/+vm.totalConsumption.total_energy)*100
+      vm.donutSelection = {
+        energy: Math.round(areasel.energy),
+        name: areasel.name,
+        percentage: Math.round(percentage*100)/100
+      }
+      $scope.donutSelectedKey = _.capitalize(areasel.name)
+      // $scope.$broadcast('streamgraph:select',areasel.name.toLowerCase())
+      if (!$scope.$$phase) $scope.$digest()
+    }
+
+    // races
+    vm.currentRace = {}
+    // delay streamgraph load data
+    $timeout(function(){ retrieveRacesFeed() }, 1000)
+
+    function retrieveRacesFeed() {
+      return $http.get('../assets/jsonData/races.json')
+                  .then(function(res) {
+                    vm.races = res.data.races
+                    var currentRace = _.last(res.data.races)
+                    $scope.selectRace(currentRace.id)
+                  }, function(err) {
+                    console.error(err)
+                  })
+    }
+    $scope.selectRace = function(id) {
+      var currentRace = _.find(vm.races, {id: id})
+      vm.currentRace = angular.copy(currentRace)
+      vm.streamData = angular.copy(currentRace.streamData.zones)
+      vm.totalConsumption = angular.copy(currentRace.totalConsumption)
+
+      var ytvideo = '<iframe class="race-video" width="100" src="https://www.youtube.com/embed/'+currentRace.videoId+'?rel=0" frameborder="0" allowfullscreen></iframe>'
+      var ytvideoTitl = '<figure-caption>'+currentRace.videoTitle+'</figure-caption>'
+      $('#eprix-history .video-wrapper').html(ytvideo)
+      $('#eprix-history-sidebar .video-wrapper').html(ytvideo)
+      if (!$scope.$$phase) $scope.$digest()
+    }
+
+    // fix ie svg
+    if (bowser.msie) {
+      $timeout(_setSvgSize, 1000)
+      angular.element(window).bind('resize', _setSvgSize)
+    }
+    function _setSvgSize() {
+      var svgs = $('svg')
+      _.each(svgs, function(svg) {
+        console.log(svg)
+        var $svg = $(svg)
+        var w = $svg.width(),
+            h = $svg.height(),
+            vw = $svg.attr('viewBox').split(' ')[2],
+            vh = $svg.attr('viewBox').split(' ')[3]
+        var hstyle = Math.round((w*vh)/vw)
+        var wstyle = Math.round((h*vw)/vh)
+        console.log(w, h, vw, vh, hstyle, wstyle)
+        if (hstyle === wstyle) return
+        $svg.css({ height: hstyle/10 +'rem' })
+        // $svg.css({ width: wstyle/10 +'rem' })
+      })
+    }
+
+    // -------
+
+    // deregister event handlers
+    // $scope.$on('$destroy', function () {})
+  }
+}(window.angular));
 
 //# sourceMappingURL=main.js.map

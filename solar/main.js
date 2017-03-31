@@ -399,12 +399,13 @@
     ctrl.$onInit = init
     // ctrl.$onChanges = update
 
-    var v2gTimeline = new TimelineMax({repeat:-1});
+    var v2gTimeline = null
 
     // -------
 
     // init after dom loaded
     function init() {
+      v2gTimeline = new TimelineMax({repeat:-1});
       streetAnimation()
     }
     // function update(changedObj) {}
@@ -417,20 +418,20 @@
 
 
       v2gTimeline.to($('#background_container'),3, {x:'-=530', ease:Power2.easeInOut})
-                 
+
                  .from([$('#cara'),$('#carb')],1, {y:'+=100', ease:Power1.easeOut}, "-=2")
                  .to([$('#cara'),$('#carb')],1, {y:'-=300', ease:Power1.easeIn}, "-=.5")
-                 
+
                  .to($('#cable'),.5, {css:{opacity:.3}, ease:Power2.easeOut})
                  .to($('#cable_electricity_out'),.5, {css:{opacity:1}, ease:Power2.easeOut}, "-=.5")
                  .to($('#battery'),2, {css:{scaleX:.2}, ease:Linear.easeNone}, "-=.5")
-                 
+
                  .to($('#cable'),.5, {css:{opacity:0}, ease:Power2.easeOut})
                  .to($('#cable_electricity_out'),.5, {css:{opacity:0}, ease:Power2.easeOut}, "-=.5")
 
                  .to($('#background_container'),3, {x:'-=430', ease:Power2.easeInOut})
                  .to($('#battery'),1, {css:{scaleX:.35}, ease:Linear.easeNone}, "-=2")
-                 
+
                  .to($('#cable'),.5, {css:{opacity:.3}, ease:Power2.easeOut})
                  .to($('#cable_electricity_in'),.5, {css:{opacity:1}, ease:Power2.easeOut}, "-=.5")
                  .to($('#battery'),2, {scaleX:1, ease:Linear.easeNone}, "-=.5")
@@ -449,7 +450,11 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      v2gTimeline.kill()
+      v2gTimeline.clear()
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));
@@ -504,7 +509,12 @@
 
     function mexicoAnimation() {
       TweenMax.set('#mexico path', { drawSVG:"0%" })
-      TweenMax.to('#mexico path',  1.5, { drawSVG:"100%", delay:.4, ease:Power2.easeOut })
+      TweenMax.to('#mexico path',  1.5, { drawSVG:"100%", delay:.4, ease:Power1.easeOut, onComplete:mexicoAnimationReverse })
+
+    }
+
+    function mexicoAnimationReverse() {
+      TweenMax.to('#mexico path',  1.5, { drawSVG:"0%", delay:.4, ease:Power1.easeOut, onComplete:mexicoAnimation })
 
     }
 
@@ -563,12 +573,13 @@
     ctrl.$onInit = init
     // ctrl.$onChanges = update
 
-    var solarMexicoTimeline = new TimelineMax({repeat:-1});
+    var solarMexicoTimeline = null
 
     // -------
 
     // init after dom loaded
     function init() {
+      solarMexicoTimeline = new TimelineMax({repeat:-1});
       skyAnimation()
     }
     // function update(changedObj) {}
@@ -604,7 +615,11 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      solarMexicoTimeline.kill()
+      solarMexicoTimeline.clear()
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));
@@ -633,13 +648,13 @@
     .module('FastRechargeAnimation')
     .component('fastRecharge', {
       templateUrl: '../js/components/fastRechargeAnimation/assets/svg/illustration_fastcharge.svg',
-      controller: NightDayAnimationCtrl,
+      controller: FastRechargeCtrl,
       controllerAs: 'fastRecharge',
       bindings: {}
     })
 
   /* @ngInject */
-  function NightDayAnimationCtrl($scope, $element, $attrs, TweenMax) {
+  function FastRechargeCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
     ctrl.componentPath = '../js/components/fastRechargeAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
@@ -658,8 +673,13 @@
     // function update(changedObj) {}
 
     function chargeAnimation() {
-       TweenMax.to('#fast',  2, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone })
-       TweenMax.to('#slow',  6, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone })
+       TweenMax.set(['#fast','#slow'], { css: { scaleY: "1", transformOrigin:'0% 100%'}})
+       TweenMax.to('#fast',  2, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone, delay:.2 })
+       TweenMax.to('#slow',  6, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone, delay:.2, onComplete:resetAnimation })
+    }
+
+    function resetAnimation(){
+      TweenMax.to(['#fast','#slow'],  .4, { css: { scaleY: "1", transformOrigin:'0% 100%'}, ease:Linear.easeNone, delay:.5, onComplete:chargeAnimation })
     }
 
 
@@ -672,7 +692,9 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));
@@ -717,12 +739,13 @@
     ctrl.$onInit = init
     // ctrl.$onChanges = update
 
-    var solarMexicoTimeline = new TimelineMax({repeat:-1});
+    var solarMexicoTimeline = null
 
     // -------
 
     // init after dom loaded
     function init() {
+      solarMexicoTimeline = new TimelineMax({repeat:-1});
       standAnimation()
     }
     // function update(changedObj) {}
@@ -744,7 +767,11 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      solarMexicoTimeline.kill()
+      solarMexicoTimeline.clear()
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));
@@ -1404,6 +1431,8 @@
       // update url without reload the page
       $state.go('landing', {snippetKey: searchKey}, {notify: false})
       closeMenu()
+
+      _gaevents()
     }
 
     function openMenu() {
@@ -1414,6 +1443,15 @@
       if (!vm.selectedSnippet) return select(vm.allSnippets[0])
       $('#snippet').css({'transform':'translateX(0)'})
       $('#snippet-menu').css({'transform':'translateX(100%)'})
+    }
+
+     _gaevents()
+    function _gaevents() {
+      if (!window.ga) return
+      console.log(vm.selectedSnippet.key)
+      var v = '/solar/' + vm.selectedSnippet.key
+      ga('set', 'page', v);
+      ga('send', 'pageview', v);
     }
 
     // deregister event handlers
