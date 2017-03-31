@@ -1,7 +1,7 @@
 Label_id,Text
 splash_label,What's hidden in the grid
 splash_title,Explore the smart city to find all the things that make it smart!
-splash_panel_label,Your first target
+splash_panel_label,"Hey, let's find"
 splash_panel_button,PLAY!
 nexttarget_label,"Great, you found"
 nexttarget_panel_label,"Now, let's find"
