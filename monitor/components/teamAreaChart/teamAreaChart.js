@@ -92,6 +92,9 @@
         
         function update(data, isAll){
             if (!data || data.length == 0) return
+                
+            if (_.isEmpty(data[0].values)) data[0] = emptyData(data[1])
+            if (_.isEmpty(data[1].values)) data[1] = emptyData(data[0])
 
             var stack = d3.layout.stack()
                     .values(function(d){
@@ -206,10 +209,8 @@
 
         } // update
 
-
         update(data, true)
-        
-        
+
         return this;
     }
     
