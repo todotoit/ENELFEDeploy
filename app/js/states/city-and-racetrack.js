@@ -230,31 +230,36 @@
     hideEnergyMixSections()
     showEnergyMixSection('energy_mix_idle')
 
-    TweenMax.to($('#donut_clean, #donut_temporary'), .6, {css:{opacity: 1}, ease:Power3.easeOut} );
+    TweenMax.to($('#donut_clean, #donut_temporary, #donut_urban'), .6, {css:{opacity: 1}, ease:Power3.easeOut} );
   }
 
   function showEnergyMixUrban(data_link){
-    TweenMax.to($('#donut_sections g path'), .6, {css:{opacity: .4}, ease:Power3.easeOut} );
-    TweenMax.to($('#donut_sections #donut_urban path'), 1, {css:{opacity: 1}, ease:Power3.easeOut} );
-
     hideEnergyMixSections()
     showEnergyMixSection(data_link)
+
+    TweenMax.to($('#donut_clean'), .6, {css:{opacity: .3}, ease:Power3.easeOut} );
+    TweenMax.to($('#donut_temporary'), .6, {css:{opacity: .3}, ease:Power3.easeOut} );
+    TweenMax.to($('#donut_urban'), .6, {css:{opacity: 1}, ease:Power3.easeOut} );
+    
   }
 
   function showEnergyMixTemporary(data_link){
     hideEnergyMixSections()
     showEnergyMixSection(data_link)
 
-    TweenMax.to($('#donut_clean'), .6, {css:{opacity: .4}, ease:Power3.easeOut} );
-    TweenMax.to($('#donut_temporary'), 1, {css:{opacity: 1}, ease:Power3.easeOut} );
+    TweenMax.to($('#donut_clean'), .6, {css:{opacity: .3}, ease:Power3.easeOut} );
+    TweenMax.to($('#donut_temporary'), .6, {css:{opacity: 1}, ease:Power3.easeOut} );
+    TweenMax.to($('#donut_urban'), .6, {css:{opacity: .3}, ease:Power3.easeOut} );
+
   }
 
   function showEnergyMixClean(data_link){
     hideEnergyMixSections()
     showEnergyMixSection(data_link)
 
-    TweenMax.to($('#donut_temporary'), .6, {css:{opacity: .4}, ease:Power3.easeOut} );
-    TweenMax.to($('#donut_clean'), 1, {css:{opacity: 1}, ease:Power3.easeOut} );
+    TweenMax.to($('#donut_clean'), .6, {css:{opacity: 1}, ease:Power3.easeOut} );
+    TweenMax.to($('#donut_temporary'), .6, {css:{opacity: .3}, ease:Power3.easeOut} );
+    TweenMax.to($('#donut_urban'), .6, {css:{opacity: .3}, ease:Power3.easeOut} );
   }
 
   function hideEnergyMixSections(){

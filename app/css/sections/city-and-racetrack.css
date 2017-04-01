@@ -148,18 +148,18 @@ div#illustration_microgrid_hand_container{
 }
 
 #donut_label_urban{
-	left: 386px;
-	top: 200px;
-}
-
-#donut_label_clean{
-	left: 678px;
-    top: 70px;
+	    left: 446px;
+    top: 80px;
 }
 
 #donut_label_temporary{
-	left: 370px;
-    top: 250px;
+	    left: 728px;
+    top: 180px;
+}
+
+#donut_label_clean{
+	    left: 430px;
+    top: 260px;
 }
 
 #donut_sections g path{

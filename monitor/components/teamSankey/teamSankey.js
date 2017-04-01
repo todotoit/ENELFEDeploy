@@ -11,7 +11,7 @@
       var w
       var h
 
-    	d3.xml('/components/teamSankey/teamSankey.svg', function(xml){
+    	d3.xml('/app/components/teamSankey/teamSankey.svg', function(xml){
     		
     		var node = d3.select(el).node()
         $(node).append(xml.documentElement);
