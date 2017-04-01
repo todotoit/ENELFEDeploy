@@ -145,6 +145,7 @@ div#illustration_microgrid_hand_container{
 
 #donut_labels > div{
 	position: absolute;
+  z-index: 10;
 }
 
 #donut_label_urban{
@@ -253,23 +254,29 @@ div#illustration_microgrid_hand_container{
 
 #latinamerica_text_container .info_block{
 	padding: 0;
+  z-index: 10;
 }
 
 #latinamerica_text_container #hydro_power{
   position: absolute;
   bottom: 80px;
+  z-index: 10;
+
 }
 
 #latinamerica_text_container #wind_power{
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 10;
 }
 
 #latinamerica_text_container #solar_power{
   position: absolute;
   bottom: 80px;
   right: 0;
+  z-index: 10;
+
 }
 
 
