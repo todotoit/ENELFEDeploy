@@ -91,7 +91,7 @@
       Application.UI.createStreamgraph('#streamgraph').update()
       update_all_models()
     }
-    later.setInterval(updateModels, schedule)
+    // later.setInterval(updateModels, schedule)
 
     function update_all_models() {      
       Application.models.InstantPowerConsumption.update()
