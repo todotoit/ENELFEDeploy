@@ -17,19 +17,19 @@ if(process.argv[2]){
 		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/libs'), 'libs');
 		copydir.sync(path.join('..', 'ENEL-F-E-APP/public/website'), 'website');
 
-		replace({
-		    regex: /\.\.\S*\/assets\/images\//g,
-		    replacement: 'http://1974130908.rsc.cdn77.org/assets/images/',
-		    paths: ['website/index.html', 
-		    	'website/templates/404.html',
-		    	'website/templates/animationtest.html',
-		    	'website/templates/battery.html',
-		    	'website/templates/landing.html',
-		    	'website/templates/race-history.html',
-		    	'website/templates/test.html'
-		    	],
-		    recursive: true
-		});
+		// replace({
+		//     regex: /\.\.\S*\/assets\/images\//g,
+		//     replacement: 'http://1974130908.rsc.cdn77.org/assets/images/',
+		//     paths: ['website/index.html', 
+		//     	'website/templates/404.html',
+		//     	'website/templates/animationtest.html',
+		//     	'website/templates/battery.html',
+		//     	'website/templates/landing.html',
+		//     	'website/templates/race-history.html',
+		//     	'website/templates/test.html'
+		//     	],
+		//     recursive: true
+		// });
 
 	}
 
