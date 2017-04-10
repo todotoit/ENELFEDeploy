@@ -25,12 +25,13 @@
       controller: StreamgraphCtrl,
       controllerAs: 'streamgraph',
       bindings: {
-        datasource: '<'
+        datasource: '<',
+        onSelect: '&'
       }
     })
 
   /* @ngInject */
-  function StreamgraphCtrl($scope, $element, $attrs, d3, _, everpolate) {
+  function StreamgraphCtrl($scope, $element, $attrs, d3, _, everpolate, isMobile) {
     var ctrl = this
 
     // TODO: move in main config
@@ -42,6 +43,19 @@
     // for the issue above we decided to use just $onChanges
     // ctrl.$onInit = init
     ctrl.$onChanges = update
+
+    $scope.$on('streamgraph:select', function(e,k) {
+      svg.selectAll('.layer')
+         .transition()
+         .duration(250)
+         .attr('opacity', function(d, i) {
+            if (k == 'all') return 1
+            return d.key == k ? 1 : .3
+          })
+    })
+
+    // -------- CALLBACK ---------
+    var _callback = null
 
     // discarding timezone makes data apper to the relevant hour at every timezone
     // so for example hong kong data are displayed at the proper hours even if
@@ -125,6 +139,7 @@
       console.log('init streamgraph')
       var data = ctrl.datasource
       $element.find('svg').empty()
+      _callback = ctrl.onSelect()
 
       // -------- INITIALIZE CHART ---------
       svg = d3.select($element.find('svg').get(0))
@@ -240,55 +255,81 @@
     function _attachToolipEvents() {
       svg.selectAll('.layer')
          .attr('opacity', 1)
-         .on('touchstart', function(d, i) {
-           svg.selectAll('.layer')
-              .transition()
-              .duration(250)
-              .attr('opacity', function(d, j) { return j == i ? 1 : .8 })
-           _drawTooltip.bind(this)(d)
-           vertical.style('visibility', 'visible')
-           tooltip.style('visibility', 'visible')
-        })
-        .on('touchend', function(d, i) {
-          svg.selectAll('.layer')
-             .transition()
-             .duration(250)
-             .attr('opacity', '1')
-          vertical.style('visibility', 'hidden')
-          tooltip.style('visibility', 'hidden')
-        })
-        .on('touchmove', function(d, i) {
-          _drawTooltip.bind(this)(d)
-        })
-      d3.select('streamgraph').on('touchstart', function() {
-        var elemBBox    = this.getBoundingClientRect()
-        var tooltipBBox = tooltip.node().getBoundingClientRect()
-        var vleft = d3.mouse(this)[0]
-        var left  = d3.mouse(this)[0]
-        var top   = d3.mouse(this)[1]
-        if (top   <= (tooltipBBox.height/2)) top = (tooltipBBox.height/2)
-        if (top   >= (elemBBox.height - tooltipBBox.height/2)) top = (elemBBox.height - tooltipBBox.height/2)
-        if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
-        if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
-        if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
-
-        vertical.style('left', vleft + 'px' )
-        tooltip.style('left',  left  - (tooltipBBox.width/2)  + 'px' )
-        tooltip.style('top',   top   - (tooltipBBox.height/2) + 'px' )
-      })
-      .on('touchmove', function() {
-        var elemBBox    = this.getBoundingClientRect()
-        var tooltipBBox = tooltip.node().getBoundingClientRect()
-        var vleft = d3.mouse(this)[0]
-        var left  = d3.mouse(this)[0]
-        if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
-        if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
-        if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
-        vertical.style('left', vleft + 'px' )
-        tooltip.style('left',  left - (tooltipBBox.width/2) + 'px' )
-      })
+         .on('touchstart', function(d,i) {
+            _showTooltip(d,i)
+            _drawTooltip.bind(this)(d)
+          })
+         .on('mouseover', function(d,i) {
+            _showTooltip(d,i)
+            _drawTooltip.bind(this)(d)
+          })
+         .on('touchend',  function(d,i) { _hideTooltip(d,i) })
+         .on('touchmove', function(d,i) { _drawTooltip.bind(this)(d) })
+         .on('mousemove',  function(d,i) {
+            _touchmove.bind(this)(true)
+            _drawTooltip.bind(this)(d)
+          })
+         .on('mouseout',  function(d,i) { _hideTooltip(d,i) })
+      d3.select('streamgraph')
+        .on('touchstart', function() { _streamgraphTouch.bind(this)() })
+        .on('touchmove',  function() { _touchmove.bind(this)() })
     }
 
+    function _touchmove(isDesktop) {
+      var elemBBox    = this.getBoundingClientRect()
+      var tooltipBBox = tooltip.node().getBoundingClientRect()
+      var vleft = d3.mouse(this)[0]
+      var left  = d3.mouse(this)[0]
+      if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
+      if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
+      if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
+      // if desktop remap coordinates based on viewport dimensions
+      if (isDesktop) {
+        var top   = d3.mouse(this)[1]
+        left = vleft = (left * $('streamgraph svg').width()) / w
+        top = (top * $('streamgraph svg').height()) / h
+        top -= (tooltipBBox.height/2 +20) // offset
+        tooltip.style('top', top - (tooltipBBox.height/2) + 'px' )
+      }
+      vertical.style('left', vleft + 'px' )
+      tooltip.style('left',  left - (tooltipBBox.width/2) + 'px' )
+    }
+    function _streamgraphTouch() {
+      var elemBBox    = this.getBoundingClientRect()
+      var tooltipBBox = tooltip.node().getBoundingClientRect()
+      var vleft = d3.mouse(this)[0]
+      var left  = d3.mouse(this)[0]
+      var top   = d3.mouse(this)[1]
+      if (top   <= (tooltipBBox.height/2)) top = (tooltipBBox.height/2)
+      if (top   >= (elemBBox.height - tooltipBBox.height/2)) top = (elemBBox.height - tooltipBBox.height/2)
+      if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
+      if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
+      if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
+
+      if (isMobile) top = 0
+      if (bowser.tablet) top = d3.mouse(this)[1] - (tooltipBBox.height/2) -40
+
+      vertical.style('left', vleft + 'px' )
+      tooltip.style('left',  left  - (tooltipBBox.width/2)  + 'px' )
+      tooltip.style('top',   top   - (tooltipBBox.height/2) + 'px' )
+    }
+
+    function _showTooltip(d,i) {
+      svg.selectAll('.layer')
+         .transition()
+         .duration(250)
+         .attr('opacity', function(d, j) { return j == i ? 1 : .3 })
+      vertical.style('visibility', 'visible')
+      tooltip.style('visibility', 'visible')
+    }
+    function _hideTooltip(d,i) {
+      svg.selectAll('.layer')
+         .transition()
+         .duration(250)
+         .attr('opacity', '1')
+      vertical.style('visibility', 'hidden')
+      tooltip.style('visibility', 'hidden')
+    }
     function _drawTooltip(d) {
       var mouseX = d3.mouse(this)[0]
       var selectedDate = X.invert(mouseX)
@@ -298,12 +339,18 @@
       selectedDate.setMinutes(roundedMinutes)
       var selected = _.first(_.filter(d.values, function (e) { return e.date.getTime() === selectedDate.getTime() }))
       if (!selected) return
-      var time = selected.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+      var time = moment(selected.date).format('h:mm A')
       // angular two way databinding seems not work here...
       // use d3 instead
       tooltip.select('.key').text(d.key)
       tooltip.select('.time').text(time)
       tooltip.select('.number-lg').text(selected.value)
+      var data = {
+        name: d.key,
+        time: time,
+        power: selected.value
+      }
+      if(_callback) _callback(data)
     }
   }
 
@@ -339,7 +386,7 @@
         datasource: '<',
         onSelect: '&',
         grName: '@',
-        initialKey: '<'
+        initialKey: '='
       }
     })
 
@@ -354,6 +401,7 @@
 
     // -------- CALLBACK ---------
     var _callback = null
+    $scope.$on('donut:select', function(e,k) { _select(k) })
 
     // -------- SVG ELEMENTS ---------
     var svg, box, w, h, p,                      // svg config
@@ -476,6 +524,7 @@
           .attr('d', pieArc)
           .attr('fill', function(d,i) { return 'url(#donutChart_gr'+i+ctrl.grName+')' })
           .on('click', function(d,i) { return _select(d.data.name) })
+          .on('mouseover', function(d,i) { return _select(d.data.name) })
 
       if (ctrl.initialKey) _select(ctrl.initialKey)
     }
@@ -681,12 +730,13 @@
     ctrl.$onInit = init
     // ctrl.$onChanges = update
 
-    var v2gTimeline = new TimelineMax({repeat:-1});
+    var v2gTimeline = null
 
     // -------
 
     // init after dom loaded
     function init() {
+      v2gTimeline = new TimelineMax({repeat:-1});
       streetAnimation()
     }
     // function update(changedObj) {}
@@ -699,20 +749,20 @@
 
 
       v2gTimeline.to($('#background_container'),3, {x:'-=530', ease:Power2.easeInOut})
-                 
+
                  .from([$('#cara'),$('#carb')],1, {y:'+=100', ease:Power1.easeOut}, "-=2")
                  .to([$('#cara'),$('#carb')],1, {y:'-=300', ease:Power1.easeIn}, "-=.5")
-                 
+
                  .to($('#cable'),.5, {css:{opacity:.3}, ease:Power2.easeOut})
                  .to($('#cable_electricity_out'),.5, {css:{opacity:1}, ease:Power2.easeOut}, "-=.5")
                  .to($('#battery'),2, {css:{scaleX:.2}, ease:Linear.easeNone}, "-=.5")
-                 
+
                  .to($('#cable'),.5, {css:{opacity:0}, ease:Power2.easeOut})
                  .to($('#cable_electricity_out'),.5, {css:{opacity:0}, ease:Power2.easeOut}, "-=.5")
 
                  .to($('#background_container'),3, {x:'-=430', ease:Power2.easeInOut})
                  .to($('#battery'),1, {css:{scaleX:.35}, ease:Linear.easeNone}, "-=2")
-                 
+
                  .to($('#cable'),.5, {css:{opacity:.3}, ease:Power2.easeOut})
                  .to($('#cable_electricity_in'),.5, {css:{opacity:1}, ease:Power2.easeOut}, "-=.5")
                  .to($('#battery'),2, {scaleX:1, ease:Linear.easeNone}, "-=.5")
@@ -731,7 +781,11 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      v2gTimeline.kill()
+      v2gTimeline.clear()
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));
@@ -759,14 +813,14 @@
   angular
     .module('Solar25kmAnimation')
     .component('solar25km', {
-      templateUrl: '../js/components/solar25kmAnimation/assets/svg/illustration_solar25km.svg',
-      controller: NightDayAnimationCtrl,
+      templateUrl: '../js/components/solar25kmAnimation/assets/svg/illustration_solar.svg',
+      controller: solarAnimationCtrl,
       controllerAs: 'solar25km',
       bindings: {}
     })
 
   /* @ngInject */
-  function NightDayAnimationCtrl($scope, $element, $attrs, TweenMax) {
+  function solarAnimationCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
     ctrl.componentPath = '../js/components/solar25kmAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
@@ -775,8 +829,6 @@
     // for the issue above we decided to use just $onChanges
     ctrl.$onInit = init
     // ctrl.$onChanges = update
-
-    var animationTiming = 6 //seconds
 
     // -------
 
@@ -788,7 +840,12 @@
 
     function mexicoAnimation() {
       TweenMax.set('#mexico path', { drawSVG:"0%" })
-      TweenMax.to('#mexico path',  1.5, { drawSVG:"100%", delay:.4, ease:Power2.easeOut })
+      TweenMax.to('#mexico path',  1.5, { drawSVG:"100%", delay:.4, ease:Power1.easeOut, onComplete:mexicoAnimationReverse })
+
+    }
+
+    function mexicoAnimationReverse() {
+      TweenMax.to('#mexico path',  1.5, { drawSVG:"0%", delay:.4, ease:Power1.easeOut, onComplete:mexicoAnimation })
 
     }
 
@@ -847,12 +904,13 @@
     ctrl.$onInit = init
     // ctrl.$onChanges = update
 
-    var solarMexicoTimeline = new TimelineMax({repeat:-1});
+    var solarMexicoTimeline = null
 
     // -------
 
     // init after dom loaded
     function init() {
+      solarMexicoTimeline = new TimelineMax({repeat:-1});
       skyAnimation()
     }
     // function update(changedObj) {}
@@ -888,7 +946,11 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      solarMexicoTimeline.kill()
+      solarMexicoTimeline.clear()
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));
@@ -917,13 +979,13 @@
     .module('FastRechargeAnimation')
     .component('fastRecharge', {
       templateUrl: '../js/components/fastRechargeAnimation/assets/svg/illustration_fastcharge.svg',
-      controller: NightDayAnimationCtrl,
+      controller: FastRechargeCtrl,
       controllerAs: 'fastRecharge',
       bindings: {}
     })
 
   /* @ngInject */
-  function NightDayAnimationCtrl($scope, $element, $attrs, TweenMax) {
+  function FastRechargeCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
     ctrl.componentPath = '../js/components/fastRechargeAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
@@ -942,8 +1004,13 @@
     // function update(changedObj) {}
 
     function chargeAnimation() {
-       TweenMax.to('#fast',  2, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone })
-       TweenMax.to('#slow',  6, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone })
+       TweenMax.set(['#fast','#slow'], { css: { scaleY: "1", transformOrigin:'0% 100%'}})
+       TweenMax.to('#fast',  2, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone, delay:.2 })
+       TweenMax.to('#slow',  6, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone, delay:.2, onComplete:resetAnimation })
+    }
+
+    function resetAnimation(){
+      TweenMax.to(['#fast','#slow'],  .4, { css: { scaleY: "1", transformOrigin:'0% 100%'}, ease:Linear.easeNone, delay:.5, onComplete:chargeAnimation })
     }
 
 
@@ -956,7 +1023,9 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));
@@ -1001,12 +1070,13 @@
     ctrl.$onInit = init
     // ctrl.$onChanges = update
 
-    var solarMexicoTimeline = new TimelineMax({repeat:-1});
+    var solarMexicoTimeline = null
 
     // -------
 
     // init after dom loaded
     function init() {
+      solarMexicoTimeline = new TimelineMax({repeat:-1});
       standAnimation()
     }
     // function update(changedObj) {}
@@ -1028,7 +1098,11 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      solarMexicoTimeline.kill()
+      solarMexicoTimeline.clear()
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));
@@ -1068,61 +1142,91 @@
   function ContructorForSnippetSrv($q, _) {
     var self  = this
     self.path = '../js/modules/snippetManager/templates'
+    var solarSnippetsKeys = ['mexico','panel','more']
+    var ecarSnippetsKeys = ['v2g','recharge','more']
     var _availableSnippets = {
-      'the_power_of_the_sun': {
+      'mexico': {
         desc: 'How much energy is there in Mexican skies?',
+        label: 'The power of the sun',
         tpl: self.path + '/solar25km.html'
       },
-      'solar_energy_for_the_race': {
+      'panel': {
         desc: 'Can you guess how much solar panels can power?',
+        label: 'Solar energy for the race',
         tpl: self.path + '/solarmexico.html'
       },
-      'fast_recharge': {
+      'recharge': {
         desc: 'Innovation is ready to charge! Recharging e-cars is faster than you think.',
+        label: 'Fast recharge',
         tpl: self.path + '/fastrecharge.html'
       },
-      'a_battery_on_wheels': {
+      'v2g': {
         desc: 'What if electricity could move around as freely as you do in your car? Soon, it will.',
+        label: 'A battery on wheels',
         tpl: self.path + '/v2g.html'
       },
-      'would_you_like_to_find_out_more_about_smart_energy?': {
+      'more': {
         desc: 'The Enel staff is happy to answer any questions you may have.',
+        label: 'Would you like to find out more about smart energy?',
         tpl: self.path + '/enelstand.html'
       }
     }
 
     self.getAvailableSnippets = _getAvailableSnippets
+    self.getSolarSnippets = _getSolarSnippets
+    self.getEcarSnippets = _getECarSnippets
     self.getSnippet = _getSnippet
     return self
 
     // -------
 
-    function _getAvailableSnippets() {
+    function _getSolarSnippets() {
       return $q(function(resolve, reject) {
-        var snippets = _.map(_availableSnippets, function(value, key) {
-          value.key = key.replace(/_/g, ' ')
-          return value
-        })
+        var snippets = _(_availableSnippets).map(function(value, key) {
+            value.key = key
+            if (_.includes(solarSnippetsKeys, key)) return value
+          }).compact().value()
         if (!_.isEmpty(snippets)) resolve(snippets)
-        else reject('No available snippets are  defined!')
+        else reject('No snippets!')
+      })
+    }
+    function _getECarSnippets() {
+      return $q(function(resolve, reject) {
+        var snippets = _(_availableSnippets).map(function(value, key) {
+            value.key = key
+            if (_.includes(ecarSnippetsKeys, key)) return value
+          }).compact().value()
+        if (!_.isEmpty(snippets)) resolve(snippets)
+        else reject('No snippets!')
       })
     }
 
-    function _getSnippet(key) {
+    function _getAvailableSnippets() {
       return $q(function(resolve, reject) {
-        var searchKey = _.snakeCase(key)
-        var snippet = _availableSnippets[searchKey]
-        if (!_.isEmpty(snippet)) {
-          snippet.key = key.replace(/_/g, ' ')
-          resolve(snippet)
-        } else reject('Snippet not found!')
+        var snippets = _.map(_availableSnippets, function(value, key) {
+          value.key = key
+          return value
+        })
+        if (!_.isEmpty(snippets)) resolve(snippets)
+        else reject('No available snippets are defined!')
+      })
+    }
+
+    function _getSnippet(key,appKey) {
+      return $q(function(resolve, reject) {
+        var searchKey = key.replace(/ /g, '_')
+        if (appKey === 'solar' && !_.includes(solarSnippetsKeys, key)) return reject('Snippet not found!')
+        if (appKey === 'ecar' && !_.includes(ecarSnippetsKeys, key)) return reject('Snippet not found!')
+        var snippet = _availableSnippets[key]
+        if (!_.isEmpty(snippet)) resolve(snippet)
+        else reject('Snippet not found!')
       })
     }
   }
 
 }(window.angular));
 
-;(function(window, $, undefined){
+(function(window, $, undefined){
 
 	document.documentElement.classList.remove("no-js");
 	document.documentElement.classList.add("js");
@@ -1146,7 +1250,7 @@
 	var styles = window.getComputedStyle(document.documentElement, '')
 	var pre = (Array.prototype.slice
 	      .call(styles)
-	      .join('') 
+	      .join('')
 	      .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
 	    )[1]
 	var dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
@@ -1154,7 +1258,7 @@
 	$('html').addClass(pre);
 	$('html').addClass(bowser.name.toLowerCase());
 
-	  
+
 	$('[fouc]').css('visibility', 'visible')
 
 	if(window.isMobile){
@@ -1175,7 +1279,23 @@
 
 
 
-})(window, window.jQuery)
+})(window, window.jQuery);
+
+window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+      t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+  return t;
+}(document, "script", "twitter-wjs"));
+
 (function (angular) {
   'use strict'
 
@@ -1658,7 +1778,7 @@
 
     $urlRouterProvider.when('', 'landing')
     $urlRouterProvider.when('/', 'landing')
-    $urlRouterProvider.otherwise('')
+    $urlRouterProvider.otherwise('landing')
 
     $stateProvider
       // .state('404', {
@@ -1668,9 +1788,6 @@
       .state('landing', {
         url: '/landing',
         resolve: {
-          streamData: function(PaddockAreaChart) {
-            return PaddockAreaChart.get()
-          },
           snippets: function(SnippetSrv) {
             return SnippetSrv.getAvailableSnippets()
                              .then(function(res) {
@@ -1684,6 +1801,12 @@
         controllerAs: 'landing',
         templateUrl: 'templates/landing.html'
       })
+      .state('history', {
+        url: '/race-history',
+        controller: 'HistoryCtrl',
+        controllerAs: 'history',
+        templateUrl: 'templates/race-history.html'
+      })
   }
 }(window.angular));
 
@@ -1695,7 +1818,7 @@
     .controller('LandingCtrl', landingCtrl)
 
   /* @ngInject */
-  function landingCtrl ($scope, snippets, streamData, $timeout, $http, _) {
+  function landingCtrl ($scope, snippets, $timeout, $interval, $http, _, moment) {
     var vm = this
     vm.races = []
     vm.streamData = []
@@ -1703,26 +1826,67 @@
       total_energy: 0,
       zones: []
     }
-    console.log(snippets)
     vm.snippets = angular.copy(_.initial(snippets))
     vm.tweets = []
+
+    // countdown
+    $scope.countDown = {
+      date: '2017-03-31 03:12', // test
+      date: '2017-04-01 00:00',
+      tz: 'America/Mexico_City',
+      currentTime: null,
+      raceTime: null,
+      isRaceTime: false
+    }
+    $scope.compatibilityMsg = ''
+    if (bowser.msie) $scope.compatibilityMsg = 'Please use Chrome to enjoy the experience.'
+    if (!bowser.chrome) $scope.compatibilityMsg = 'Experience optimised for Chrome.'
+
+    _initializeCountDown()
+    function _initializeCountDown() {
+      // set moment times
+      $scope.countDown.currentTime = moment().tz($scope.countDown.tz)
+      $scope.countDown.raceTime    = moment.tz($scope.countDown.date, $scope.countDown.tz)
+      $scope.countDown.isRaceTime  = $scope.countDown.currentTime.isAfter($scope.countDown.raceTime)
+      //from then until now
+      console.log('Mexico time: ' +$scope.countDown.raceTime.format(),
+                  'Local time: '  +$scope.countDown.raceTime.clone().tz("Europe/Rome").format(),
+                  'Missing time: '+moment.tz($scope.countDown.date, $scope.countDown.tz).countdown().toString())
+
+      var cdownint = $interval(function(){
+        // console.log(moment.tz($scope.raceTime.date, $scope.raceTime.tz).countdown().toString())
+        var cdown = moment.tz($scope.countDown.date, $scope.countDown.tz).countdown()
+        $scope.countDown.d = cdown.days
+        $scope.countDown.h = cdown.hours
+        $scope.countDown.m = cdown.minutes
+        $scope.countDown.s = cdown.seconds
+        $scope.countDown.isRaceTime = moment().tz($scope.countDown.tz).isAfter($scope.countDown.raceTime)
+        if ($scope.countDown.isRaceTime) $interval.cancel(cdownint)
+      }, 1000)
+    }
+
 
     // donut
     $scope.donutSelectedKey = 'Paddock'
     vm.donutSelection = {
       energy: 0,
       percentage: 0,
-      name: ''
+      name: 'Paddock'
+    }
+    $scope.stream_select = function(area) {
+      $scope.$broadcast('donut:select',_.capitalize(area.name))
     }
     $scope.donut_select = function(area) {
       if (!area) return console.error('No area selected')
-      var percentage = (+area.energy/+vm.totalConsumption.total_energy)*100
+      var areasel = _.find(vm.totalConsumption.zones, function(a) { return a.name.toLowerCase() === area.name.toLowerCase() })
+      var percentage = (+areasel.energy/+vm.totalConsumption.total_energy)*100
       vm.donutSelection = {
-        energy: Math.round(area.energy),
-        name: area.name,
+        energy: Math.round(areasel.energy),
+        name: areasel.name,
         percentage: Math.round(percentage*100)/100
       }
-      $scope.donutSelectedKey = angular.copy(area.name)
+      $scope.donutSelectedKey = _.capitalize(areasel.name)
+      // $scope.$broadcast('streamgraph:select',areasel.name.toLowerCase())
       if (!$scope.$$phase) $scope.$digest()
     }
 
@@ -1736,10 +1900,7 @@
                   .then(function(res) {
                     vm.races = res.data.races
                     var currentRace = _.last(res.data.races)
-                    console.log(currentRace)
-                    vm.currentRace = angular.copy(currentRace)
-                    vm.streamData = angular.copy(currentRace.streamData.zones)
-                    vm.totalConsumption = angular.copy(currentRace.totalConsumption)
+                    $scope.selectRace(currentRace.id)
                   }, function(err) {
                     console.error(err)
                   })
@@ -1747,9 +1908,14 @@
     $scope.selectRace = function(id) {
       var currentRace = _.find(vm.races, {id: id})
       vm.currentRace = angular.copy(currentRace)
-      console.log(currentRace.streamData, !_.isEmpty(currentRace.streamData) )
-      vm.streamData = angular.copy(vm.streamData)
-      vm.totalConsumption = angular.copy(vm.totalConsumption)
+      vm.streamData = angular.copy(currentRace.streamData.zones)
+      vm.totalConsumption = angular.copy(currentRace.totalConsumption)
+
+      var ytvideo = '<iframe class="race-video" width="100" src="https://www.youtube.com/embed/'+currentRace.videoId+'?rel=0" frameborder="0" allowfullscreen></iframe>'
+      var ytvideoTitl = '<figure-caption>'+currentRace.videoTitle+'</figure-caption>'
+      $('#eprix-history .video-wrapper').html(ytvideo)
+      $('#eprix-history-sidebar .video-wrapper').html(ytvideo)
+      if (!$scope.$$phase) $scope.$digest()
     }
 
     // twit feed
@@ -1762,14 +1928,24 @@
                     vm.tweets = res.data.items
                     // after loaded the tweet feed append embed script from twitter
                     var twitScript = $('<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>')
-                    $('.twitfeed-wrapper').append(twitScript)
+                    $timeout(function() {
+                      $('.twitfeed-wrapper').append(twitScript)
+                    },100)
+                    // _.each(vm.tweets, function(tw) {
+                    //   twttr.widgets
+                    //        .createTweet(tw.id, $('.twitfeed-wrapper')[0], {theme: 'light'})
+                    //        .then(function(el) {
+                    //         // $(el).attr('style')
+                    //         // var twbody = $(el.contentDocument.body).find('.EmbeddedTweet')
+                    //        })
+                    // })
+                    $scope.twitDisplayNum = _getTwitDisplayNum()
                   }, function(err) {
                     console.error(err)
                   })
     }
 
     // twit carousel
-    $scope.twitDisplayNum = _getTwitDisplayNum()
     angular.element(window).bind('resize', function() {
       var newVal = _getTwitDisplayNum()
       if ($scope.twitDisplayNum !== newVal) {
@@ -1778,9 +1954,10 @@
       }
       // manuall $digest required as resize event
       // is outside of angular
-      $scope.$digest()
+      if (!$scope.$$phase) $scope.$digest()
     })
     function _getTwitDisplayNum() {
+      var twWrapW = $('.twitfeed-wrapper').width()
       if (window.matchMedia("(max-width: 40em)").matches) {
         return 1
       } else if (window.matchMedia("(max-width: 52em)").matches) {
@@ -1793,6 +1970,7 @@
       var wrapw = $('.twitfeed-wrapper').width()
       // var span = wrapw * 2.5 /100
       var span = +$('.twitter-tweet').css('margin').split('px')[1]
+      var twwidth = $('.twitter-tweet').width()
       TweenMax.to('.twitter-tweet', .5, { x: '+='+(wrapw+span-0.5) })
     }
     $scope.twit_next = function() {
@@ -1806,6 +1984,34 @@
     var duration = 0.6
     var lastId = vm.snippets.length-1
     var idPreOut = vm.snippets.length-2
+    // alert(JSON.stringify(bowser))
+    $timeout(_setCarouselSize, 1500)
+    function _setCarouselSize(){
+      if(window.isMobile) {
+      var snip_width = Math.min($(window).width()*0.8, 350);
+      var snip_height = Math.min($(window).height()*0.8, 548);
+      $('.snip-wrapper .snip').width(snip_width)
+      $('.snip-wrapper .snip').height(snip_height)
+      $('.snip-wrapper').height(snip_height)
+      $('#snippet-info, #snippet-carousel').css('height', 'auto')
+      } else {
+        var snip_width = 350
+        var snip_height = 548
+      }
+      if(bowser.safari || (bowser.chrome && bowser.iphone) || (bowser.firefox && +bowser.version < 52 || bowser.msie)){
+        $('#snippet-carousel').css({
+          width: snip_width*2
+        })
+        $('#snippet-carousel .snip-wrapper').css({
+          transform: 'translateX('+(-snip_width/2)+'px)'
+        })
+      }
+      //
+      var $elPre = $('#snip-'+lastId)
+      var $elNext = $('#snip-1')
+      $elPre.click($scope.snip_previous)
+      $elNext.click($scope.snip_next)
+    }
     function _shiftLeft() {
       $timeout(function(){
         var el = _.last(vm.snippets)
@@ -1831,6 +2037,14 @@
                                   {x: '60%',   z: '-100', opacity: 1, zIndex: -1}, 0)
       tl.to($elPre,     duration, {x: '-120%', z: '-200', opacity: 0, zIndex: -2}, 0)
       _shiftRight()
+
+      //
+      $el.off()
+      $elNext.off()
+      $elPre.off()
+      $elOut.off()
+      $el.click($scope.snip_previous)
+      $elOut.click($scope.snip_next)
     }
     $scope.snip_previous = function() {
       var $el     = $('#snip-0')
@@ -1844,6 +2058,14 @@
                                   {x: '-60%',  z: '-100', opacity: 1, zIndex: -1}, 0)
       tl.to($elNext,    duration, {x: '120%',  z: '-200', opacity: 0, zIndex: -2}, 0)
       _shiftLeft()
+
+      //
+      $el.off()
+      $elNext.off()
+      $elPre.off()
+      $elOut.off()
+      $elOut.click($scope.snip_previous)
+      $el.click($scope.snip_next)
     }
     $scope.getPosition = function(elIdx) {
       var numOfSnip = vm.snippets.length-1
@@ -1859,7 +2081,8 @@
           // right
           return {
             'transform': 'translateX(60%) translateZ(-100px)',
-            'z-index': -1
+            'z-index': -1,
+            'cursor': 'pointer'
           }
         break
         case 2:
@@ -1882,7 +2105,8 @@
           // left
           return {
             'transform': 'translateX(-60%) translateZ(-100px)',
-            'z-index': -1
+            'z-index': -1,
+            'cursor': 'pointer'
           }
         break
         default:
@@ -1896,12 +2120,187 @@
       }
     }
 
+    // fix ie svg
+    if (bowser.msie) {
+      $timeout(_setSvgSize, 1000)
+      angular.element(window).bind('resize', _setSvgSize)
+    }
+    function _setSvgSize() {
+      var svgs = $('svg')
+      _.each(svgs, function(svg) {
+        console.log(svg)
+        var $svg = $(svg)
+        var w = $svg.width(),
+            h = $svg.height(),
+            vw = $svg.attr('viewBox').split(' ')[2],
+            vh = $svg.attr('viewBox').split(' ')[3]
+        var hstyle = Math.round((w*vh)/vw)
+        var wstyle = Math.round((h*vw)/vh)
+        console.log(w, h, vw, vh, hstyle, wstyle)
+        if (hstyle === wstyle) return
+        $svg.css({ height: hstyle/10 +'rem' })
+        // $svg.css({ width: wstyle/10 +'rem' })
+      })
+    }
+
 
     // -------
 
     // deregister event handlers
     // $scope.$on('$destroy', function () {})
   }
-}(window.angular))
+}(window.angular));
+
+(function (angular) {
+  'use strict'
+
+  angular
+    .module('WebApp')
+    .controller('HistoryCtrl', historyCtrl)
+
+  /* @ngInject */
+  function historyCtrl ($scope, $timeout, $interval, $http, _, moment) {
+    var vm = this
+    vm.races = []
+    vm.streamData = []
+    vm.totalConsumption = {
+      total_energy: 0,
+      zones: []
+    }
+
+    // countdown
+    $scope.countDown = {
+      date: '2017-03-31 03:12', // test
+      date: '2017-04-01 00:00',
+      tz: 'America/Mexico_City',
+      currentTime: null,
+      raceTime: null,
+      isRaceTime: false
+    }
+    $scope.compatibilityMsg = ''
+    // if (bowser.msie) $scope.compatibilityMsg = 'Please use Chrome to enjoy the experience.'
+    // if (!bowser.chrome) $scope.compatibilityMsg = 'Experience optimised for Chrome.'
+
+    _initializeCountDown()
+    function _initializeCountDown() {
+      // set moment times
+      $scope.countDown.currentTime = moment().tz($scope.countDown.tz)
+      $scope.countDown.raceTime    = moment.tz($scope.countDown.date, $scope.countDown.tz)
+      $scope.countDown.isRaceTime  = $scope.countDown.currentTime.isAfter($scope.countDown.raceTime)
+      //from then until now
+      console.log('Mexico time: ' +$scope.countDown.raceTime.format(),
+                  'Local time: '  +$scope.countDown.raceTime.clone().tz("Europe/Rome").format(),
+                  'Missing time: '+moment.tz($scope.countDown.date, $scope.countDown.tz).countdown().toString())
+
+      var cdownint = $interval(function(){
+        // console.log(moment.tz($scope.raceTime.date, $scope.raceTime.tz).countdown().toString())
+        var cdown = moment.tz($scope.countDown.date, $scope.countDown.tz).countdown()
+        $scope.countDown.d = cdown.days
+        $scope.countDown.h = cdown.hours
+        $scope.countDown.m = cdown.minutes
+        $scope.countDown.s = cdown.seconds
+        $scope.countDown.isRaceTime = moment().tz($scope.countDown.tz).isAfter($scope.countDown.raceTime)
+        if ($scope.countDown.isRaceTime) $interval.cancel(cdownint)
+      }, 1000)
+    }
+
+    // donut
+    $scope.donutSelectedKey = 'Paddock'
+    vm.donutSelection = {
+      energy: 0,
+      percentage: 0,
+      name: 'Paddock'
+    }
+    $scope.stream_select = function(area) {
+      $scope.$broadcast('donut:select',_.capitalize(area.name))
+    }
+    $scope.donut_select = function(area) {
+      if (!area) return console.error('No area selected')
+      var areasel = _.find(vm.totalConsumption.zones, function(a) { return a.name.toLowerCase() === area.name.toLowerCase() })
+      var percentage = (+areasel.energy/+vm.totalConsumption.total_energy)*100
+      vm.donutSelection = {
+        energy: Math.round(areasel.energy),
+        name: areasel.name,
+        percentage: Math.round(percentage*100)/100
+      }
+      $scope.donutSelectedKey = _.capitalize(areasel.name)
+      // $scope.$broadcast('streamgraph:select',areasel.name.toLowerCase())
+      if (!$scope.$$phase) $scope.$digest()
+    }
+
+    // races
+    vm.currentRace = {}
+    // delay streamgraph load data
+    $timeout(function(){ retrieveRacesFeed() }, 1000)
+
+    function retrieveRacesFeed() {
+      return $http.get('../assets/jsonData/races.json')
+                  .then(function(res) {
+                    vm.races = res.data.races
+                    var currentRace = _.last(res.data.races)
+                    $scope.selectRace(currentRace.id)
+                  }, function(err) {
+                    console.error(err)
+                  })
+    }
+    $scope.selectRace = function(id) {
+      var currentRace = _.find(vm.races, {id: id})
+      vm.currentRace = angular.copy(currentRace)
+      vm.streamData = angular.copy(currentRace.streamData.zones)
+      vm.totalConsumption = angular.copy(currentRace.totalConsumption)
+
+      var ytvideo = '<iframe class="race-video" width="100" src="https://www.youtube.com/embed/'+currentRace.videoId+'?rel=0" frameborder="0" allowfullscreen></iframe>'
+      var ytvideoTitl = '<figure-caption>'+currentRace.videoTitle+'</figure-caption>'
+      $('#eprix-history .video-wrapper').html(ytvideo)
+      $('#eprix-history-sidebar .video-wrapper').html(ytvideo)
+      if (!$scope.$$phase) $scope.$digest()
+    }
+
+    // fix ie svg
+    if (bowser.msie) {
+      $timeout(_setSvgSize, 1000)
+      angular.element(window).bind('resize', _setSvgSize)
+    }
+    function _setSvgSize() {
+      var svgs = $('svg')
+      _.each(svgs, function(svg) {
+        console.log(svg)
+        var $svg = $(svg)
+        var w = $svg.width(),
+            h = $svg.height(),
+            vw = $svg.attr('viewBox').split(' ')[2],
+            vh = $svg.attr('viewBox').split(' ')[3]
+        var hstyle = Math.round((w*vh)/vw)
+        var wstyle = Math.round((h*vw)/vh)
+        console.log(w, h, vw, vh, hstyle, wstyle)
+        if (hstyle === wstyle) return
+        $svg.css({ height: hstyle/10 +'rem' })
+        // $svg.css({ width: wstyle/10 +'rem' })
+      })
+    }
+
+    //DISABLE SCROLL
+    var firstMove
+    window.addEventListener('touchstart', function (e) {
+      firstMove = true
+    }, { passive: false })
+
+    window.addEventListener('touchend', function (e) {
+      firstMove = true
+    }, { passive: false })
+
+    window.addEventListener('touchmove', function (e) {
+      if (firstMove) {
+        e.preventDefault()
+        firstMove = false
+      }
+    }, { passive: false })
+
+    // -------
+
+    // deregister event handlers
+    // $scope.$on('$destroy', function () {})
+  }
+}(window.angular));
 
 //# sourceMappingURL=main.js.map

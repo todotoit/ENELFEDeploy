@@ -24,12 +24,13 @@
     ctrl.$onInit = init
     // ctrl.$onChanges = update
 
-    var solarMexicoTimeline = new TimelineMax({repeat:-1});
+    var solarMexicoTimeline = null
 
     // -------
 
     // init after dom loaded
     function init() {
+      solarMexicoTimeline = new TimelineMax({repeat:-1});
       standAnimation()
     }
     // function update(changedObj) {}
@@ -51,7 +52,11 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    // $scope.$on('$destroy', function () {})
+    $scope.$on('$destroy', function () {
+      solarMexicoTimeline.kill()
+      solarMexicoTimeline.clear()
+      TweenMax.killAll()
+    })
   }
 
 }(window.angular, window.angular.element));

@@ -14,7 +14,7 @@
         datasource: '<',
         onSelect: '&',
         grName: '@',
-        initialKey: '<'
+        initialKey: '='
       }
     })
 
@@ -29,6 +29,7 @@
 
     // -------- CALLBACK ---------
     var _callback = null
+    $scope.$on('donut:select', function(e,k) { _select(k) })
 
     // -------- SVG ELEMENTS ---------
     var svg, box, w, h, p,                      // svg config
@@ -151,6 +152,7 @@
           .attr('d', pieArc)
           .attr('fill', function(d,i) { return 'url(#donutChart_gr'+i+ctrl.grName+')' })
           .on('click', function(d,i) { return _select(d.data.name) })
+          .on('mouseover', function(d,i) { return _select(d.data.name) })
 
       if (ctrl.initialKey) _select(ctrl.initialKey)
     }

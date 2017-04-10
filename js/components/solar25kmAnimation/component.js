@@ -7,14 +7,14 @@
   angular
     .module('Solar25kmAnimation')
     .component('solar25km', {
-      templateUrl: '../js/components/solar25kmAnimation/assets/svg/illustration_solar25km.svg',
-      controller: NightDayAnimationCtrl,
+      templateUrl: '../js/components/solar25kmAnimation/assets/svg/illustration_solar.svg',
+      controller: solarAnimationCtrl,
       controllerAs: 'solar25km',
       bindings: {}
     })
 
   /* @ngInject */
-  function NightDayAnimationCtrl($scope, $element, $attrs, TweenMax) {
+  function solarAnimationCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
     ctrl.componentPath = '../js/components/solar25kmAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
@@ -23,8 +23,6 @@
     // for the issue above we decided to use just $onChanges
     ctrl.$onInit = init
     // ctrl.$onChanges = update
-
-    var animationTiming = 6 //seconds
 
     // -------
 
@@ -36,7 +34,12 @@
 
     function mexicoAnimation() {
       TweenMax.set('#mexico path', { drawSVG:"0%" })
-      TweenMax.to('#mexico path',  1.5, { drawSVG:"100%", delay:.4, ease:Power2.easeOut })
+      TweenMax.to('#mexico path',  1.5, { drawSVG:"100%", delay:.4, ease:Power1.easeOut, onComplete:mexicoAnimationReverse })
+
+    }
+
+    function mexicoAnimationReverse() {
+      TweenMax.to('#mexico path',  1.5, { drawSVG:"0%", delay:.4, ease:Power1.easeOut, onComplete:mexicoAnimation })
 
     }
 
