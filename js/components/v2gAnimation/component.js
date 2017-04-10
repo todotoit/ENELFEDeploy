@@ -24,13 +24,12 @@
     ctrl.$onInit = init
     // ctrl.$onChanges = update
 
-    var v2gTimeline = null
+    var v2gTimeline = new TimelineMax({repeat:-1});
 
     // -------
 
     // init after dom loaded
     function init() {
-      v2gTimeline = new TimelineMax({repeat:-1});
       streetAnimation()
     }
     // function update(changedObj) {}
@@ -43,20 +42,20 @@
 
 
       v2gTimeline.to($('#background_container'),3, {x:'-=530', ease:Power2.easeInOut})
-
+                 
                  .from([$('#cara'),$('#carb')],1, {y:'+=100', ease:Power1.easeOut}, "-=2")
                  .to([$('#cara'),$('#carb')],1, {y:'-=300', ease:Power1.easeIn}, "-=.5")
-
+                 
                  .to($('#cable'),.5, {css:{opacity:.3}, ease:Power2.easeOut})
                  .to($('#cable_electricity_out'),.5, {css:{opacity:1}, ease:Power2.easeOut}, "-=.5")
                  .to($('#battery'),2, {css:{scaleX:.2}, ease:Linear.easeNone}, "-=.5")
-
+                 
                  .to($('#cable'),.5, {css:{opacity:0}, ease:Power2.easeOut})
                  .to($('#cable_electricity_out'),.5, {css:{opacity:0}, ease:Power2.easeOut}, "-=.5")
 
                  .to($('#background_container'),3, {x:'-=430', ease:Power2.easeInOut})
                  .to($('#battery'),1, {css:{scaleX:.35}, ease:Linear.easeNone}, "-=2")
-
+                 
                  .to($('#cable'),.5, {css:{opacity:.3}, ease:Power2.easeOut})
                  .to($('#cable_electricity_in'),.5, {css:{opacity:1}, ease:Power2.easeOut}, "-=.5")
                  .to($('#battery'),2, {scaleX:1, ease:Linear.easeNone}, "-=.5")
@@ -75,11 +74,7 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    $scope.$on('$destroy', function () {
-      v2gTimeline.kill()
-      v2gTimeline.clear()
-      TweenMax.killAll()
-    })
+    // $scope.$on('$destroy', function () {})
   }
 
 }(window.angular, window.angular.element));

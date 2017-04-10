@@ -11,13 +11,12 @@
       controller: StreamgraphCtrl,
       controllerAs: 'streamgraph',
       bindings: {
-        datasource: '<',
-        onSelect: '&'
+        datasource: '<'
       }
     })
 
   /* @ngInject */
-  function StreamgraphCtrl($scope, $element, $attrs, d3, _, everpolate, isMobile) {
+  function StreamgraphCtrl($scope, $element, $attrs, d3, _, everpolate) {
     var ctrl = this
 
     // TODO: move in main config
@@ -29,19 +28,6 @@
     // for the issue above we decided to use just $onChanges
     // ctrl.$onInit = init
     ctrl.$onChanges = update
-
-    $scope.$on('streamgraph:select', function(e,k) {
-      svg.selectAll('.layer')
-         .transition()
-         .duration(250)
-         .attr('opacity', function(d, i) {
-            if (k == 'all') return 1
-            return d.key == k ? 1 : .3
-          })
-    })
-
-    // -------- CALLBACK ---------
-    var _callback = null
 
     // discarding timezone makes data apper to the relevant hour at every timezone
     // so for example hong kong data are displayed at the proper hours even if
@@ -125,7 +111,6 @@
       console.log('init streamgraph')
       var data = ctrl.datasource
       $element.find('svg').empty()
-      _callback = ctrl.onSelect()
 
       // -------- INITIALIZE CHART ---------
       svg = d3.select($element.find('svg').get(0))
@@ -241,81 +226,55 @@
     function _attachToolipEvents() {
       svg.selectAll('.layer')
          .attr('opacity', 1)
-         .on('touchstart', function(d,i) {
-            _showTooltip(d,i)
-            _drawTooltip.bind(this)(d)
-          })
-         .on('mouseover', function(d,i) {
-            _showTooltip(d,i)
-            _drawTooltip.bind(this)(d)
-          })
-         .on('touchend',  function(d,i) { _hideTooltip(d,i) })
-         .on('touchmove', function(d,i) { _drawTooltip.bind(this)(d) })
-         .on('mousemove',  function(d,i) {
-            _touchmove.bind(this)(true)
-            _drawTooltip.bind(this)(d)
-          })
-         .on('mouseout',  function(d,i) { _hideTooltip(d,i) })
-      d3.select('streamgraph')
-        .on('touchstart', function() { _streamgraphTouch.bind(this)() })
-        .on('touchmove',  function() { _touchmove.bind(this)() })
-    }
-
-    function _touchmove(isDesktop) {
-      var elemBBox    = this.getBoundingClientRect()
-      var tooltipBBox = tooltip.node().getBoundingClientRect()
-      var vleft = d3.mouse(this)[0]
-      var left  = d3.mouse(this)[0]
-      if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
-      if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
-      if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
-      // if desktop remap coordinates based on viewport dimensions
-      if (isDesktop) {
+         .on('touchstart', function(d, i) {
+           svg.selectAll('.layer')
+              .transition()
+              .duration(250)
+              .attr('opacity', function(d, j) { return j == i ? 1 : .8 })
+           _drawTooltip.bind(this)(d)
+           vertical.style('visibility', 'visible')
+           tooltip.style('visibility', 'visible')
+        })
+        .on('touchend', function(d, i) {
+          svg.selectAll('.layer')
+             .transition()
+             .duration(250)
+             .attr('opacity', '1')
+          vertical.style('visibility', 'hidden')
+          tooltip.style('visibility', 'hidden')
+        })
+        .on('touchmove', function(d, i) {
+          _drawTooltip.bind(this)(d)
+        })
+      d3.select('streamgraph').on('touchstart', function() {
+        var elemBBox    = this.getBoundingClientRect()
+        var tooltipBBox = tooltip.node().getBoundingClientRect()
+        var vleft = d3.mouse(this)[0]
+        var left  = d3.mouse(this)[0]
         var top   = d3.mouse(this)[1]
-        left = vleft = (left * $('streamgraph svg').width()) / w
-        top = (top * $('streamgraph svg').height()) / h
-        top -= (tooltipBBox.height/2 +20) // offset
-        tooltip.style('top', top - (tooltipBBox.height/2) + 'px' )
-      }
-      vertical.style('left', vleft + 'px' )
-      tooltip.style('left',  left - (tooltipBBox.width/2) + 'px' )
-    }
-    function _streamgraphTouch() {
-      var elemBBox    = this.getBoundingClientRect()
-      var tooltipBBox = tooltip.node().getBoundingClientRect()
-      var vleft = d3.mouse(this)[0]
-      var left  = d3.mouse(this)[0]
-      var top   = d3.mouse(this)[1]
-      if (top   <= (tooltipBBox.height/2)) top = (tooltipBBox.height/2)
-      if (top   >= (elemBBox.height - tooltipBBox.height/2)) top = (elemBBox.height - tooltipBBox.height/2)
-      if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
-      if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
-      if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
+        if (top   <= (tooltipBBox.height/2)) top = (tooltipBBox.height/2)
+        if (top   >= (elemBBox.height - tooltipBBox.height/2)) top = (elemBBox.height - tooltipBBox.height/2)
+        if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
+        if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
+        if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
 
-      if (isMobile) top = 0
-      if (bowser.tablet) top = d3.mouse(this)[1] - (tooltipBBox.height/2) -40
-
-      vertical.style('left', vleft + 'px' )
-      tooltip.style('left',  left  - (tooltipBBox.width/2)  + 'px' )
-      tooltip.style('top',   top   - (tooltipBBox.height/2) + 'px' )
+        vertical.style('left', vleft + 'px' )
+        tooltip.style('left',  left  - (tooltipBBox.width/2)  + 'px' )
+        tooltip.style('top',   top   - (tooltipBBox.height/2) + 'px' )
+      })
+      .on('touchmove', function() {
+        var elemBBox    = this.getBoundingClientRect()
+        var tooltipBBox = tooltip.node().getBoundingClientRect()
+        var vleft = d3.mouse(this)[0]
+        var left  = d3.mouse(this)[0]
+        if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
+        if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
+        if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
+        vertical.style('left', vleft + 'px' )
+        tooltip.style('left',  left - (tooltipBBox.width/2) + 'px' )
+      })
     }
 
-    function _showTooltip(d,i) {
-      svg.selectAll('.layer')
-         .transition()
-         .duration(250)
-         .attr('opacity', function(d, j) { return j == i ? 1 : .3 })
-      vertical.style('visibility', 'visible')
-      tooltip.style('visibility', 'visible')
-    }
-    function _hideTooltip(d,i) {
-      svg.selectAll('.layer')
-         .transition()
-         .duration(250)
-         .attr('opacity', '1')
-      vertical.style('visibility', 'hidden')
-      tooltip.style('visibility', 'hidden')
-    }
     function _drawTooltip(d) {
       var mouseX = d3.mouse(this)[0]
       var selectedDate = X.invert(mouseX)
@@ -325,18 +284,12 @@
       selectedDate.setMinutes(roundedMinutes)
       var selected = _.first(_.filter(d.values, function (e) { return e.date.getTime() === selectedDate.getTime() }))
       if (!selected) return
-      var time = moment(selected.date).format('h:mm A')
+      var time = selected.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
       // angular two way databinding seems not work here...
       // use d3 instead
       tooltip.select('.key').text(d.key)
       tooltip.select('.time').text(time)
       tooltip.select('.number-lg').text(selected.value)
-      var data = {
-        name: d.key,
-        time: time,
-        power: selected.value
-      }
-      if(_callback) _callback(data)
     }
   }
 

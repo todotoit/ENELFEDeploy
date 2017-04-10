@@ -8,13 +8,13 @@
     .module('FastRechargeAnimation')
     .component('fastRecharge', {
       templateUrl: '../js/components/fastRechargeAnimation/assets/svg/illustration_fastcharge.svg',
-      controller: FastRechargeCtrl,
+      controller: NightDayAnimationCtrl,
       controllerAs: 'fastRecharge',
       bindings: {}
     })
 
   /* @ngInject */
-  function FastRechargeCtrl($scope, $element, $attrs, TweenMax) {
+  function NightDayAnimationCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
     ctrl.componentPath = '../js/components/fastRechargeAnimation'
     ctrl.svgPath = ctrl.componentPath + '/assets/svg'
@@ -33,13 +33,8 @@
     // function update(changedObj) {}
 
     function chargeAnimation() {
-       TweenMax.set(['#fast','#slow'], { css: { scaleY: "1", transformOrigin:'0% 100%'}})
-       TweenMax.to('#fast',  2, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone, delay:.2 })
-       TweenMax.to('#slow',  6, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone, delay:.2, onComplete:resetAnimation })
-    }
-
-    function resetAnimation(){
-      TweenMax.to(['#fast','#slow'],  .4, { css: { scaleY: "1", transformOrigin:'0% 100%'}, ease:Linear.easeNone, delay:.5, onComplete:chargeAnimation })
+       TweenMax.to('#fast',  2, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone })
+       TweenMax.to('#slow',  6, { css: { scaleY: ".05", transformOrigin:'0% 100%'}, ease:Linear.easeNone })
     }
 
 
@@ -52,9 +47,7 @@
 
     // deregister event handlers
     // $scope.$on events will be automatically deleted on $destroy
-    $scope.$on('$destroy', function () {
-      TweenMax.killAll()
-    })
+    // $scope.$on('$destroy', function () {})
   }
 
 }(window.angular, window.angular.element));
