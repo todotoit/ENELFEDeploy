@@ -3,19 +3,19 @@
     'use strict'
 
   /* THIS ARRAY SHOULD BE UPDATED AFTER EACH GP */
-  var seasonCurrentRace = 3
+  var seasonCurrentRace = 4
   var seasonTotalRaces = 12
   var team_standings = [
   	{
   		name: "RENAULT E.DAMS",
-  		total_points: 111,
-  		point_detail: ['place_1','place_4','place_1','place_4','place_1','place_4']
+  		total_points: 122,
+  		point_detail: ['place_1','place_4','place_1','place_4','place_1','place_4','fastest_lap','place_5']
   	},
 
   	{
   		name: "ABT SCHAEFFLER AUDI SPORT",
-  		total_points: 60,
-  		point_detail: ['place_2','place_5','place_6','place_3','pole_position','place_7']
+  		total_points: 91,
+  		point_detail: ['place_2','place_5','place_6','place_3','pole_position','place_7','place_1','place_7']
   	},
 
   	{
@@ -26,8 +26,8 @@
 
   	{
   		name: "DS VIRGIN RACING",
-  		total_points: 20,
-  		point_detail: ['place_2','place_10','place_10']
+  		total_points: 43,
+  		point_detail: ['place_2','place_10','place_10','place_3','place_6']
   	},
 
   	{
@@ -38,8 +38,8 @@
 
   	{
   		name: "NEXTEV NIO",
-  		total_points: 25,
-  		point_detail: ['pole_position','place_8','place_7','place_5','place_9']
+  		total_points: 30,
+  		point_detail: ['pole_position','place_8','place_7','place_5','place_9','pole_position','place_9']
   	},
 
   	{
@@ -50,8 +50,8 @@
 
   	{
   		name: "TECHEETAH",
-  		total_points: 22,
-  		point_detail: ['place_8','place_2']
+  		total_points: 41,
+  		point_detail: ['place_8','place_2','place_10','place_2']
   	},
 
   	{
@@ -62,8 +62,8 @@
 
   	{
   		name: "PANASONIC JAGUAR RACING",
-  		total_points: 0,
-  		point_detail: []
+  		total_points: 16,
+  		point_detail: ['place_8','place_4']
   	}
   ]
 
