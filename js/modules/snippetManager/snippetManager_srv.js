@@ -15,16 +15,16 @@
     var solarSnippetsKeys = ['mexico','panel','more']
     var ecarSnippetsKeys = ['v2g','recharge','more']
     var _availableSnippets = {
-      // 'mexico': {
-      //   desc: 'How much energy is there in Mexican skies?',
-      //   label: 'The power of the sun',
-      //   tpl: self.path + '/solar25km.html'
-      // },
-      // 'panel': {
-      //   desc: 'Can you guess how much solar panels can power?',
-      //   label: 'Solar energy for the race',
-      //   tpl: self.path + '/solarmexico.html'
-      // },
+      'mexico': {
+        desc: 'How much energy is there in Mexican skies?',
+        label: 'The power of the sun',
+        tpl: self.path + '/solar25km.html'
+      },
+      'panel': {
+        desc: 'Can you guess how much solar panels can power?',
+        label: 'Solar energy for the race',
+        tpl: self.path + '/solarmexico.html'
+      },
       'recharge': {
         desc: 'Innovation is ready to charge! Recharging e-cars is faster than you think.',
         label: 'Fast recharge',
