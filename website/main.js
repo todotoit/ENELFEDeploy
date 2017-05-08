@@ -1145,16 +1145,16 @@
     var solarSnippetsKeys = ['mexico','panel','more']
     var ecarSnippetsKeys = ['v2g','recharge','more']
     var _availableSnippets = {
-      'mexico': {
-        desc: 'How much energy is there in Mexican skies?',
-        label: 'The power of the sun',
-        tpl: self.path + '/solar25km.html'
-      },
-      'panel': {
-        desc: 'Can you guess how much solar panels can power?',
-        label: 'Solar energy for the race',
-        tpl: self.path + '/solarmexico.html'
-      },
+      // 'mexico': {
+      //   desc: 'How much energy is there in Mexican skies?',
+      //   label: 'The power of the sun',
+      //   tpl: self.path + '/solar25km.html'
+      // },
+      // 'panel': {
+      //   desc: 'Can you guess how much solar panels can power?',
+      //   label: 'Solar energy for the race',
+      //   tpl: self.path + '/solarmexico.html'
+      // },
       'recharge': {
         desc: 'Innovation is ready to charge! Recharging e-cars is faster than you think.',
         label: 'Fast recharge',
@@ -1212,7 +1212,7 @@
       })
     }
 
-    function _getSnippet(key,appKey) {
+    function _getSnippet(key, appKey) {
       return $q(function(resolve, reject) {
         var searchKey = key.replace(/ /g, '_')
         if (appKey === 'solar' && !_.includes(solarSnippetsKeys, key)) return reject('Snippet not found!')
@@ -1831,9 +1831,9 @@ window.twttr = (function(d, s, id) {
 
     // countdown
     $scope.countDown = {
-      date: '2017-03-31 03:12', // test
-      date: '2017-04-01 00:00',
-      tz: 'America/Mexico_City',
+      // date: '2017-03-31 03:12', // test
+      date: '2017-05-13 00:00',
+      tz: 'Europe/Monaco',
       currentTime: null,
       raceTime: null,
       isRaceTime: false
@@ -1856,10 +1856,10 @@ window.twttr = (function(d, s, id) {
       var cdownint = $interval(function(){
         // console.log(moment.tz($scope.raceTime.date, $scope.raceTime.tz).countdown().toString())
         var cdown = moment.tz($scope.countDown.date, $scope.countDown.tz).countdown()
-        $scope.countDown.d = cdown.days
-        $scope.countDown.h = cdown.hours
-        $scope.countDown.m = cdown.minutes
-        $scope.countDown.s = cdown.seconds
+        $scope.countDown.d = cdown.days    >= 10? cdown.days    : '0'+cdown.days
+        $scope.countDown.h = cdown.hours   >= 10? cdown.hours   : '0'+cdown.hours
+        $scope.countDown.m = cdown.minutes >= 10? cdown.minutes : '0'+cdown.minutes
+        $scope.countDown.s = cdown.seconds >= 10? cdown.seconds : '0'+cdown.seconds
         $scope.countDown.isRaceTime = moment().tz($scope.countDown.tz).isAfter($scope.countDown.raceTime)
         if ($scope.countDown.isRaceTime) $interval.cancel(cdownint)
       }, 1000)
@@ -1922,7 +1922,7 @@ window.twttr = (function(d, s, id) {
     retrieveTweetFeed()
 
     function retrieveTweetFeed() {
-      return $http.get('https://runkit.io/marcoaimo/58da1fffabf0fd0014889904/branches/master')
+      return $http.get('https://marcoaimo.runkit.io/enelfetweetfeed/branches/master')
                   .then(function(res) {
                     console.log(res.data)
                     vm.tweets = res.data.items
@@ -2010,7 +2010,9 @@ window.twttr = (function(d, s, id) {
       var $elPre = $('#snip-'+lastId)
       var $elNext = $('#snip-1')
       $elPre.click($scope.snip_previous)
-      $elNext.click($scope.snip_next)
+      if (idPreOut > 0) {
+        $elNext.click($scope.snip_next)
+      }
     }
     function _shiftLeft() {
       $timeout(function(){
@@ -2035,7 +2037,10 @@ window.twttr = (function(d, s, id) {
       tl.to($elNext,    duration, {x: '0%',    z: '0',    opacity: 1, zIndex:  0}, 0)
       tl.fromTo($elOut, duration, {x: '120%',  z: '-200', opacity: 0, zIndex: -1},
                                   {x: '60%',   z: '-100', opacity: 1, zIndex: -1}, 0)
-      tl.to($elPre,     duration, {x: '-120%', z: '-200', opacity: 0, zIndex: -2}, 0)
+      // if cards are > 3
+      if ($elOut.attr('id') !== $elPre.attr('id') && idPreOut > 0) {
+        tl.to($elPre,     duration, {x: '-120%', z: '-200', opacity: 0, zIndex: -2}, 0)
+      }
       _shiftRight()
 
       //
@@ -2043,8 +2048,11 @@ window.twttr = (function(d, s, id) {
       $elNext.off()
       $elPre.off()
       $elOut.off()
-      $el.click($scope.snip_previous)
-      $elOut.click($scope.snip_next)
+      // if cards are just 2
+      if (idPreOut > 0) {
+        $el.click($scope.snip_previous)
+        $elOut.click($scope.snip_next)
+      }
     }
     $scope.snip_previous = function() {
       var $el     = $('#snip-0')
@@ -2056,7 +2064,10 @@ window.twttr = (function(d, s, id) {
       tl.to($elPre,     duration, {x: '0%',    z: '0',    opacity: 1, zIndex:  0}, 0)
       tl.fromTo($elOut, duration, {x: '-120%', z: '-200', opacity: 0, zIndex: -1},
                                   {x: '-60%',  z: '-100', opacity: 1, zIndex: -1}, 0)
-      tl.to($elNext,    duration, {x: '120%',  z: '-200', opacity: 0, zIndex: -2}, 0)
+      // if cards are > 3
+      if ($elOut.attr('id') !== $elNext.attr('id') && idPreOut > 0) {
+        tl.to($elNext,    duration, {x: '120%',  z: '-200', opacity: 0, zIndex: -2}, 0)
+      }
       _shiftLeft()
 
       //
@@ -2065,11 +2076,22 @@ window.twttr = (function(d, s, id) {
       $elPre.off()
       $elOut.off()
       $elOut.click($scope.snip_previous)
-      $el.click($scope.snip_next)
+      // if cards are just 2
+      if (idPreOut > 0) {
+        $el.click($scope.snip_next)
+      }
     }
     $scope.getPosition = function(elIdx) {
       var numOfSnip = vm.snippets.length-1
       switch(elIdx) {
+        case numOfSnip:
+          // left
+          return {
+            'transform': 'translateX(-60%) translateZ(-100px)',
+            'z-index': -1,
+            'cursor': 'pointer'
+          }
+        break
         case 0:
           // center
           return {
@@ -2099,14 +2121,6 @@ window.twttr = (function(d, s, id) {
             'transform': 'translateX(-120%) translateZ(-200px)',
             'z-index': -2,
             'opacity': 0
-          }
-        break
-        case numOfSnip:
-          // left
-          return {
-            'transform': 'translateX(-60%) translateZ(-100px)',
-            'z-index': -1,
-            'cursor': 'pointer'
           }
         break
         default:
@@ -2170,9 +2184,9 @@ window.twttr = (function(d, s, id) {
 
     // countdown
     $scope.countDown = {
-      date: '2017-03-31 03:12', // test
-      date: '2017-04-01 00:00',
-      tz: 'America/Mexico_City',
+      // date: '2017-03-31 03:12', // test
+      date: '2017-05-13 00:00',
+      tz: 'Europe/Monaco',
       currentTime: null,
       raceTime: null,
       isRaceTime: false
@@ -2195,10 +2209,10 @@ window.twttr = (function(d, s, id) {
       var cdownint = $interval(function(){
         // console.log(moment.tz($scope.raceTime.date, $scope.raceTime.tz).countdown().toString())
         var cdown = moment.tz($scope.countDown.date, $scope.countDown.tz).countdown()
-        $scope.countDown.d = cdown.days
-        $scope.countDown.h = cdown.hours
-        $scope.countDown.m = cdown.minutes
-        $scope.countDown.s = cdown.seconds
+        $scope.countDown.d = cdown.days    >= 10? cdown.days    : '0'+cdown.days
+        $scope.countDown.h = cdown.hours   >= 10? cdown.hours   : '0'+cdown.hours
+        $scope.countDown.m = cdown.minutes >= 10? cdown.minutes : '0'+cdown.minutes
+        $scope.countDown.s = cdown.seconds >= 10? cdown.seconds : '0'+cdown.seconds
         $scope.countDown.isRaceTime = moment().tz($scope.countDown.tz).isAfter($scope.countDown.raceTime)
         if ($scope.countDown.isRaceTime) $interval.cancel(cdownint)
       }, 1000)
