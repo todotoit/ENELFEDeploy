@@ -1145,16 +1145,16 @@
     var solarSnippetsKeys = ['mexico','panel','more']
     var ecarSnippetsKeys = ['v2g','recharge','more']
     var _availableSnippets = {
-      'mexico': {
-        desc: 'How much energy is there in Mexican skies?',
-        label: 'The power of the sun',
-        tpl: self.path + '/solar25km.html'
-      },
-      'panel': {
-        desc: 'Can you guess how much solar panels can power?',
-        label: 'Solar energy for the race',
-        tpl: self.path + '/solarmexico.html'
-      },
+      // 'mexico': {
+      //   desc: 'How much energy is there in Mexican skies?',
+      //   label: 'The power of the sun',
+      //   tpl: self.path + '/solar25km.html'
+      // },
+      // 'panel': {
+      //   desc: 'Can you guess how much solar panels can power?',
+      //   label: 'Solar energy for the race',
+      //   tpl: self.path + '/solarmexico.html'
+      // },
       'recharge': {
         desc: 'Innovation is ready to charge! Recharging e-cars is faster than you think.',
         label: 'Fast recharge',
@@ -1831,9 +1831,9 @@ window.twttr = (function(d, s, id) {
 
     // countdown
     $scope.countDown = {
-      date: '2017-03-31 03:12', // test
-      date: '2017-04-01 00:00',
-      tz: 'America/Mexico_City',
+      // date: '2017-03-31 03:12', // test
+      date: '2017-05-13 00:00',
+      tz: 'Europe/Monaco',
       currentTime: null,
       raceTime: null,
       isRaceTime: false
@@ -1856,10 +1856,10 @@ window.twttr = (function(d, s, id) {
       var cdownint = $interval(function(){
         // console.log(moment.tz($scope.raceTime.date, $scope.raceTime.tz).countdown().toString())
         var cdown = moment.tz($scope.countDown.date, $scope.countDown.tz).countdown()
-        $scope.countDown.d = cdown.days
-        $scope.countDown.h = cdown.hours
-        $scope.countDown.m = cdown.minutes
-        $scope.countDown.s = cdown.seconds
+        $scope.countDown.d = cdown.days    >= 10? cdown.days    : '0'+cdown.days
+        $scope.countDown.h = cdown.hours   >= 10? cdown.hours   : '0'+cdown.hours
+        $scope.countDown.m = cdown.minutes >= 10? cdown.minutes : '0'+cdown.minutes
+        $scope.countDown.s = cdown.seconds >= 10? cdown.seconds : '0'+cdown.seconds
         $scope.countDown.isRaceTime = moment().tz($scope.countDown.tz).isAfter($scope.countDown.raceTime)
         if ($scope.countDown.isRaceTime) $interval.cancel(cdownint)
       }, 1000)
@@ -1922,7 +1922,7 @@ window.twttr = (function(d, s, id) {
     retrieveTweetFeed()
 
     function retrieveTweetFeed() {
-      return $http.get('https://runkit.io/marcoaimo/58da1fffabf0fd0014889904/branches/master')
+      return $http.get('https://marcoaimo.runkit.io/enelfetweetfeed/branches/master')
                   .then(function(res) {
                     console.log(res.data)
                     vm.tweets = res.data.items
@@ -2170,9 +2170,9 @@ window.twttr = (function(d, s, id) {
 
     // countdown
     $scope.countDown = {
-      date: '2017-03-31 03:12', // test
-      date: '2017-04-01 00:00',
-      tz: 'America/Mexico_City',
+      // date: '2017-03-31 03:12', // test
+      date: '2017-05-13 00:00',
+      tz: 'Europe/Monaco',
       currentTime: null,
       raceTime: null,
       isRaceTime: false
@@ -2195,10 +2195,10 @@ window.twttr = (function(d, s, id) {
       var cdownint = $interval(function(){
         // console.log(moment.tz($scope.raceTime.date, $scope.raceTime.tz).countdown().toString())
         var cdown = moment.tz($scope.countDown.date, $scope.countDown.tz).countdown()
-        $scope.countDown.d = cdown.days
-        $scope.countDown.h = cdown.hours
-        $scope.countDown.m = cdown.minutes
-        $scope.countDown.s = cdown.seconds
+        $scope.countDown.d = cdown.days    >= 10? cdown.days    : '0'+cdown.days
+        $scope.countDown.h = cdown.hours   >= 10? cdown.hours   : '0'+cdown.hours
+        $scope.countDown.m = cdown.minutes >= 10? cdown.minutes : '0'+cdown.minutes
+        $scope.countDown.s = cdown.seconds >= 10? cdown.seconds : '0'+cdown.seconds
         $scope.countDown.isRaceTime = moment().tz($scope.countDown.tz).isAfter($scope.countDown.raceTime)
         if ($scope.countDown.isRaceTime) $interval.cancel(cdownint)
       }, 1000)
