@@ -1,6 +1,6 @@
 {
   "name": "fedeploy",
-  "version": "1.0.85",
+  "version": "1.0.86",
   "main": "index.js",
   "scripts": {
     "deploy_common": "git add -A && git commit -m \"deploy\" && npm version patch && git push",
