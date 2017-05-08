@@ -2048,9 +2048,9 @@ window.twttr = (function(d, s, id) {
       $elNext.off()
       $elPre.off()
       $elOut.off()
+      $el.click($scope.snip_previous)
       // if cards are just 2
       if (idPreOut > 0) {
-        $el.click($scope.snip_previous)
         $elOut.click($scope.snip_next)
       }
     }
