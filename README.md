@@ -12,3 +12,5 @@ Run `npm run deploy_fillergame`
 Run `npm run deploy_website`
 
 Run `npm run deploy_tablet`
+
+Run `npm run deploy_podio`

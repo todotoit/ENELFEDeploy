@@ -9,6 +9,11 @@ if (process.argv[2]) {
     copydir.sync(path.join('..', 'ENEL-FE-FillerGame/public'), 'fillergame')
   }
 
+  if (process.argv[2] === 'podio') {
+    console.log('deploying podio')
+    copydir.sync(path.join('..', 'ENEL-FE-Podio/public'), 'podio')
+  }
+
   if (process.argv[2] === 'website') {
     console.log('deploying website')
     copydir.sync(path.join('..', 'ENEL-F-E-APP/public/assets'), 'assets')
