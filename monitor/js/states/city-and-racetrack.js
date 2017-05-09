@@ -330,15 +330,15 @@
 
   
   var buildingCoordinates = {
-    'media': 20,
-    'paddock': 150,
-    'fans': 100,
-    'facilities': 220,
+    'media': 250,
+    'paddock': 180,
+    'fans': 300,
+    'facilities': 140,
     'meters_overview': 105
   }
 
   var buildingRotationX = {
-    'media': 30,
+    'media': 50,
     'paddock': 50,
     'fans': 55,
     'facilities': 50,
@@ -351,7 +351,9 @@
     TweenMax.set($('#circuit_consumption_buildings svg > *'), {opacity: .3});
 
     mapMarginTop = 0;
-    if(buildingCoordinates[data_link] > 0 && buildingCoordinates[data_link] <= 55){
+    if(buildingCoordinates[data_link] >=-80 && buildingCoordinates[data_link] <= 0){
+      mapMarginTop = -60;
+    }else if(buildingCoordinates[data_link] > 0 && buildingCoordinates[data_link] <= 55){
       mapMarginTop = -20;
     }else if(buildingCoordinates[data_link] > 25 && buildingCoordinates[data_link] <= 55){
       mapMarginTop = -65;
@@ -360,6 +362,9 @@
     }else if(buildingCoordinates[data_link] > 130 && buildingCoordinates[data_link] <= 160){
       mapMarginTop = -10;
     }
+    else if(buildingCoordinates[data_link] > 160 && buildingCoordinates[data_link] <= 360){
+      mapMarginTop = -60;
+    }
 
     //move circuit
     TweenMax.to($('#circuit_consumption_wrap'), 1.6, {"rotationX":buildingRotationX[data_link], "z":-20, top:mapMarginTop, scaleX:.8, scaleY:.8, ease:Power2.easeInOut})
@@ -367,6 +372,8 @@
 
     //building
     TweenMax.to($('#circuit_consumption_buildings svg > *'), 1, {css:{opacity: .3}, delay:.6, ease:Power3.easeOut})
+    TweenMax.to($('#circuit_consumption svg'), 1, {opacity: .3})
+
     
     switch(data_link){
       case 'media':
@@ -411,6 +418,7 @@
 
     if(buildings){
       TweenMax.to($('#circuit_consumption_buildings svg > *'), 1, {opacity: .3})
+      TweenMax.to($('#circuit_consumption svg'), 1, {opacity: 1})
     }else{
       TweenMax.to($('#circuit_consumption_buildings svg > *'), 1, {opacity: 0})
       TweenMax.to($('#microgrid_meters_overview_extra_info'), .6, {css:{opacity: 0, display: 'none'}, ease:Power3.easeOut} );
@@ -498,7 +506,7 @@
     //smartMeterTl.play() //debug
 
     $('#circuit_consumption_electricity .electricity').each(function(i,el){
-      electricityEffect(el, 1.2, 2.5, false) //element, velocity, appearance time (lower: often), invert_direction
+      electricityEffect(el, 1.2, 2.5, true) //element, velocity, appearance time (lower: often), invert_direction
     })
 
     $('#illustration_microgrid_race_container svg path.electricity').each(function(i,el){
