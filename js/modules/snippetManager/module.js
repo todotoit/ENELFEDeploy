@@ -14,7 +14,8 @@
       'Solar25kmAnimation',
       'SolarMexicoAnimation',
       'FastRechargeAnimation',
-      'EnelStandAnimation'
+      'EnelStandAnimation',
+      'EfficiencyAnimation'
     ])
 
 }(window.angular));
