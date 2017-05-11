@@ -92,6 +92,7 @@
         // in every case without delay we can unregister listeners
         unregisterButtons()
         // and we should reset tab style
+        resetAllButtons()
         resetTab();
         console.log('smartMeterTl.stop()')
         smartMeterTl.stop()
