@@ -2079,7 +2079,7 @@ window.twttr = (function(d, s, id) {
         var snip_width = 350
         var snip_height = 548
       }
-      if(bowser.safari || (bowser.chrome && bowser.iphone) || (bowser.firefox && +bowser.version < 52 || bowser.msie)){
+      if(bowser.safari || (bowser.chrome && (bowser.iphone || bowser.ipad)) || (bowser.firefox && +bowser.version < 52 || bowser.msie)){
         $('#snippet-carousel').css({
           width: snip_width*2
         })
