@@ -240,7 +240,6 @@ div#illustration_microgrid_hand_container{
 }
 
 
-
 #latinamerica_text_container{
   position: absolute;
   top: 0;
@@ -279,7 +278,15 @@ div#illustration_microgrid_hand_container{
 
 }
 
+#smartgrid_latinamerica .svg_container{
+	position: absolute;
+	width: 100%;
+	height: 400px;
+}
 
+#enelworld_text_container .info_block{
+	height: 140px;
+}
 
 
 

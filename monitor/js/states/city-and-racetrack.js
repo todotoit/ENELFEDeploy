@@ -304,8 +304,8 @@
     hideSmartgridSections()
     showSmartgridSection(data_link)
 
-    TweenMax.to($('#donut_sections g path'), .6, {css:{opacity: .4}, ease:Power3.easeOut} );
-    TweenMax.to($('#donut_sections #donut_temporary path'), 1, {css:{opacity: 1}, ease:Power3.easeOut} );
+    TweenMax.set($('#smartgrid_latinamerica #cursor'), {css:{opacity: 0, x: '-=600'}} );
+    //TweenMax.to($('#smartgrid_latinamerica #cursor'), 1, {css:{opacity: 1, x: 0}, delay:.5, ease:Power2.easeOut} );
   }
 
   function hideSmartgridSections(){
@@ -529,6 +529,11 @@
     
     smartMeterRaceTl.stop()*/
     //smartMeterRaceTl.play() //debug
+
+
+    $('#smartgrid_latinamerica .electricity').each(function(i,el){
+      electricityEffect(el, .6, 2+i/10, true, true) //element, velocity, appearance time (lower: often), invert_direction
+    })
 
    }
 
