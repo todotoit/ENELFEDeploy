@@ -123,6 +123,7 @@ h4{ /*14pt*/
   position: relative;
   letter-spacing: -.01em;
   line-height: 1em;
+  z-index: 1;
 }
 
 .value{
