@@ -1,47 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="selected" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 214 214" style="enable-background:new 0 0 214 214;" xml:space="preserve">
-<style type="text/css">
-	.st0-energimix{fill:url(#SVGID_1_);}
-	.st1-energimix{fill:#FFFFFF;}
-	.st2-energimix{fill:url(#SVGID_2_);}
-	.st3-energimix{fill:url(#SVGID_3_);}
-</style>
-<title>illustration_energymix</title>
-<g id="donut_urban">
-	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="16.532" y1="71.2196" x2="189.6381" y2="44.4245">
-		<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0.3"/>
-		<stop  offset="0.33" style="stop-color:#FFFFFF;stop-opacity:0.54"/>
-		<stop  offset="0.64" style="stop-color:#FFFFFF;stop-opacity:0.74"/>
-		<stop  offset="0.87" style="stop-color:#FFFFFF;stop-opacity:0.86"/>
-		<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0.9"/>
-	</linearGradient>
-	<path class="st0-energimix" d="M35.3,106c0-39.6,32.1-71.7,71.7-71.7c16.7,0,32,5.7,44.2,15.2l24-25C156.7,9.2,132.9,0,107,0
-		C47.9,0,0,47.9,0,107c0,8.6,1,16.9,2.9,24.8l34-10.7C35.9,116.2,35.3,111.2,35.3,106z"/>
-	<path class="st1-energimix" d="M160.8,58.6l24-25c-3-3.2-6.2-6.2-9.6-9l-24,25C154.6,52.3,157.9,55.3,160.8,58.6z"/>
-</g>
-<g id="donut_clean">
-	<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="37.5429" y1="166.0761" x2="23.5991" y2="137.6807">
-		<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0.3"/>
-		<stop  offset="0.33" style="stop-color:#FFFFFF;stop-opacity:0.54"/>
-		<stop  offset="0.64" style="stop-color:#FFFFFF;stop-opacity:0.74"/>
-		<stop  offset="0.87" style="stop-color:#FFFFFF;stop-opacity:0.86"/>
-		<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0.9"/>
-	</linearGradient>
-	<path class="st2-energimix" d="M40.8,133.7L6.7,144.5c4.1,11,10,21.2,17.3,30.1L50.4,150C46.5,145,43.3,139.6,40.8,133.7z"/>
-	<path class="st1-energimix" d="M36.9,121.1l-34,10.7c1,4.3,2.3,8.5,3.8,12.6l34.1-10.8C39.2,129.7,37.8,125.5,36.9,121.1z"/>
-</g>
-<g id="donut_temporary">
-	<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="189.8306" y1="102.2652" x2="59.2567" y2="227.6127">
-		<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0.3"/>
-		<stop  offset="0.33" style="stop-color:#FFFFFF;stop-opacity:0.54"/>
-		<stop  offset="0.64" style="stop-color:#FFFFFF;stop-opacity:0.74"/>
-		<stop  offset="0.87" style="stop-color:#FFFFFF;stop-opacity:0.86"/>
-		<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0.9"/>
-	</linearGradient>
-	<path class="st3-energimix" d="M184.8,33.5l-24,25c11.2,12.6,17.9,29.2,17.9,47.4c0,39.6-32.1,71.7-71.7,71.7c-18.3,0-34.9-6.8-47.6-18.1
-		L33,184.3c19.2,18.4,45.3,29.7,74,29.7c59.1,0,107-47.9,107-107C214,78.6,202.9,52.7,184.8,33.5z"/>
-	<path class="st1-energimix" d="M50.4,150L24,174.6c2.8,3.4,5.8,6.7,9,9.7l26.4-24.6C56.1,156.7,53.1,153.5,50.4,150z"/>
-</g>
+<svg id="selected" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 214 214">
+  <defs>
+    <linearGradient id="linear-gradient" x1="36.64" y1="182.11" x2="160.64" y2="46.87" gradientTransform="translate(-0.23 0.28) rotate(-0.14)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0.86"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="105.48" y1="24.23" x2="168.48" y2="24.23" gradientTransform="translate(-0.23 0.28) rotate(-0.14)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="0.96" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="202.33" y1="55.82" x2="134.33" y2="170.32" gradientTransform="translate(-0.23 0.28) rotate(-0.14)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+  <title>illustration_energymix</title>
+  <g id="donut_urban" data-name="donut urban">
+    <path d="M107.17,178a71,71,0,0,1-1.84-142l-.09-36a107,107,0,1,0,64.89,193.37l-21.33-29A70.66,70.66,0,0,1,107.17,178Z" style="fill: url(#linear-gradient)"/>
+    <path d="M105.33,36c.5,0,1,0,1.5,0,1.51,0,3,.05,4.5.14L111.24.09c-1.49-.06-3-.09-4.5-.09l-1.5,0q-2.89,0-5.75.25l.09,36.16C101.48,36.23,103.39,36.09,105.33,36Z" style="fill: #fff"/>
+  </g>
+  <g id="donut_temporary" data-name="donut temporary">
+    <path d="M106.83,36a70.66,70.66,0,0,1,40.26,12.41L168.3,19.29A106.5,106.5,0,0,0,106.74,0l-1.5,0,.09,36C105.83,36,106.33,36,106.83,36Z" style="fill: url(#linear-gradient-2)"/>
+    <path d="M147.09,48.41q2.42,1.66,4.69,3.52l21.17-29.18q-2.28-1.79-4.65-3.46c-1.63-1.14-3.3-2.22-5-3.27L142.08,45.28C143.8,46.26,145.47,47.3,147.09,48.41Z" style="fill: #fff"/>
+  </g>
+  <g id="donut_clean" data-name="donut clean">
+    <path d="M214,106.74a106.87,106.87,0,0,0-45.7-87.45L147.09,48.41a71,71,0,0,1,1.71,116l21.33,29A106.85,106.85,0,0,0,214,106.74Z" style="fill: url(#linear-gradient-3)"/>
+    <path d="M148.79,164.38q-2.37,1.73-4.89,3.26l21.51,29c1.6-1,3.18-2.12,4.72-3.24s3.21-2.42,4.76-3.7l-21.49-29Q151.17,162.64,148.79,164.38Z" style="fill: #fff"/>
+  </g>
 </svg>
