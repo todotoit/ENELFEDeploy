@@ -1,6 +1,7 @@
 efficiency svg{
-	position: absolute;
-	bottom: 0;
+	position: relative;
+	bottom: 2rem;
+  left: 0;
 }
 
 .border_bottom{

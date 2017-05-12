@@ -13,7 +13,7 @@
     var self  = this
     self.path = '../js/modules/snippetManager/templates'
     var solarSnippetsKeys = ['mexico','panel','more']
-    var ecarSnippetsKeys = ['efficiency','v2g','recharge','more']
+    var ecarSnippetsKeys = ['efficiency','v2g','recharge']
     var _availableSnippets = {
       // 'mexico': {
       //   desc: 'How much energy is there in Mexican skies?',
