@@ -268,11 +268,13 @@
       var left  = d3.mouse(this)[0]
       if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
       if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
+      if (vleft <= 0) vleft = 0
       if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
       // if desktop remap coordinates based on viewport dimensions
       if (isDesktop) {
         var top   = d3.mouse(this)[1]
-        left = vleft = (left * $('streamgraph svg').width()) / w
+        left = ((left * $('streamgraph svg').width()) / w)
+        vleft = (vleft * $('streamgraph svg').width()) / w
         top = (top * $('streamgraph svg').height()) / h
         top -= (tooltipBBox.height/2 +20) // offset
         tooltip.style('top', top - (tooltipBBox.height/2) + 'px' )

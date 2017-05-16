@@ -282,11 +282,13 @@
       var left  = d3.mouse(this)[0]
       if (left  <= (tooltipBBox.width/2)) left = (tooltipBBox.width/2)
       if (left  >= (elemBBox.width - tooltipBBox.width/2)) left = (elemBBox.width - tooltipBBox.width/2)
+      if (vleft <= 0) vleft = 0
       if (vleft >= elemBBox.width-1) vleft = elemBBox.width-1
       // if desktop remap coordinates based on viewport dimensions
       if (isDesktop) {
         var top   = d3.mouse(this)[1]
-        left = vleft = (left * $('streamgraph svg').width()) / w
+        left = ((left * $('streamgraph svg').width()) / w)
+        vleft = (vleft * $('streamgraph svg').width()) / w
         top = (top * $('streamgraph svg').height()) / h
         top -= (tooltipBBox.height/2 +20) // offset
         tooltip.style('top', top - (tooltipBBox.height/2) + 'px' )
@@ -1655,6 +1657,66 @@ window.twttr = (function(d, s, id) {
   }
 }(window.angular, window.angular.element));
 
+(function (angular, jq) {
+  'use strict'
+
+  /**
+    MainApp countdown Directive
+  **/
+
+  angular
+    .module('MainApp')
+    .directive('countdown', Countdown)
+
+  /* @ngInject */
+  function Countdown($interval, moment) {
+    var directive = {
+      link: postLinkFunction,
+      restrict: 'E',
+      replace: true,
+      transclude: true,
+      templateUrl: '../js/directives/countdown/template.html',
+      scope: {
+        date: '@?',
+        timezone: '@?',
+        hideIfOver: '=?',
+        countDown: '=?ngModel'
+      }
+    }
+    return directive
+
+    function postLinkFunction (scope, element, attributes) {
+      // initialize scope object
+      scope.hideIfOver = scope.hideIfOver != null? scope.hideIfOver : true
+      scope.countDown  = scope.countDown  != null? scope.countDown : {}
+      scope.date       = scope.countDown.date != null? scope.countDown.date : scope.date
+      scope.timezone   = scope.countDown.timezone != null? scope.countDown.timezone : scope.timezone
+      if (!scope.date) return console.error('Countdown directive need a valid date to work!')
+      if (!scope.timezone) {
+        scope.timezone = 'UTC'
+        console.warn('Countdown timezone is set to UTC as default')
+      }
+      // localize moment date
+      var currentTime  = moment().tz(scope.timezone)
+      var raceTime     = moment.tz(scope.date, scope.timezone)
+      scope.countDown.isOver = currentTime.isAfter(raceTime)
+      // start countdown
+      var cdownint = $interval(function() {
+        scope.countDown.isOver = moment().tz(scope.timezone).isAfter(raceTime)
+        if (scope.countDown.isOver) {
+          scope.countDown.d = scope.countDown.h = scope.countDown.m = scope.countDown.s = '00'
+          return $interval.cancel(cdownint)
+        }
+        var cdown = moment.tz(scope.date, scope.timezone).countdown()
+        scope.countDown.d = cdown.days    >= 10? cdown.days    : '0' + cdown.days
+        scope.countDown.h = cdown.hours   >= 10? cdown.hours   : '0' + cdown.hours
+        scope.countDown.m = cdown.minutes >= 10? cdown.minutes : '0' + cdown.minutes
+        scope.countDown.s = cdown.seconds >= 10? cdown.seconds : '0' + cdown.seconds
+      }, 1000)
+    }
+  }
+}(window.angular, window.angular.element));
+
 (function (angular, _) {
   'use strict'
 
@@ -1899,7 +1961,7 @@ window.twttr = (function(d, s, id) {
     .controller('LandingCtrl', landingCtrl)
 
   /* @ngInject */
-  function landingCtrl ($scope, snippets, $timeout, $interval, $http, _, moment) {
+  function landingCtrl ($scope, snippets, $timeout, $http, _) {
     var vm = this
     vm.races = []
     vm.streamData = []
@@ -1910,42 +1972,14 @@ window.twttr = (function(d, s, id) {
     vm.snippets = angular.copy(_.initial(snippets))
     vm.tweets = []
 
-    // countdown
+    // initialize object for countdown
     $scope.countDown = {
-      // date: '2017-03-31 03:12', // test
-      date: '2017-05-13 00:00',
-      tz: 'Europe/Monaco',
-      currentTime: null,
-      raceTime: null,
-      isRaceTime: false
+      date: '2017-05-20 00:00',
+      timezone: 'Europe/Paris'
     }
     $scope.compatibilityMsg = ''
     if (bowser.msie) $scope.compatibilityMsg = 'Please use Chrome to enjoy the experience.'
     if (!bowser.chrome) $scope.compatibilityMsg = 'Experience optimised for Chrome.'
-
-    _initializeCountDown()
-    function _initializeCountDown() {
-      // set moment times
-      $scope.countDown.currentTime = moment().tz($scope.countDown.tz)
-      $scope.countDown.raceTime    = moment.tz($scope.countDown.date, $scope.countDown.tz)
-      $scope.countDown.isRaceTime  = $scope.countDown.currentTime.isAfter($scope.countDown.raceTime)
-      //from then until now
-      console.log('Mexico time: ' +$scope.countDown.raceTime.format(),
-                  'Local time: '  +$scope.countDown.raceTime.clone().tz("Europe/Rome").format(),
-                  'Missing time: '+moment.tz($scope.countDown.date, $scope.countDown.tz).countdown().toString())
-
-      var cdownint = $interval(function(){
-        // console.log(moment.tz($scope.raceTime.date, $scope.raceTime.tz).countdown().toString())
-        var cdown = moment.tz($scope.countDown.date, $scope.countDown.tz).countdown()
-        $scope.countDown.d = cdown.days    >= 10? cdown.days    : '0'+cdown.days
-        $scope.countDown.h = cdown.hours   >= 10? cdown.hours   : '0'+cdown.hours
-        $scope.countDown.m = cdown.minutes >= 10? cdown.minutes : '0'+cdown.minutes
-        $scope.countDown.s = cdown.seconds >= 10? cdown.seconds : '0'+cdown.seconds
-        $scope.countDown.isRaceTime = moment().tz($scope.countDown.tz).isAfter($scope.countDown.raceTime)
-        if ($scope.countDown.isRaceTime) $interval.cancel(cdownint)
-      }, 1000)
-    }
-
 
     // donut
     $scope.donutSelectedKey = 'Paddock'
@@ -1996,6 +2030,10 @@ window.twttr = (function(d, s, id) {
       var ytvideoTitl = '<figure-caption>'+currentRace.videoTitle+'</figure-caption>'
       $('#eprix-history .video-wrapper').html(ytvideo)
       $('#eprix-history-sidebar .video-wrapper').html(ytvideo)
+      if (!currentRace.videoId) {
+        $('#eprix-history .video-wrapper .race-video').remove()
+        $('#eprix-history-sidebar .video-wrapper .race-video').remove()
+      }
       if (!$scope.$$phase) $scope.$digest()
     }
 
@@ -2263,41 +2301,14 @@ window.twttr = (function(d, s, id) {
       zones: []
     }
 
-    // countdown
+    // initialize object for countdown
     $scope.countDown = {
-      // date: '2017-03-31 03:12', // test
-      date: '2017-05-13 00:00',
-      tz: 'Europe/Monaco',
-      currentTime: null,
-      raceTime: null,
-      isRaceTime: false
+      date: '2017-05-20 00:00',
+      timezone: 'Europe/Paris'
     }
     $scope.compatibilityMsg = ''
     // if (bowser.msie) $scope.compatibilityMsg = 'Please use Chrome to enjoy the experience.'
     // if (!bowser.chrome) $scope.compatibilityMsg = 'Experience optimised for Chrome.'
-
-    _initializeCountDown()
-    function _initializeCountDown() {
-      // set moment times
-      $scope.countDown.currentTime = moment().tz($scope.countDown.tz)
-      $scope.countDown.raceTime    = moment.tz($scope.countDown.date, $scope.countDown.tz)
-      $scope.countDown.isRaceTime  = $scope.countDown.currentTime.isAfter($scope.countDown.raceTime)
-      //from then until now
-      console.log('Mexico time: ' +$scope.countDown.raceTime.format(),
-                  'Local time: '  +$scope.countDown.raceTime.clone().tz("Europe/Rome").format(),
-                  'Missing time: '+moment.tz($scope.countDown.date, $scope.countDown.tz).countdown().toString())
-
-      var cdownint = $interval(function(){
-        // console.log(moment.tz($scope.raceTime.date, $scope.raceTime.tz).countdown().toString())
-        var cdown = moment.tz($scope.countDown.date, $scope.countDown.tz).countdown()
-        $scope.countDown.d = cdown.days    >= 10? cdown.days    : '0'+cdown.days
-        $scope.countDown.h = cdown.hours   >= 10? cdown.hours   : '0'+cdown.hours
-        $scope.countDown.m = cdown.minutes >= 10? cdown.minutes : '0'+cdown.minutes
-        $scope.countDown.s = cdown.seconds >= 10? cdown.seconds : '0'+cdown.seconds
-        $scope.countDown.isRaceTime = moment().tz($scope.countDown.tz).isAfter($scope.countDown.raceTime)
-        if ($scope.countDown.isRaceTime) $interval.cancel(cdownint)
-      }, 1000)
-    }
 
     // donut
     $scope.donutSelectedKey = 'Paddock'
@@ -2348,6 +2359,10 @@ window.twttr = (function(d, s, id) {
       var ytvideoTitl = '<figure-caption>'+currentRace.videoTitle+'</figure-caption>'
       $('#eprix-history .video-wrapper').html(ytvideo)
       $('#eprix-history-sidebar .video-wrapper').html(ytvideo)
+      if (!currentRace.videoId) {
+        $('#eprix-history .video-wrapper .race-video').remove()
+        $('#eprix-history-sidebar .video-wrapper .race-video').remove()
+      }
       if (!$scope.$$phase) $scope.$digest()
     }
 
