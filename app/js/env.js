@@ -3,7 +3,7 @@
 
   var envs = {
     local: {
-      backend_url: "./fake-data"
+      backend_url: "http://backend.enelformulae.todo.to.it"
     },
     development: {
       backend_url: "http://192.168.3.10:5001"

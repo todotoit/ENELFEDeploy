@@ -331,17 +331,17 @@
 
   
   var buildingCoordinates = {
-    'media': 250,
-    'paddock': 180,
-    'fans': 300,
-    'facilities': 140,
+    'media': 140,
+    'paddock': 60,
+    'fans': 40,
+    'facilities': 100,
     'meters_overview': 105
   }
 
   var buildingRotationX = {
-    'media': 50,
+    'media': 40,
     'paddock': 50,
-    'fans': 55,
+    'fans': 25,
     'facilities': 50,
     'meters_overview': 55
   }
@@ -354,14 +354,14 @@
     mapMarginTop = 0;
     if(buildingCoordinates[data_link] >=-80 && buildingCoordinates[data_link] <= 0){
       mapMarginTop = -60;
-    }else if(buildingCoordinates[data_link] > 0 && buildingCoordinates[data_link] <= 55){
+    }else if(buildingCoordinates[data_link] > 0 && buildingCoordinates[data_link] <= 25){
       mapMarginTop = -20;
     }else if(buildingCoordinates[data_link] > 25 && buildingCoordinates[data_link] <= 55){
-      mapMarginTop = -65;
-    }else if(buildingCoordinates[data_link] > 80 && buildingCoordinates[data_link] <= 130){
+      mapMarginTop = -25;
+    }else if(buildingCoordinates[data_link] >= 80 && buildingCoordinates[data_link] <= 130){
       mapMarginTop = -60;
     }else if(buildingCoordinates[data_link] > 130 && buildingCoordinates[data_link] <= 160){
-      mapMarginTop = -10;
+      mapMarginTop = -60;
     }
     else if(buildingCoordinates[data_link] > 160 && buildingCoordinates[data_link] <= 360){
       mapMarginTop = -60;

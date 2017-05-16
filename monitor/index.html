@@ -10,23 +10,23 @@
 	<link rel="apple-touch-icon-precomposed" href="img/enel-icon.png" />
 	<title>Enel</title>
 
-	<link rel="stylesheet" href="bower_components/normalize-css/normalize.css?v=1.0.102" />
-	<link rel="stylesheet" href="vendor/owl.carousel.2.0.0-beta.2.4/assets/owl.carousel.css?v=1.0.102" />
-	<link rel="stylesheet" href="vendor/foundation-6.2.4-custom/css/foundation.css?v=1.0.102" />
+	<link rel="stylesheet" href="bower_components/normalize-css/normalize.css?v=1.0.104" />
+	<link rel="stylesheet" href="vendor/owl.carousel.2.0.0-beta.2.4/assets/owl.carousel.css?v=1.0.104" />
+	<link rel="stylesheet" href="vendor/foundation-6.2.4-custom/css/foundation.css?v=1.0.104" />
   <!-- COMPONENTS -->
-  <link rel="stylesheet" href="components/standings/standings.css?v=1.0.102">
-  <link rel="stylesheet" href="components/sidebarDonutChart/sidebarDonutChart.css?v=1.0.102">
-  <link rel="stylesheet" href="components/teamAreaChart/teamAreaChart.css?v=1.0.102">
-  <link rel="stylesheet" href="components/slideLatinAmerica/slideWrapper.css?v=1.0.102">
-  <link rel="stylesheet" href="components/slideMetersMap/slideWrapper.css?v=1.0.102">
+  <link rel="stylesheet" href="components/standings/standings.css?v=1.0.104">
+  <link rel="stylesheet" href="components/sidebarDonutChart/sidebarDonutChart.css?v=1.0.104">
+  <link rel="stylesheet" href="components/teamAreaChart/teamAreaChart.css?v=1.0.104">
+  <link rel="stylesheet" href="components/slideLatinAmerica/slideWrapper.css?v=1.0.104">
+  <link rel="stylesheet" href="components/slideMetersMap/slideWrapper.css?v=1.0.104">
 	<!-- MAIN STYLE WRAPPER -->
-  <link rel="stylesheet" href="css/style.css?v=1.0.102" />
+  <link rel="stylesheet" href="css/style.css?v=1.0.104" />
 
-	<script src="bower_components/bowser/src/bowser.js?v=1.0.102"></script>
+	<script src="bower_components/bowser/src/bowser.js?v=1.0.104"></script>
   <!-- required by svg-importer -->
-  <script src="bower_components/jquery/dist/jquery.js?v=1.0.102"></script>
-	<script src="js/svg-importer.js?v=1.0.102"></script>
-	<script src="bower_components/everpolate/everpolate.browserified.js?v=1.0.102"></script>
+  <script src="bower_components/jquery/dist/jquery.js?v=1.0.104"></script>
+	<script src="js/svg-importer.js?v=1.0.104"></script>
+	<script src="bower_components/everpolate/everpolate.browserified.js?v=1.0.104"></script>
 	<script type="text/javascript">
 		// initialize global namespace for application
 		window.Application = {
@@ -152,7 +152,7 @@
         			<img class="logo" id="logo_enel" src="img/fe-enel_logo.png">
         		</div>
 
-        		<!-- <div id="main_generation_top" class="columns small-3">
+        		<div id="main_generation_top" class="columns small-3">
         			<div class="cursor cursor_small">&nbsp;</div>
         			<div class="info_block_wrapper">
   	      			<div class="info_block info_block_small">
@@ -161,22 +161,22 @@
       						<span class="unit">kW</span>
       					</div>
   				    </div>
-        		</div> -->
-        		<!--div class="small-3 columns">
+        		</div>
+        		<!-- <div class="small-3 columns">
         			<img class="logo" id="logo_fe" src="img/fe_logo.png">
-        		</div-->
+        		</div> -->
         	</div>
         	
         	<div id="streamgraph"><!-- STREAM HERE --></div>
         	<div class="row" id="main_generation_wrap">
         		<div id="main_generation" class="columns small-8">
         			<span class="cursor cursor_big">&nbsp;</span>
-        			<!-- <div class="info_block info_block_big">
+        			<div class="info_block info_block_big">
       					<span class="number live u40" data-bind="instant-power-consumption">0</span>
       					<span class="unit">kW</span>
       					<h3>Instant power demand</h3>
       					<p>Equivalent to <span data-bind="instant-power-consumption-washmachine">0</span> washing machines</p>
-      				</div> -->
+      				</div>
   				
         		</div>
         	</div>
@@ -1616,13 +1616,13 @@
 
   				<div id="circuit_consumption_wrap">
   					<div id="circuit_consumption">
-  						<import-svg name="circuit_monaco" location="svg"></import-svg>
+  						<import-svg name="circuit_paris" location="svg"></import-svg>
   					</div>
   					<div id="circuit_consumption_electricity">
-  						<import-svg name="circuit_monaco_electricity" location="svg"></import-svg>
+  						<import-svg name="circuit_paris" location="svg"></import-svg>
   					</div>
   					<div id="circuit_consumption_buildings">
-  						<import-svg name="circuit_monaco_buildings" location="svg"></import-svg>
+  						<import-svg name="circuit_paris_buildings" location="svg"></import-svg>
   					</div>
   				</div>
 
@@ -2008,7 +2008,7 @@
   						<div class="row">
   							<div class="columns small-3">
   								<h4>The track</h4>
-  								<h2>Monaco street circuit</h2>
+  								<h2>Circuit des Invalides</h2>
                     <div class="info_block">
       								<h4>CARS' ENERGY DEMAND</h4>
       								<div class="value">
@@ -2022,7 +2022,7 @@
   							</div>
   							<div class="columns end small-2">
   								<div class="info_block" id="track_flag">
-	  								<h4>Monaco</h4>
+	  								<h4>France</h4>
 	  								<div class="flag_circle">
 	  									<!-- FLAG filled as background in CSS -->
 	  								</div>
@@ -2362,17 +2362,17 @@
   							<div class="columns small-12 small-centered">
   								<div class="row">
                     <div class="columns small-6 fastest_lap_container">
-                      <h4 class="fastest_lap">Season 1 fastest lap</h4>
+                      <!--h4 class="fastest_lap">Season 1 fastest lap</h4-->
                       <div class="row">
                         <div class="columns small-6">
-                          <p>Race</p>
-                          <span class="number">0:57.249</span>
-                          <span class="unit">Sébastien<br>Buemi</span>
+                          <h4>Previous Winner</h4>
+                          <span class="unit">Lucas</span>
+                          <span class="number">di Grassi</span>
                         </div>
                         <div class="columns small-6">
-                          <p>Outright</p>
-                          <span class="number">0:53.478</span>
-                          <span class="unit">Sébastien<br>Buemi</span>
+                          <h4>Fastest Lap</h4>
+                          <span class="unit">Nick</span>
+                          <span class="number">Heidfeld</span>
                         </div>  
                       </div>
                     </div>
@@ -2380,15 +2380,17 @@
                       <div class="row">
                         <div class="columns small-6">
                           <div class="info_block info_block_small">
-                                <h4>Laps</h4>
-                            <span class="number">51</span>
+                            <!-- <h4>Laps</h4>
+                            <span class="number">51</span> -->
+                            <h4>Turns</h4>
+                            <span class="number">14</span>
                           </div>
                           
                         </div>
                         <div class="columns small-6">
                           <div class="info_block info_block_small">
                                 <h4>Length</h4>
-                            <span class="number">1.765</span>
+                            <span class="number">1.93</span>
                             <span class="unit">km</span>
                           </div>
                         </div>
@@ -2500,98 +2502,98 @@
 </script>
 
 <!-- GSAP -->
-<script src="vendor/gsap/TweenMax.min.js?v=1.0.102"></script>
-<script src="vendor/gsap/TimelineLite.min.js?v=1.0.102"></script>
-<script src="vendor/gsap/plugins/DrawSVGPlugin.min.js?v=1.0.102"></script>
-<script src="vendor/foundation-6.2.4-custom/js/foundation.js?v=1.0.102"></script>
+<script src="vendor/gsap/TweenMax.min.js?v=1.0.104"></script>
+<script src="vendor/gsap/TimelineLite.min.js?v=1.0.104"></script>
+<script src="vendor/gsap/plugins/DrawSVGPlugin.min.js?v=1.0.104"></script>
+<script src="vendor/foundation-6.2.4-custom/js/foundation.js?v=1.0.104"></script>
 
 <!-- CAROUSEL -->
-<script src="vendor/owl.carousel.2.0.0-beta.2.4/owl.carousel.js?v=1.0.102"></script>
+<script src="vendor/owl.carousel.2.0.0-beta.2.4/owl.carousel.js?v=1.0.104"></script>
 
-<script src="bower_components/lodash/dist/lodash.js?v=1.0.102"></script>
-<script src="bower_components/stateman/stateman.js?v=1.0.102"></script>
+<script src="bower_components/lodash/dist/lodash.js?v=1.0.104"></script>
+<script src="bower_components/stateman/stateman.js?v=1.0.104"></script>
 
 <!-- D3js -->
-<script src="bower_components/d3/d3.js?v=1.0.102" charset="utf-8"></script>
+<script src="bower_components/d3/d3.js?v=1.0.104" charset="utf-8"></script>
 
-<script src="bower_components/fastclick/lib/fastclick.js?v=1.0.102" charset="utf-8"></script>
-<script src="bower_components/later/later.js?v=1.0.102" charset="utf-8"></script>
-<script src="bower_components/numeral/numeral.js?v=1.0.102" charset="utf-8"></script>
+<script src="bower_components/fastclick/lib/fastclick.js?v=1.0.104" charset="utf-8"></script>
+<script src="bower_components/later/later.js?v=1.0.104" charset="utf-8"></script>
+<script src="bower_components/numeral/numeral.js?v=1.0.104" charset="utf-8"></script>
 
-<script src="js/env.js?v=1.0.102" charset="utf-8"></script>
-<script src="bower_components/emitonoff/dist/emitonoff.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/api/depend.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/api/dom-bind.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/api/persist.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/api/model.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/instant-power-consumption.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/instant-area-chart-paddock.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/instant-power-consumption-washmachine.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/total-energy-consumption-washmachine.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/total-energy-consumption.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/total-energy-consumption-by-zones.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-vehicle.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption.js?v=1.0.102" charset="utf-8"></script>
+<script src="js/env.js?v=1.0.104" charset="utf-8"></script>
+<script src="bower_components/emitonoff/dist/emitonoff.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/api/depend.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/api/dom-bind.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/api/persist.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/api/model.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/instant-power-consumption.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/instant-area-chart-paddock.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/instant-power-consumption-washmachine.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/total-energy-consumption-washmachine.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/total-energy-consumption.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/total-energy-consumption-by-zones.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-vehicle.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption.js?v=1.0.104" charset="utf-8"></script>
 
-<script src="js/models/zone-consumption-esports-vehicle.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-esports.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-esports-percentage.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-demand-esports.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-hospitality-vehicle.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-hospitality.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-hospitality-percentage.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-demand-hospitality.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-evillage-vehicle.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-evillage.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-evillage-percentage.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-demand-evillage.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-tv-vehicle.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-tv.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-tv-percentage.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-demand-tv.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-paddock-vehicle.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-paddock-percentage.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-paddock.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-paddock-charging.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-consumption-paddock-auxiliary.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-demand-paddock.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-demand-paddock-charging.js?v=1.0.102" charset="utf-8"></script>
-<script src="js/models/zone-demand-paddock-auxiliary.js?v=1.0.102" charset="utf-8"></script>
+<script src="js/models/zone-consumption-esports-vehicle.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-esports.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-esports-percentage.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-demand-esports.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-hospitality-vehicle.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-hospitality.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-hospitality-percentage.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-demand-hospitality.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-evillage-vehicle.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-evillage.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-evillage-percentage.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-demand-evillage.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-tv-vehicle.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-tv.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-tv-percentage.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-demand-tv.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock-vehicle.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock-percentage.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock-charging.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-consumption-paddock-auxiliary.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-demand-paddock.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-demand-paddock-charging.js?v=1.0.104" charset="utf-8"></script>
+<script src="js/models/zone-demand-paddock-auxiliary.js?v=1.0.104" charset="utf-8"></script>
 
 <!-- COMPONENTS -->
-<script src="components/standings/standings.js?v=1.0.102"></script>
-<script src="components/sidebarDonutChart/sidebarDonutChart.js?v=1.0.102"></script>
-<script src="components/teamAreaChart/teamAreaChart.js?v=1.0.102"></script>
-<script src="components/teamSankey/teamSankey.js?v=1.0.102"></script>
-<script src="components/slideLatinAmerica/slideWrapper.js?v=1.0.102"></script>
-<script src="components/slideMetersMap/slideWrapper.js?v=1.0.102"></script>
+<script src="components/standings/standings.js?v=1.0.104"></script>
+<script src="components/sidebarDonutChart/sidebarDonutChart.js?v=1.0.104"></script>
+<script src="components/teamAreaChart/teamAreaChart.js?v=1.0.104"></script>
+<script src="components/teamSankey/teamSankey.js?v=1.0.104"></script>
+<script src="components/slideLatinAmerica/slideWrapper.js?v=1.0.104"></script>
+<script src="components/slideMetersMap/slideWrapper.js?v=1.0.104"></script>
 
 <!-- SLIDE SCRIPTS -->
-<script src="js/animations/dashboard.js?v=1.0.102"></script>
-<script src="js/animations/city-and-racetrack/background.js?v=1.0.102"></script>
-<script src="js/animations/cars-and-teams/background.js?v=1.0.102"></script>
-<script src="js/animations/sidebar.js?v=1.0.102"></script>
+<script src="js/animations/dashboard.js?v=1.0.104"></script>
+<script src="js/animations/city-and-racetrack/background.js?v=1.0.104"></script>
+<script src="js/animations/cars-and-teams/background.js?v=1.0.104"></script>
+<script src="js/animations/sidebar.js?v=1.0.104"></script>
 
 <!-- IDLE SCRIPTS -->
-<script src="js/animations/idle/fe_structure.js?v=1.0.102"></script>
-<script src="js/animations/idle/timeline.js?v=1.0.102"></script>
-<script src="js/animations/idle/background.js?v=1.0.102"></script>
+<script src="js/animations/idle/fe_structure.js?v=1.0.104"></script>
+<script src="js/animations/idle/timeline.js?v=1.0.104"></script>
+<script src="js/animations/idle/background.js?v=1.0.104"></script>
 
-<script src="js/ui.js?v=1.0.102"></script>
-<script src="js/ui/carousel.js?v=1.0.102"></script>
-<script src="js/ui/slide.js?v=1.0.102"></script>
-<script src="js/ui/streamgraph.js?v=1.0.102"></script>
+<script src="js/ui.js?v=1.0.104"></script>
+<script src="js/ui/carousel.js?v=1.0.104"></script>
+<script src="js/ui/slide.js?v=1.0.104"></script>
+<script src="js/ui/streamgraph.js?v=1.0.104"></script>
 
-<script src="js/states/dashboard.js?v=1.0.102"></script>
-<script src="js/states/cars-and-teams.js?v=1.0.102"></script>
-<script src="js/states/city-and-racetrack.js?v=1.0.102"></script>
-<script src="js/states.js?v=1.0.102"></script>
+<script src="js/states/dashboard.js?v=1.0.104"></script>
+<script src="js/states/cars-and-teams.js?v=1.0.104"></script>
+<script src="js/states/city-and-racetrack.js?v=1.0.104"></script>
+<script src="js/states.js?v=1.0.104"></script>
 
-<script src="js/cache-busting.js?v=1.0.102"></script>
-<script src="js/ga.js?v=1.0.102"></script>
-<script src="js/app.js?v=1.0.102"></script>
+<script src="js/cache-busting.js?v=1.0.104"></script>
+<script src="js/ga.js?v=1.0.104"></script>
+<script src="js/app.js?v=1.0.104"></script>
 
-<!-- <script src="js/app.js?v=1.0.102"></script> -->
-<!-- <script src="js/section_map.js?v=1.0.102"></script> -->
+<!-- <script src="js/app.js?v=1.0.104"></script> -->
+<!-- <script src="js/section_map.js?v=1.0.104"></script> -->
 
 </html>

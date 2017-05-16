@@ -3,31 +3,31 @@
     'use strict'
 
   /* THIS ARRAY SHOULD BE UPDATED AFTER EACH GP */
-  var seasonCurrentRace = 4
+  var seasonCurrentRace = 5
   var seasonTotalRaces = 12
   var team_standings = [
   	{
   		name: "RENAULT E.DAMS",
-  		total_points: 122,
-  		point_detail: ['place_1','place_4','place_1','place_4','place_1','place_4','fastest_lap','place_5']
+  		total_points: 152,
+  		point_detail: ['place_1','place_4','place_1','place_4','place_1','place_4','fastest_lap','place_5','place_1','pole_position','place_9']
   	},
 
   	{
   		name: "ABT SCHAEFFLER AUDI SPORT",
-  		total_points: 91,
-  		point_detail: ['place_2','place_5','place_6','place_3','pole_position','place_7','place_1','place_7']
+  		total_points: 115,
+  		point_detail: ['place_2','place_5','place_6','place_3','pole_position','place_7','place_1','place_7','place_2','place_7']
   	},
 
   	{
   		name: "MAHINDRA RACING",
-  		total_points: 37,
-  		point_detail: ['fastest_lap','place_3','place_3','pole_position','place_9','fastest_lap']
+  		total_points: 60,
+  		point_detail: ['fastest_lap','place_3','place_3','pole_position','place_9','fastest_lap','place_3','place_6']
   	},
 
   	{
   		name: "DS VIRGIN RACING",
-  		total_points: 43,
-  		point_detail: ['place_2','place_10','place_10','place_3','place_6']
+  		total_points: 44,
+  		point_detail: ['place_2','place_10','place_10','place_3','place_6','fastest_lap']
   	},
 
   	{
@@ -38,8 +38,8 @@
 
   	{
   		name: "NEXTEV NIO",
-  		total_points: 30,
-  		point_detail: ['pole_position','place_8','place_7','place_5','place_9','pole_position','place_9']
+  		total_points: 42,
+  		point_detail: ['pole_position','place_8','place_7','place_5','place_9','pole_position','place_9','place_4']
   	},
 
   	{
@@ -50,20 +50,20 @@
 
   	{
   		name: "TECHEETAH",
-  		total_points: 41,
-  		point_detail: ['place_8','place_2','place_10','place_2']
+  		total_points: 45,
+  		point_detail: ['place_8','place_2','place_10','place_2','place_8']
   	},
 
   	{
   		name: "VENTURI FORMULA E",
-  		total_points: 3,
-  		point_detail: ['place_9','place_10']
+  		total_points: 13,
+  		point_detail: ['place_9','place_10','place_5']
   	},
 
   	{
   		name: "PANASONIC JAGUAR RACING",
-  		total_points: 16,
-  		point_detail: ['place_8','place_4']
+  		total_points: 17,
+  		point_detail: ['place_8','place_4','place_10']
   	}
   ]
 
