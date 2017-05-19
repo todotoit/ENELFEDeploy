@@ -331,7 +331,7 @@
 
   
   var buildingCoordinates = {
-    'media': 140,
+    'media': 40,
     'paddock': 60,
     'fans': 40,
     'facilities': 100,
