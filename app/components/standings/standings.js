@@ -3,13 +3,13 @@
     'use strict'
 
   /* THIS ARRAY SHOULD BE UPDATED AFTER EACH GP */
-  var seasonCurrentRace = 5
+  var seasonCurrentRace = 6
   var seasonTotalRaces = 12
   var team_standings = [
   	{
   		name: "RENAULT E.DAMS",
-  		total_points: 152,
-  		point_detail: ['place_1','place_4','place_1','place_4','place_1','place_4','fastest_lap','place_5','place_1','pole_position','place_9']
+  		total_points: 190,
+  		point_detail: ['place_1','place_4','place_1','place_4','place_1','place_4','fastest_lap','place_5','place_1','pole_position','place_9','place_1','pole_position','place_5']
   	},
 
   	{
@@ -20,26 +20,26 @@
 
   	{
   		name: "MAHINDRA RACING",
-  		total_points: 60,
-  		point_detail: ['fastest_lap','place_3','place_3','pole_position','place_9','fastest_lap','place_3','place_6']
+  		total_points: 87,
+  		point_detail: ['fastest_lap','place_3','place_3','pole_position','place_9','fastest_lap','place_3','place_6','place_3','place_4']
   	},
 
   	{
   		name: "DS VIRGIN RACING",
-  		total_points: 44,
-  		point_detail: ['place_2','place_10','place_10','place_3','place_6','fastest_lap']
+  		total_points: 63,
+  		point_detail: ['place_2','place_10','place_10','place_3','place_6','fastest_lap','place_2','fastest_lap']
   	},
 
   	{
   		name: "ANDRETTI FORMULA E",
-  		total_points: 18,
-  		point_detail: ['place_5','place_6']
+  		total_points: 26,
+  		point_detail: ['place_5','place_6','place_6']
   	},
 
   	{
   		name: "NEXTEV NIO",
-  		total_points: 42,
-  		point_detail: ['pole_position','place_8','place_7','place_5','place_9','pole_position','place_9','place_4']
+  		total_points: 48,
+  		point_detail: ['pole_position','place_8','place_7','place_5','place_9','pole_position','place_9','place_4','place_7']
   	},
 
   	{
@@ -56,14 +56,14 @@
 
   	{
   		name: "VENTURI FORMULA E",
-  		total_points: 13,
-  		point_detail: ['place_9','place_10','place_5']
+  		total_points: 18,
+  		point_detail: ['place_9','place_10','place_5','place_8','place_10']
   	},
 
   	{
   		name: "PANASONIC JAGUAR RACING",
-  		total_points: 17,
-  		point_detail: ['place_8','place_4','place_10']
+  		total_points: 19,
+  		point_detail: ['place_8','place_4','place_10','place_9']
   	}
   ]
 
