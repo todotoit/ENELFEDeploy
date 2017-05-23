@@ -3,6 +3,8 @@ splash_label,What's hidden in the grid
 splash_title,Explore the smart city to find all the things that make it smart!
 splash_panel_label,"Hey, let's find"
 splash_panel_button,PLAY!
+splash_sub,sub sub
+splash_play,Play!
 nexttarget_label,"Great, you found"
 nexttarget_panel_label,"Now, let's find"
 next_target_panel_button,GO!
@@ -16,3 +18,13 @@ win_panel_title,You found all your targets
 win_panel_button,PLAY AGAIN
 dialogbox,Are you sure you want to restart the game?
 turn_label,Please rotate the tablet to play the game
+bonus_pre_title,Bonus Level
+bonus_description,Formula e cars charge their batteries 7 times faster than an average e-car
+bonus_title,Can you beat them?
+bonus_start_btn, Start
+bonus_push_btn, Push
+submit_level_label,Bonus Level
+submit_title_won,Can you beat them?
+submit_title_over,Time is over You got XX targets
+submit_enter_nick,Enter a nickname and check your ranking
+board_play_again_btn, Play again

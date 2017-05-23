@@ -1,0 +1,18 @@
+Label_id,Text
+splash_label,What's hidden in the grid
+splash_title,Explore the smart city to find all the things that make it smart!
+splash_panel_label,"Hey, let's find"
+splash_panel_button,PLAY!
+nexttarget_label,"Great, you found"
+nexttarget_panel_label,"Now, let's find"
+next_target_panel_button,GO!
+gameover_label,Oh no! You missed
+gameover_panel_label,Game over
+gameover_panel_title,Time's up! You found XX targets
+gameover_panel_button,PLAY AGAIN
+win_title,Congratulations! <br />You completed the smart grid
+win_panel_label,Well done!
+win_panel_title,You found all your targets
+win_panel_button,PLAY AGAIN
+dialogbox,Are you sure you want to restart the game?
+turn_label,Please rotate the tablet to play the game
