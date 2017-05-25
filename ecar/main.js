@@ -890,16 +890,16 @@
     var solarSnippetsKeys = ['mexico','panel','more']
     var ecarSnippetsKeys = ['efficiency','v2g','recharge']
     var _availableSnippets = {
-      // 'mexico': {
-      //   desc: 'How much energy is there in Mexican skies?',
-      //   label: 'The power of the sun',
-      //   tpl: self.path + '/solar25km.html'
-      // },
-      // 'panel': {
-      //   desc: 'Can you guess how much solar panels can power?',
-      //   label: 'Solar energy for the race',
-      //   tpl: self.path + '/solarmexico.html'
-      // },
+      'mexico': {
+        desc: 'How much energy is there in Mexican skies?',
+        label: 'The power of the sun',
+        tpl: self.path + '/solar25km.html'
+      },
+      'panel': {
+        desc: 'Can you guess how much solar panels can power?',
+        label: 'Solar energy for the race',
+        tpl: self.path + '/solarmexico.html'
+      },
       'efficiency': {
         desc: '',
         label: '',
@@ -1384,13 +1384,7 @@
       'ui.router',
       'ngAnimate',
       'MainApp',
-      'SnippetManager',
-      'NightDayAnimation',
-      'V2GAnimation',
-      'Solar25kmAnimation',
-      'SolarMexicoAnimation',
-      'FastRechargeAnimation',
-      'EnelStandAnimation'
+      'SnippetManager'
     ])
 
 }(window.angular));

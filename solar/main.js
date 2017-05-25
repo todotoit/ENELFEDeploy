@@ -780,6 +780,81 @@
   'use strict'
 
   /**
+    BatteryAnimation
+  **/
+
+  angular
+    .module('EfficiencyAnimation', [
+      'MainApp'
+    ])
+
+}(window.angular));
+
+(function (angular, jq) {
+  'use strict'
+
+  /**
+  **/
+
+  angular
+    .module('EfficiencyAnimation')
+    .component('efficiency', {
+      templateUrl: '../js/components/efficiencyAnimation/assets/svg/illustration_efficiency.svg',
+      controller: EfficiencyCtrl,
+      controllerAs: 'efficiency',
+      bindings: {}
+    })
+
+  /* @ngInject */
+  function EfficiencyCtrl($scope, $element, $attrs, TweenMax) {
+    var ctrl = this
+    ctrl.componentPath = '../js/components/efficiencyAnimation'
+    ctrl.svgPath = ctrl.componentPath + '/assets/svg'
+
+    // https://github.com/angular/angular.js/issues/14433
+    // for the issue above we decided to use just $onChanges
+    ctrl.$onInit = init
+    // ctrl.$onChanges = update
+
+    // -------
+
+    // init after dom loaded
+    function init() {
+      efficiencyAnimation()
+    }
+    // function update(changedObj) {}
+
+    function efficiencyAnimation() {
+      TweenMax.to('#heat',  1.5, { css: { rotation: "40", transformOrigin:'50% 50%'}, ease:Power2.easeOut })
+      TweenMax.to('#electric',  3, { css: { rotation: "80", transformOrigin:'50% 50%'}, ease:Power2.easeOut, onComplete:resetAnimation })
+    
+    }
+
+    function resetAnimation() {
+      TweenMax.to(['#heat','#electric'],  1, {  css: { rotation: "0", transformOrigin:'50% 50%'}, ease:Power2.easeOut, delay:4, onComplete:efficiencyAnimation })
+    }
+
+
+    // event handlers
+    // $scope.$on('svg:all-loaded', function() {
+    //   console.log('init animation')
+    //   carAnimation()
+    //   batteryAnimation()
+    // })
+
+    // deregister event handlers
+    // $scope.$on events will be automatically deleted on $destroy
+    $scope.$on('$destroy', function () {
+      TweenMax.killAll()
+    })
+  }
+
+}(window.angular, window.angular.element));
+
+(function (angular) {
+  'use strict'
+
+  /**
     SnippetManager
   **/
 
@@ -815,16 +890,16 @@
     var solarSnippetsKeys = ['mexico','panel','more']
     var ecarSnippetsKeys = ['efficiency','v2g','recharge']
     var _availableSnippets = {
-      // 'mexico': {
-      //   desc: 'How much energy is there in Mexican skies?',
-      //   label: 'The power of the sun',
-      //   tpl: self.path + '/solar25km.html'
-      // },
-      // 'panel': {
-      //   desc: 'Can you guess how much solar panels can power?',
-      //   label: 'Solar energy for the race',
-      //   tpl: self.path + '/solarmexico.html'
-      // },
+      'mexico': {
+        desc: 'How much energy is there in Mexican skies?',
+        label: 'The power of the sun',
+        tpl: self.path + '/solar25km.html'
+      },
+      'panel': {
+        desc: 'Can you guess how much solar panels can power?',
+        label: 'Solar energy for the race',
+        tpl: self.path + '/solarmexico.html'
+      },
       'efficiency': {
         desc: '',
         label: '',
@@ -1309,13 +1384,7 @@
       'ui.router',
       'ngAnimate',
       'MainApp',
-      'SnippetManager',
-      'NightDayAnimation',
-      'V2GAnimation',
-      'Solar25kmAnimation',
-      'SolarMexicoAnimation',
-      'FastRechargeAnimation',
-      'EnelStandAnimation'
+      'SnippetManager'
     ])
 
 }(window.angular));
@@ -1332,7 +1401,7 @@
     .run(RunSnippetApp)
 
   /* @ngInject */
-  function RunSnippetApp(later) {
+  function RunSnippetApp($browser) {
 
     // var schedule = later.parse.cron('4,9,14,19,24,29,34,39,44,49,54,59 * * * *')
     // var schedule = later.parse.text('every '+ 1 +' minutes')
@@ -1341,6 +1410,7 @@
     //   console.log('schedule to update all models every 5 minutes')
     // }
     // later.setInterval(log, schedule)
+    $browser.baseHref = function () { return "/" };
   }
 
 }(window.angular));
@@ -1357,12 +1427,16 @@
     .config(RouteConfig)
 
   /* @ngInject */
-  function RouteConfig($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider, isMobile) {
+  function RouteConfig($locationProvider, $stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider, isMobile) {
+
+    // Enable html5 mode
+    $locationProvider.html5Mode(true)
 
     // Allow case insensitive urls
     $urlMatcherFactoryProvider.caseInsensitive(true)
     // Normalize case insensitive urls
     $urlRouterProvider.rule(function ($injector, $location) {
+      if ($location.$$html5) return
       // what this function returns will be set as the $location.url
       var path = $location.path(), normalized = path.toLowerCase().replace(/ /g, '_')
       if (path !== normalized) {
@@ -1383,8 +1457,8 @@
       //   templateUrl: 'templates/404.html'
       // })
       .state('landing', {
-        url: '/:snippetKey',
-        templateUrl: 'templates/landing.html',
+        url: '/solar/:snippetKey',
+        templateUrl: '../solar/templates/landing.html',
         controller: 'SnippetCtrl',
         controllerAs: 'snippet',
         resolve: {
