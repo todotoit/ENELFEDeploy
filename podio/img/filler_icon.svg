@@ -1,0 +1,86 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="linear-gradient" x1="256" y1="2.34" x2="256" y2="509.54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#41b9e6"/>
+      <stop offset="0.18" stop-color="#3aaee8"/>
+      <stop offset="0.5" stop-color="#288fee"/>
+      <stop offset="0.92" stop-color="#0a5ef8"/>
+      <stop offset="1" stop-color="#0555fa"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect width="512" height="512" style="fill: none"/>
+    </clipPath>
+    <linearGradient id="linear-gradient-2" x1="-214.46" y1="351.72" x2="2041.28" y2="351.72" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-3" x1="441.26" y1="358.52" x2="726.46" y2="132.05" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="0.89" stop-color="#41b9e6" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-4" x1="429.72" y1="318.89" x2="271.27" y2="410.37" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#41b9e6" stop-opacity="0"/>
+      <stop offset="0.1" stop-color="#41b9e6" stop-opacity="0.06"/>
+      <stop offset="0.52" stop-color="#41b9e6" stop-opacity="0.3"/>
+      <stop offset="0.83" stop-color="#41b9e6" stop-opacity="0.44"/>
+      <stop offset="1" stop-color="#41b9e6" stop-opacity="0.5"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-5" x1="333.82" y1="350.97" x2="404.45" y2="350.97" xlink:href="#linear-gradient-4"/>
+    <linearGradient id="linear-gradient-6" x1="191.45" y1="366.09" x2="285.35" y2="262.6" gradientUnits="userSpaceOnUse">
+      <stop offset="0.01" stop-color="#fff"/>
+      <stop offset="0.3" stop-color="#fff"/>
+      <stop offset="0.36" stop-color="#fff" stop-opacity="0.97"/>
+      <stop offset="0.45" stop-color="#fff" stop-opacity="0.9"/>
+      <stop offset="0.56" stop-color="#fff" stop-opacity="0.78"/>
+      <stop offset="0.67" stop-color="#fff" stop-opacity="0.61"/>
+      <stop offset="0.8" stop-color="#fff" stop-opacity="0.4"/>
+      <stop offset="0.93" stop-color="#fff" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <title>concept_icon</title>
+  <rect width="512" height="512" style="fill: url(#linear-gradient)"/>
+  <g style="clip-path: url(#clip-path)">
+    <path d="M-175.68,714.55s665-406.75,932.25-561.68C951.94,39.58,1101.77-1,1391.79-.18h649.49" style="fill: none;stroke-miterlimit: 10;stroke-width: 148.655435144627px;stroke: url(#linear-gradient-2)"/>
+    <polygon points="766.22 199.2 661.09 141.95 373.52 313.59 468.08 381.58 766.22 199.2" style="fill: url(#linear-gradient-3)"/>
+    <g>
+      <path d="M244.73,481.2l16.66,9.08,45.61-23,14.83,2.2,39-24.52,3,.32a15.82,15.82,0,0,0,9.84-2.18l102.25-61.55s17.58-8.14,4.7-14.15-195.14,6.74-195.14,6.74l-22.41,15.68-40.8,11.38-4.7,4.21,2.32,8.74L187,449.7l16.48,9" style="opacity: 0.4"/>
+      <polygon points="261.39 490.29 186.96 449.7 205.44 439.03 279.87 479.62 261.39 490.29" style="fill: #0555fa"/>
+      <polygon points="279.87 479.62 205.44 439.03 219.91 428.09 294.35 468.67 279.87 479.62" style="fill: #2692ff"/>
+      <polygon points="321.84 429.05 321.84 397.69 363.26 404.5 363.26 435.83 321.84 429.05" style="fill: #2692ff"/>
+      <polygon points="321.84 429.05 321.84 397.69 294.03 413.96 224.8 477.28 321.84 429.05" style="fill: #fff"/>
+      <polygon points="291.76 379.31 282.01 357.51 282.01 385.06 291.76 379.31" style="fill: #2692ff"/>
+      <polygon points="439.54 344.87 433.37 348.43 439.54 352.03 439.54 344.87" style="fill: #346884"/>
+      <g>
+        <path d="M317.24,461.64l22.9-39.75-15.47-7.15,0,0-1.18-.54,0,.09c-2.8-1-6.34-.61-10.24,1.64-9,5.19-16.28,17.76-16.28,28.07,0,5,1.75,8.56,4.57,10.29l0,0,.12.05c.15.09.31.14.46.22Z" style="fill: #112341"/>
+        <path d="M344.81,432.29c0,10.31-7.29,22.88-16.28,28.07s-16.28,1-16.28-9.28,7.29-22.88,16.28-28.07S344.81,422,344.81,432.29Z" style="fill: #19355e"/>
+      </g>
+      <g>
+        <path d="M238,417l22.9-39.75-15.47-7.15,0,0-1.18-.54,0,.09c-2.8-1-6.34-.61-10.24,1.64-9,5.19-16.28,17.76-16.28,28.07,0,5,1.75,8.56,4.57,10.29l0,0,.12.05c.15.09.31.14.46.22Z" style="fill: #112341"/>
+        <path d="M265.53,387.69c0,10.31-7.29,22.88-16.28,28.07s-16.28,1-16.28-9.28,7.29-22.88,16.28-28.07S265.53,377.38,265.53,387.69Z" style="fill: #19355e"/>
+      </g>
+      <g>
+        <path d="M377.5,338.27l22.9-39.75-15.47-7.15,0,0-1.18-.54,0,.09c-2.8-1-6.34-.61-10.24,1.64-9,5.19-16.28,17.76-16.28,28.07,0,5,1.75,8.56,4.57,10.29l0,0,.12.05c.15.09.31.14.46.22Z" style="fill: #112341"/>
+        <path d="M405.07,308.91c0,10.31-7.29,22.88-16.28,28.07s-16.28,1-16.28-9.28,7.29-22.88,16.28-28.07S405.07,298.6,405.07,308.91Z" style="fill: #19355e"/>
+      </g>
+      <path d="M263.09,396.2l-55.67,70.88s-5,12,17.38,10.19l69.44-63.09Z" style="fill: #2692ff"/>
+      <polygon points="186.96 449.7 205.44 439.03 219.91 428.09 219.91 414.19 186.96 449.7" style="fill: #fff"/>
+      <polygon points="261.8 490.29 280.28 479.62 294.75 468.67 294.75 454.77 261.8 490.29" style="fill: #fff"/>
+      <polygon points="394.24 328.31 394.24 293.36 417.31 278.49 417.31 314.29 394.24 328.31" style="fill: #fff"/>
+      <polygon points="446.34 331.94 394.24 303.53 407.17 296.06 459.28 324.48 446.34 331.94" style="fill: #0555fa"/>
+      <polygon points="459.28 324.48 407.17 296.06 417.31 278.49 469.41 306.9 459.28 324.48" style="fill: #2692ff"/>
+      <polygon points="446.52 356.98 446.52 322.03 469.59 307.16 469.59 342.96 446.52 356.98" style="fill: #fff"/>
+      <g>
+        <path d="M456.79,382.86l22.9-39.75L464.22,336l0,0-1.18-.54,0,.09c-2.8-1-6.34-.61-10.24,1.64-9,5.19-16.28,17.76-16.28,28.07,0,5,1.75,8.56,4.57,10.29l0,0,.12.05c.15.09.31.14.46.22Z" style="fill: #112341"/>
+        <path d="M484.36,353.51c0,10.31-7.29,22.88-16.28,28.07s-16.28,1-16.28-9.28,7.29-22.88,16.28-28.07S484.36,343.19,484.36,353.51Z" style="fill: #19355e"/>
+      </g>
+      <polygon points="444.96 388.03 444.96 355.19 363.26 404.5 363.26 435.83 444.96 388.03" style="fill: #fff"/>
+      <polygon points="433.37 348.43 439.54 344.87 432.7 324.07 415.47 314.12 379.44 310.17 373.52 313.59 365.3 308.85 282.01 357.51 291.76 379.31 263.09 396.2 294.24 414.19 321.84 397.69 363.26 404.5 444.96 355.19 433.37 348.43" style="fill: #fff"/>
+      <polygon points="433.37 348.43 439.54 344.87 432.7 324.07 415.47 314.12 379.44 310.17 373.52 313.59 365.3 308.85 282.01 357.51 291.76 379.31 263.09 396.2 294.24 414.19 321.84 397.69 363.26 404.5 444.96 355.19 433.37 348.43" style="fill: url(#linear-gradient-4)"/>
+      <polyline points="357.06 374.17 404.45 331.59 397.89 327.77 333.82 339.97" style="fill: url(#linear-gradient-5)"/>
+      <path d="M327.52,357.12,295.6,380.45c-5.75,3.32-5.72,8.77.07,12.12h0c5.79,3.34,15.23,3.36,21,0l40.4-18.43" style="fill: #0555fa"/>
+      <path d="M357.06,374.17l-.54-7.84c0-9-6.44-20.14-14.31-24.68h0c-7.87-4.54-14.31-.87-14.31,8.16l-.38,7.31" style="fill: #2692ff"/>
+    </g>
+  </g>
+  <g>
+    <path d="M280.48,259.29a111.92,111.92,0,0,1-88.94,43.86v47.69a159.54,159.54,0,0,0,126.78-62.51Z" style="fill: url(#linear-gradient-6)"/>
+    <path d="M191.54,31.23a159.8,159.8,0,0,0,0,319.6h1V303.14h-1a112.11,112.11,0,1,1,109-139.67H182.37v47.69H349.29V163.47C336.23,88.35,270.4,31.23,191.54,31.23Z" style="fill: #fff"/>
+  </g>
+</svg>
