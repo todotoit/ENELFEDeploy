@@ -1974,8 +1974,8 @@ window.twttr = (function(d, s, id) {
 
     // initialize object for countdown
     $scope.countDown = {
-      date: '2017-05-20 00:00',
-      timezone: 'Europe/Paris'
+      date: '2017-06-10 00:00',
+      timezone: 'Europe/Berlin'
     }
     $scope.compatibilityMsg = ''
     if (bowser.msie) $scope.compatibilityMsg = 'Please use Chrome to enjoy the experience.'
@@ -2303,8 +2303,8 @@ window.twttr = (function(d, s, id) {
 
     // initialize object for countdown
     $scope.countDown = {
-      date: '2017-05-20 00:00',
-      timezone: 'Europe/Paris'
+      date: '2017-06-10 00:00',
+      timezone: 'Europe/Berlin'
     }
     $scope.compatibilityMsg = ''
     // if (bowser.msie) $scope.compatibilityMsg = 'Please use Chrome to enjoy the experience.'
