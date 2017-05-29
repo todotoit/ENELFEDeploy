@@ -36,6 +36,14 @@ if (process.argv[2]) {
         // });
   }
 
+  if (process.argv[2] === 'webapp') {
+    console.log('deploying webapp')
+    copydir.sync(path.join('..', 'ENEL-F-E-APP/public/assets'), 'assets')
+    copydir.sync(path.join('..', 'ENEL-F-E-APP/public/js'), 'js')
+    copydir.sync(path.join('..', 'ENEL-F-E-APP/public/libs'), 'libs')
+    copydir.sync(path.join('..', 'ENEL-F-E-APP/public/webapp'), 'webapp')
+  }
+
   if (process.argv[2] === 'snippet') {
     console.log('deploying snippet')
     copydir.sync(path.join('..', 'ENEL-F-E-APP/public/assets'), 'assets')
