@@ -6,7 +6,7 @@ var pkg = require('./package.json')
 if (process.argv[2]) {
   if (process.argv[2] === 'fillergame') {
     console.log('deploying fillergame')
-    copydir.sync(path.join('..', 'ENEL-FE-FillerGame/public'), 'fillergame')
+    copydir.sync(path.join('..', 'ENEL-FE-FillerGame/public'), 'game')
   }
 
   if (process.argv[2] === 'podio') {
