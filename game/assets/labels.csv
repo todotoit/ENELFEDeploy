@@ -1,9 +1,9 @@
 Label_id,Text
-splash_label,What's hidden in the grid
-splash_title,Explore the smart city to find all the things that make it smart!
+splash_label,The Game
+splash_title,What's hidden in the grid
 splash_panel_label,"Hey, let's find"
 splash_panel_button,PLAY!
-splash_sub,sub sub
+splash_sub,A bird's-eye view on the Enel smart grid
 splash_play,Play!
 nexttarget_label,"Great, you found"
 nexttarget_panel_label,"Now, let's find"
