@@ -41,7 +41,7 @@ if (process.argv[2]) {
     copydir.sync(path.join('..', 'ENEL-F-E-APP/public/assets'), 'assets')
     copydir.sync(path.join('..', 'ENEL-F-E-APP/public/js'), 'js')
     copydir.sync(path.join('..', 'ENEL-F-E-APP/public/libs'), 'libs')
-    copydir.sync(path.join('..', 'ENEL-F-E-APP/public/webapp'), 'webapp')
+    copydir.sync(path.join('..', 'ENEL-F-E-APP/public/webapp'), 'app')
   }
 
   if (process.argv[2] === 'snippet') {
