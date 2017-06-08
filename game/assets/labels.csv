@@ -1,9 +1,9 @@
 Label_id,Text
-splash_label,The Game
-splash_title,What's hidden in the grid
+splash_label,Let’s play!
+splash_title,The Grid Game
 splash_panel_label,"Hey, let's find"
 splash_panel_button,PLAY!
-splash_sub,A bird's-eye view on the Enel smart grid
+splash_sub,Find all the hidden targets in the smart city
 splash_play,Play!
 nexttarget_label,"Great, you found"
 nexttarget_panel_label,"Now, let's find"
@@ -21,10 +21,10 @@ turn_label,Please rotate the tablet to play the game
 bonus_pre_title,Bonus Level
 bonus_description,Formula e cars charge their batteries 7 times faster than an average e-car
 bonus_title,Can you beat them?
-bonus_start_btn, Start
-bonus_push_btn, Push
+bonus_start_btn,Start
+bonus_push_btn,Push
 submit_level_label,Bonus Level
 submit_title_won,Can you beat them?
 submit_title_over,Time is over You got XX targets
 submit_enter_nick,Enter a nickname and check your ranking
-board_play_again_btn, Play again
+board_play_again_btn,Play again
