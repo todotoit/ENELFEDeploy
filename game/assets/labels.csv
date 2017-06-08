@@ -12,10 +12,12 @@ gameover_label,Oh no! You missed
 gameover_panel_label,Game over
 gameover_panel_title,Time's up! You found XX targets
 gameover_panel_button,PLAY AGAIN
+gameover_mainlabel,Time's up!
 win_title,Congratulations! <br />You completed the smart grid
 win_panel_label,Well done!
 win_panel_title,You found all your targets
 win_panel_button,PLAY AGAIN
+win_mainlabel,Well Done!
 dialogbox,Are you sure you want to restart the game?
 turn_label,Please rotate the tablet to play the game
 bonus_pre_title,Bonus Level
