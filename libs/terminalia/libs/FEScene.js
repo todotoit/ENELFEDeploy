@@ -63,6 +63,7 @@ TERMINALIA.FEScene = function FEScene(container, CustomShaders) {
             self.spaceBall.onMouseUp();
         }, false);
         self.container.addEventListener('touchmove', function(event) {
+            event.preventDefault()
             self.spaceBall.onMouseMove(event.touches[0].clientX, event.touches[0].clientY);
         }, false);
 
