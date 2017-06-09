@@ -2662,6 +2662,7 @@ window.twttr = (function(d, s, id) {
     var _totalConsumptionData   = null
     var _timeSeriesData         = {}
     var _metersData             = {}
+    var enelStandMeter = 'Smart_Kit2_FE_038'
 
     var beUrl = 'http://backend.enelformulae.todo.to.it'
     // var beUrl = 'http://192.168.3.10:5001'
@@ -2692,7 +2693,7 @@ window.twttr = (function(d, s, id) {
       return _metersData[meter_name] || _updateMeter(meter_name)
     }
     function _getAll() {
-      return $q.all([_getTotal(), _getTimeSeries(), _getTimeSeries('paddock'), _getMeter('Smart_Kit2_FE_040')])
+      return $q.all([_getTotal(), _getTimeSeries(), _getTimeSeries('paddock'), _getMeter(enelStandMeter)])
                .then(
                   function(res) {
                     return {
@@ -2745,7 +2746,7 @@ window.twttr = (function(d, s, id) {
                     })
     }
     function _updateAll() {
-      return $q.all([_updateTotal(), _updateTimeSeries(), _updateTimeSeries('paddock'), _updateMeter('Smart_Kit2_FE_040')])
+      return $q.all([_updateTotal(), _updateTimeSeries(), _updateTimeSeries('paddock'), _updateMeter(enelStandMeter)])
                .then(
                   function(res) {
                     console.info('All models updated: ', res)
@@ -3752,8 +3753,8 @@ window.twttr = (function(d, s, id) {
       vm.totalConsumption = angular.copy(currentRace.totalConsumption)
       vm.mixes = currentRace.mix? currentRace.mix : []
       vm.metersData = currentRace.metersData? currentRace.metersData : null
-      if (currentRace.metersData) vm.enelMeterStandData = currentRace.metersData[enelMeterKey]? currentRace.metersData[enelMeterKey] : null
-      console.log(vm.metersData)
+      if (currentRace.metersData) vm.enelMeterStandData = !_.isEmpty(currentRace.metersData[enelMeterKey])? currentRace.metersData[enelMeterKey] : {energy: 0}
+      console.log(vm.metersData, _.isEmpty(currentRace.metersData[enelMeterKey]))
       var newRaceIdx = _.indexOf(vm.races, currentRace)
       var raceList = $('.races-list ul').find('li')
       var raceListItem = raceList[newRaceIdx]
