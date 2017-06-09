@@ -9641,7 +9641,7 @@ TERMINALIA.Trackball = function Trackball() {
     self.leftPressed = false;
     self.offset = 0;
     self.enabled = true;
-    self.rotationFactor = 1;
+    self.rotationFactor = 0.2;
 
     function onMouseDown(x, y) {
         self.leftPressed = true;
@@ -9848,6 +9848,7 @@ TERMINALIA.FEScene = function FEScene(container, CustomShaders) {
             self.spaceBall.onMouseUp();
         }, false);
         self.container.addEventListener('touchmove', function(event) {
+            event.preventDefault()
             self.spaceBall.onMouseMove(event.touches[0].clientX, event.touches[0].clientY);
         }, false);
 
@@ -10041,22 +10042,22 @@ TERMINALIA.FEScene = function FEScene(container, CustomShaders) {
                 {
                     case "pin_3_v2g":
                         self.world.children[1].material.map = self.world.children[1].material.active_map;
-                        startWorldAnimation(55, 1);
+                        startWorldAnimation(181, 1);
                     break;
 
                     case "pin_3_spain":
                         self.world.children[2].material.map = self.world.children[2].material.active_map;
-                        startWorldAnimation(129, 1);
+                        startWorldAnimation(566, 1);
                     break;
 
                     case "pin_3_rome":
                         self.world.children[3].material.map = self.world.children[3].material.active_map;
-                        startWorldAnimation(60, 1);
+                        startWorldAnimation(206, 1);
                     break;
 
                     case "pin_3_milan":
                         self.world.children[4].material.map = self.world.children[4].material.active_map;
-                        startWorldAnimation(48, 1);
+                        startWorldAnimation(284, 1);
                     break;
 
                     case "pin_3_berlin":
@@ -10066,12 +10067,12 @@ TERMINALIA.FEScene = function FEScene(container, CustomShaders) {
 
                     case "pin_3_fe":
                         self.world.children[6].material.map = self.world.children[6].material.active_map;
-                        startWorldAnimation(-70, 1);
+                        startWorldAnimation(-364, 1);
                     break;
 
                     case "pin_3_solar":
                         self.world.children[7].material.map = self.world.children[7].material.active_map;
-                        startWorldAnimation(157, 1);
+                        startWorldAnimation(756, 1);
                     break;
                 }
 

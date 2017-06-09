@@ -70,7 +70,7 @@
       $scope.subsnip = content[contentIdx]
       // $content.find('li').removeClass('active')
       // $content.find('li').eq(contentIdx).addClass('active')
-      TweenMax.to($content.find('li'), swipeVel, { x: '+='+ swipeOffset +'%', onComplete: function() {
+      TweenMax.to($content.find('ul'), swipeVel, { x: '+='+ swipeOffset +'%', onComplete: function() {
         if (!$scope.$$phase) $scope.$digest()
       } })
     }
@@ -78,7 +78,7 @@
       if (contentIdx >= content.length -1) return nextCallback()
       contentIdx++
       $scope.subsnip = content[contentIdx]
-      TweenMax.to($content.find('li'), swipeVel, { x: '-='+ swipeOffset +'%', onComplete: function() {
+      TweenMax.to($content.find('ul'), swipeVel, { x: '-='+ swipeOffset +'%', onComplete: function() {
         if (!$scope.$$phase) $scope.$digest()
       } })
     }
@@ -93,23 +93,27 @@
       if (contentIdx < 0) contentIdx = 0
       else if (contentIdx >= content.length) contentIdx = content.length -1
       $scope.subsnip = content? content[contentIdx] : null
-      $element.ready(createContentHandler)
+      if(!bowser.mobile) $element.ready(createContentHandler)
     }
 
     // event handlers
     function createContentHandler() {
       $content = $element.find('.content')
       if (contentIdx !== 0) TweenMax.set($content.find('li'), { x: '-='+ (swipeOffset * contentIdx) +'%' })
-      hammertime = new Hammer($content[0], { domEvents: true })
-      hammertime.on('swipeleft',  nextTab)
+      hammertime = new Hammer($content[0], { domEvents: true, css_hacks:false, touchAction: 'compute' })
+      hammertime.on('swipeleft',  function(){
+        nextTab()
+      })
       hammertime.on('swiperight', prevTab)
       hammertime.on('hammer.input', function (e) {
         e.preventDefault()
         e.srcEvent.stopPropagation()
       })
       $element.on('touchmove', function(e) {
-        e.stopPropagation()
-        e.preventDefault()
+        if(!bowser.mobile){
+          e.stopPropagation()
+          e.preventDefault()
+        }
       })
       $element.click(function(e) {
         e.stopPropagation()
@@ -201,7 +205,10 @@
     $scope.prev = function () {
       if (debounce.id) return
       $scope.snipCounter++
-      if($scope.snipCounter > $scope.snippets.length-1) $scope.snipCounter = 0;
+      if($scope.snipCounter > $scope.snippets.length-1) {
+        $scope.exit();
+        return;
+      }
       debounce.start()
       direction = 'left'
       moveCards(direction)
@@ -270,6 +277,10 @@
       }})
     }
 
+
+    ctrl.setTour = function(t){
+      ctrl.isTour = t;
+    }
     // -------
 
     // init after dom loaded
@@ -294,7 +305,7 @@
       $cards = _.reverse($cards)
       $card = _.first($cards)
       if (callback) callback(card)
-      cardHandler()
+      if(!bowser.mobile) cardHandler()
       debounce.cancel()
     }
 
@@ -346,7 +357,7 @@
 
     // event handlers
     function cardHandler() {
-      hammertime = new Hammer($card, {domEvents: true});
+      hammertime = new Hammer($card, {domEvents: true, css_hacks:false, touchAction: 'auto'});
       hammertime.on('swipeleft', function(e){ $scope.prev() });
       hammertime.on('swiperight', function(e){ $scope.next() });
       hammertime.on('hammer.input', function (e) {
@@ -354,8 +365,10 @@
         e.srcEvent.stopPropagation()
       })
       $element.on('touchmove', function(e) {
-        e.stopPropagation()
-        e.preventDefault()
+        if(!bowser.mobile){
+          e.stopPropagation()
+          e.preventDefault()
+        }
       })
       $element.click(function(e) {
         e.stopPropagation()
@@ -691,7 +704,8 @@
       console.log('update streamgraph')
 
       // -------- DATA MAP ---------
-      var values = _(data).groupBy('key').mapValues(function(d){ return d[0].values }).merge().values().flatten().value()
+      var lastIdx = d3.min(data, function(d) {return d.values.length})
+      var values = _(data).groupBy('key').mapValues(function(d){return d[0].values.slice(0, lastIdx) }).merge().values().flatten().value()
       data = _.map(values, function(d) {
         d.date = format.parse(d.h)
         d.value = +d.v
@@ -1190,7 +1204,8 @@
       data = stack(data)
 
       // -------- DATA MAP ---------
-      var values  = _(data).groupBy('key').mapValues(function(d){ return d[0].values }).merge().values().flatten().value()
+      var lastIdx = d3.min(data, function(d) {return d.values.length})
+      var values  = _(data).groupBy('key').mapValues(function(d){ return d[0].values.slice(0, lastIdx) }).merge().values().flatten().value()
       var totData = _(values).groupBy('h').map(function(d){ return { h:d[0].h, v:_.sumBy(d,'v') } }).value()
       var max     = _.maxBy(totData, 'v').v
       // update scales domain and range
@@ -1929,10 +1944,6 @@
       'enelAchievements': {
         label: 'Enel achievements',
         snippets: ['howMuchSunMexico', 'cleanEnergyChile', 'firstSmartCity', 'formulaE', 'enelWorld'],
-      },
-      'snippets': {
-        label: 'Enel QRcode',
-        snippets: ['howMuchSunMexico', 'cleanEnergyChile', 'firstSmartCity', 'formulaE', 'enelWorld'],
       }
     }
 
@@ -1986,25 +1997,25 @@
       'pin_3_v2g': {
         stage: 3,
         // coords: [-0.039, 0.90, 0.61],
-        coords: [55],
+        coords: [181],
         snippets: ['v2g', 'v2gDenmark']
       },
       'pin_3_spain': {
         stage: 3,
         // coords: [-1.04, -0.25, 0.17],
-        coords: [129],
+        coords: [566],
         snippets: ['cleanEnergyGlobal', 'cleanEnergyChile']
       },
       'pin_3_rome': {
         stage: 3,
         // coords: [0.091, 0.64, 0.86],
-        coords: [60],
+        coords: [206],
         snippets: ['enelWorld']
       },
       'pin_3_milan': {
         stage: 3,
         // coords: [-0.049, 0.74, 0.78],
-        coords: [48],
+        coords: [284],
         snippets: ['firstSmartCity', 'internet']
       },
       'pin_3_berlin': {
@@ -2016,13 +2027,13 @@
       'pin_3_fe': {
         stage: 3,
         // coords: [0.95, 0.39, -0.33],
-        coords: [-70],
+        coords: [-364],
         snippets: ['formulaE']
       },
       'pin_3_solar': {
         stage: 3,
         // coords: [-0.91, 0.38, -0.45],
-        coords: [157],
+        coords: [756],
         snippets: ['howMuchSunGlobal', 'howMuchSunMexico']
       }
     }
@@ -2572,9 +2583,9 @@ window.twttr = (function(d, s, id) {
     var intrvl
     var readyToSession = true
 
-    $interval(function(){
-      recordSession()
-    }, overSessionTime)
+    // $interval(function(){
+    //   recordSession()
+    // }, overSessionTime)
 
     /*
     webapp/landing/car/card_id
@@ -2652,6 +2663,9 @@ window.twttr = (function(d, s, id) {
     var _timeSeriesData         = {}
     var _metersData             = {}
 
+    var beUrl = 'http://backend.enelformulae.todo.to.it'
+    // var beUrl = 'http://192.168.3.10:5001'
+
     self.getTotal               = _getTotal
     self.getTimeSeries          = _getTimeSeries
     self.getMeter               = _getMeter
@@ -2693,7 +2707,8 @@ window.twttr = (function(d, s, id) {
     }
 
     function _updateTotal() {
-      return $http.get('http://backend.enelformulae.todo.to.it/zoneenergyconsumption')
+      console.log('get from ', beUrl)
+      return $http.get(beUrl + '/zoneenergyconsumption')
                   .then(
                     function(res) {
                       console.info(res)
@@ -2705,7 +2720,7 @@ window.twttr = (function(d, s, id) {
                     })
     }
     function _updateTimeSeries(zone_name) {
-      return $http.get('http://backend.enelformulae.todo.to.it/time_series/' + (zone_name || ''))
+      return $http.get(beUrl + '/time_series/' + (zone_name || ''))
                   .then(
                     function(res) {
                       console.info(res)
@@ -2718,7 +2733,7 @@ window.twttr = (function(d, s, id) {
                     })
     }
     function _updateMeter(meter_name) {
-      return $http.get('http://backend.enelformulae.todo.to.it/meter/' + (meter_name || ''))
+      return $http.get(beUrl + '/meter/' + (meter_name || ''))
                   .then(
                     function(res) {
                       console.info(res)
@@ -3235,6 +3250,13 @@ window.twttr = (function(d, s, id) {
       })
       .state('dashboard', {
         url: '/dashboard',
+        params: {
+          reload: null
+        },
+        onEnter: function($stateParams, $window, $timeout) {
+            console.log($stateParams)
+            if ($stateParams.reload) $timeout(function() {$window.location.reload()}, 500)
+          },
         resolve: {
           liveData: function(ModelSrv) {
             return ModelSrv.getAllModels()
@@ -3310,7 +3332,7 @@ window.twttr = (function(d, s, id) {
     vm.setCurrentTour = setCurrentTour
     vm.currentTour = null
     vm.isMobile = bowser.mobile || false;
-    vm.snipCounter = -1;
+    vm.snipCounter = 0;
 
     var FEScene = null
     var loaderTl = null;
@@ -3326,7 +3348,6 @@ window.twttr = (function(d, s, id) {
       getLiveData()
       $scope.$on('ModelSrv::ALL-MODELS-UPDATED', getLiveData)
     }
-    setLogoFill();
 
     function render() {
       showLoader();
@@ -3350,7 +3371,7 @@ window.twttr = (function(d, s, id) {
           }
 
           if (event.key === 'y') {
-            FEScene.testPanZoomCamera();
+            FEScene.getWorldRotation();
           }
         });
       }
@@ -3409,12 +3430,13 @@ window.twttr = (function(d, s, id) {
     }
 
     $scope.closeCarousel = function() {
-      console.log(angular.element($('snippet-carousel')).controller('snippetCarousel'))
       var carouselCtrl = angular.element($('snippet-carousel')).controller('snippetCarousel')
       carouselCtrl.exit(true);
+      carouselCtrl.setTour(false);
       vm.snipCounter = -1;
       vm.currentTour = null
-      FEScene.resetPinsVisibility(true)
+      currentPin = null
+      if(FEScene) FEScene.resetPinsVisibility(true)
       if (!$scope.$$phase) $scope.$digest()
     }
 
@@ -3458,8 +3480,11 @@ window.twttr = (function(d, s, id) {
     //   }})
     // });
 
+    var currentPin = null
     function selectedHotspot(key) {
-      if (!key || key === 'World') return
+      if (!key || key === 'World' || vm.currentTour) return
+      if (key === currentPin) return $scope.closeCarousel()
+      currentPin = key
       // key = key.split('pin_').pop();
       var hotspot = SnippetSrv.getHotspot(key);
       vm.snippets = _.reverse(hotspot.snippets)
@@ -3468,16 +3493,19 @@ window.twttr = (function(d, s, id) {
     }
 
     function setCurrentTour(tour, $index){
+      var carouselCtrl = angular.element($('snippet-carousel')).controller('snippetCarousel')
+      carouselCtrl.setTour(true);
       vm.snipCounter = -1;
+      if (vm.currentTour === tour) return $scope.closeCarousel()
       vm.currentTour = tour;
       vm.snippets = _.reverse(angular.copy(tour.snippets))
       if (!$scope.$$phase) $scope.$digest()
-      if(!vm.isMobile){
-        var el = $('#tour-menu').children().eq($index);
-        var pos = -el.position().left + $('#tour-wrapper').width() / 2 - el.width() / 2;
-        console.log(pos)
-        TweenMax.to($('#tour-menu'), .5, {scrollTo: {x: "#"+el.attr('id')}})
-      }
+      // if(!vm.isMobile){
+      //   var el = $('#tour-menu').children().eq($index);
+      //   var pos = -el.position().left + $('#tour-wrapper').width() / 2 - el.width() / 2;
+      //   console.log(pos)
+      //   TweenMax.to($('#tour-menu'), .5, {scrollTo: {x: "#"+el.attr('id')}})
+      // }
     }
 
     function showLoader(){
@@ -3491,38 +3519,32 @@ window.twttr = (function(d, s, id) {
 
     function hideLoader(){
       // loaderTl.stop();
-      $('#loader').fadeOut();
-    }
-
-    function setLogoFill(){
-      TweenMax.set('#SafeZone', {fill: '#fff'});
-      TweenMax.set($('#SVGID_1_').find('stop'), {stopColor: '#fff'});
-      TweenMax.set($('#SVGID_2_').find('stop'), {stopColor: '#fff'});
-      TweenMax.set($('#SVGID_3_').find('stop'), {stopColor: '#fff'});
-      TweenMax.set($('#SVGID_4_').find('stop'), {stopColor: '#fff'});
+      $('#loadercar').fadeOut();
     }
 
     $scope.gotoDashboard = function() {
-      $state.go('dashboard', {}, {notify: false})
-      $timeout(function() { $window.location.reload() }, 500)
+      $state.go('dashboard', {reload: true})
+      // $timeout(function() { $window.location.reload() }, 500)
     }
 
     //DISABLE SCROLL
-    var firstMove
-    window.addEventListener('touchstart', function (e) {
-      firstMove = true
-    }, { passive: false })
+    // if(!bowser.mobile){
+    //   var firstMove
+    //   window.addEventListener('touchstart', function (e) {
+    //     firstMove = true
+    //   }, { passive: false })
 
-    window.addEventListener('touchend', function (e) {
-      firstMove = true
-    }, { passive: false })
+    //   window.addEventListener('touchend', function (e) {
+    //     firstMove = true
+    //   }, { passive: false })
 
-    window.addEventListener('touchmove', function (e) {
-      if (firstMove) {
-        e.preventDefault()
-        firstMove = false
-      }
-    }, { passive: false })
+    //   window.addEventListener('touchmove', function (e) {
+    //     if (firstMove) {
+    //       e.preventDefault()
+    //       firstMove = false
+    //     }
+    //   }, { passive: false })
+    // }
     // deregister event handlers
     $scope.$on('$destroy', function () {
       $(window).off()
@@ -3681,7 +3703,7 @@ window.twttr = (function(d, s, id) {
     .controller('DashboardCtrl', dashboardCtrl)
 
   /* @ngInject */
-  function dashboardCtrl ($rootScope, $scope, $http, $timeout, races, liveData, _, ComparisonSrv, ModelSrv) {
+  function dashboardCtrl ($rootScope, $scope, $window, $http, $timeout, races, liveData, _, ComparisonSrv, ModelSrv) {
     var vm = this
 
     // races
@@ -3689,6 +3711,9 @@ window.twttr = (function(d, s, id) {
     vm.currentRace = {}
     vm.streamData = []
     vm.streamPaddock = []
+    var enelMeterKey = 'Smart_Kit2_FE_040'
+    vm.metersData = null
+    vm.enelMeterStandData = null
     vm.totalConsumption = {
       total_energy: 0,
       zones: []
@@ -3702,18 +3727,6 @@ window.twttr = (function(d, s, id) {
     vm.races = races
     vm.races.push(liveData)
     var currentRace = _.last(vm.races)
-
-    // Logo change color animation
-    // Tobe enhance a little bit :P
-    var color1 = '#fff'
-    var color2 = '#000'
-    var t = 1.5
-    setLogoFill();
-
-    var header = $('#dashboard header')
-    $timeout(function(){
-      TweenMax.set(header, {top: - header.height(), opacity: 1})
-    },2000)
 
     // -------
 
@@ -3738,6 +3751,9 @@ window.twttr = (function(d, s, id) {
       vm.streamPaddock = currentRace.streamPaddock? angular.copy(currentRace.streamPaddock.zones) : []
       vm.totalConsumption = angular.copy(currentRace.totalConsumption)
       vm.mixes = currentRace.mix? currentRace.mix : []
+      vm.metersData = currentRace.metersData? currentRace.metersData : null
+      if (currentRace.metersData) vm.enelMeterStandData = currentRace.metersData[enelMeterKey]? currentRace.metersData[enelMeterKey] : null
+      console.log(vm.metersData)
       var newRaceIdx = _.indexOf(vm.races, currentRace)
       var raceList = $('.races-list ul').find('li')
       var raceListItem = raceList[newRaceIdx]
@@ -3749,6 +3765,11 @@ window.twttr = (function(d, s, id) {
     }
     $scope.selectRace(currentRace.id)
     raceHandler()
+
+
+    function checkMQ() {
+      return $window.matchMedia("(max-width: 52em)").matches
+    }
 
     var hammerRace = null
     function raceHandler() {
@@ -3766,6 +3787,7 @@ window.twttr = (function(d, s, id) {
     var currentBalanceIdx = 1
     $scope.selectBalance = function(id) {
       if (!bowser.mobile && !bowser.tablet) return
+      if (!checkMQ()) return
       var balanceList = $('#balance ul').find('li')
       if (id >= balanceList.length || id < 0) return
       TweenMax.to(balanceList, .5, {x: '+=' + (currentBalanceIdx-id)*100 + '%'})
@@ -3788,6 +3810,7 @@ window.twttr = (function(d, s, id) {
     var currentMixIdx = 1
     $scope.selectMix = function(id) {
       if (!bowser.mobile && !bowser.tablet) return
+      if (!checkMQ()) return
       var mixList = $('#energy_mix ul').find('li')
       if (id >= mixList.length || id < 0) return
       TweenMax.to(mixList, .5, {x: '+=' + (currentMixIdx-id)*100 + '%'})
@@ -3805,18 +3828,6 @@ window.twttr = (function(d, s, id) {
       if (!hammerMix) return
       hammerMix.off('swipeleft')
       hammerMix.off('swiperight')
-    }
-    function setLogoFill(){
-      TweenMax.set('#SafeZone', {fill: color1});
-      TweenMax.set($('#SVGID_1_').find('stop'), {stopColor: color1});
-      TweenMax.set($('#SVGID_2_').find('stop'), {stopColor: color1});
-      TweenMax.set($('#SVGID_3_').find('stop'), {stopColor: color1});
-      TweenMax.set($('#SVGID_4_').find('stop'), {stopColor: color1});
-      TweenMax.to('#SafeZone', t, {fill: color2, delay: t});
-      TweenMax.to($('#SVGID_1_').find('stop'), t, {stopColor: color2, delay: t});
-      TweenMax.to($('#SVGID_2_').find('stop'), t, {stopColor: color2, delay: t});
-      TweenMax.to($('#SVGID_3_').find('stop'), t, {stopColor: color2, delay: t});
-      TweenMax.to($('#SVGID_4_').find('stop'), t, {stopColor: color2, delay: t});
     }
 
     $scope.loadPercentage = function(zone, label, idx) {
@@ -3856,6 +3867,10 @@ window.twttr = (function(d, s, id) {
       $scope.alldata = selectedData
     }
 
+    function hideLoader(){
+      $('#loaderdash').fadeOut();
+    }
+
     function __emptyData(data) {
       var values = data.values
       var emptydata = {
@@ -3867,16 +3882,19 @@ window.twttr = (function(d, s, id) {
       return emptydata
     }
 
+    setTimeout(hideLoader, 3000)
+
     // event handlers
     $scope.getLiveData = function() {
       return ModelSrv.getAllModels()
                      .then(function(res) {
                         console.info(res)
                         if (vm.currentRace.live) {
-                          vm.streamData       = res.timeSeries.circuit.zones
-                          vm.streamPaddock    = res.timeSeries.paddock.zones
-                          vm.totalConsumption = res.totalConsumption
-                          vm.metersData       = res.meters
+                          vm.streamData         = res.timeSeries.circuit.zones
+                          vm.streamPaddock      = res.timeSeries.paddock.zones
+                          vm.totalConsumption   = res.totalConsumption
+                          vm.metersData         = res.metersData
+                          vm.enelMeterStandData = currentRace.metersData[enelMeterKey]
                           $scope.getComparisons()
                         }
                         return res
