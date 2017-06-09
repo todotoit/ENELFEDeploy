@@ -209,7 +209,7 @@
       'regenerativeBraking': {
         desc: '',
         label: '',
-        tpl: self.path + '/regenerativeBraking.html',
+        tpl: self.path + '/regenerativebraking.html',
         subContent: [
           {
             desc: '',
