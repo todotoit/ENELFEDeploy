@@ -7,7 +7,8 @@
     "deploy_fillergame": "git pull && node deploy.js fillergame && npm run deploy_common",
     "deploy_website": "git pull && node deploy.js website && npm run deploy_common",
     "deploy_tablet": "git pull && node deploy.js tablet && npm run deploy_common",
-    "deploy_podio": "git pull && node deploy.js podio && npm run deploy_common"
+    "deploy_podio": "git pull && node deploy.js podio && npm run deploy_common",
+    "deploy_snippets": "git pull && node deploy.js snippets && npm run deploy_common"
   },
   "dependencies": {
     "copy-dir": "^0.3.0",
