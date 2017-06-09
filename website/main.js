@@ -26,7 +26,8 @@
       controllerAs: 'streamgraph',
       bindings: {
         datasource: '<',
-        onSelect: '&'
+        onSelect: '&',
+        touchEnabled: '<?'
       }
     })
 
@@ -56,6 +57,7 @@
 
     // -------- CALLBACK ---------
     var _callback = null
+    var touchEnabled = true
 
     // discarding timezone makes data apper to the relevant hour at every timezone
     // so for example hong kong data are displayed at the proper hours even if
@@ -140,6 +142,7 @@
       var data = ctrl.datasource
       $element.find('svg').empty()
       _callback = ctrl.onSelect()
+      touchEnabled = _.isUndefined(ctrl.touchEnabled)? true : ctrl.touchEnabled
 
       // -------- INITIALIZE CHART ---------
       svg = d3.select($element.find('svg').get(0))
@@ -227,7 +230,7 @@
            .attr('class', function(d,i) { return 'layer layer-'+(i+1) })
            .attr('d', function(d,i) { return area(d.values) })
            .attr('fill', function(d, i) { return Z(i) })
-      _attachToolipEvents()
+      if (touchEnabled) _attachToolipEvents()
 
       // update axis data
       lnX.call(xLine.tickSize(h))
@@ -951,7 +954,7 @@
     $scope.$on('$destroy', function () {
       solarMexicoTimeline.kill()
       solarMexicoTimeline.clear()
-      TweenMax.killAll()
+      // TweenMax.killAll()
     })
   }
 
@@ -1057,15 +1060,15 @@
     .component('enelStand', {
       templateUrl: '../js/components/enelstandAnimation/assets/svg/illustration_enel_stand.svg',
       controller: enelStandCtrl,
-      controllerAs: 'enelStand',
+      // controllerAs: 'enelStand',
       bindings: {}
     })
 
   /* @ngInject */
   function enelStandCtrl($scope, $element, $attrs, TweenMax) {
     var ctrl = this
-    ctrl.componentPath = '../js/components/enelstandAnimation'
-    ctrl.svgPath = ctrl.componentPath + '/assets/svg'
+    // ctrl.componentPath = '../js/components/enelstandAnimation'
+    // ctrl.svgPath = ctrl.componentPath + '/assets/svg'
 
     // https://github.com/angular/angular.js/issues/14433
     // for the issue above we decided to use just $onChanges
@@ -1220,73 +1223,404 @@
   function ContructorForSnippetSrv($q, _) {
     var self  = this
     self.path = '../js/modules/snippetManager/templates'
-    var solarSnippetsKeys = ['mexico','panel','more']
-    var ecarSnippetsKeys = ['efficiency','v2g','recharge']
+    // tours
+    var _availableTours = {
+      'eMobility': {
+        label: 'E-Mobility',
+        snippets: ['fastRecharge', 'efficiency', 'co2', 'regenerativeBraking', 'v2g']
+      },
+      'smartEnergy': {
+        label: 'Smart energy',
+        snippets: ['raceMicrogrid', 'smartMetering', 'storage', 'v2g', 'firstSmartCity'],
+      },
+      'cleanEnergy': {
+        label: 'Clean energy',
+        snippets: ['raceMicrogrid', 'solarPower', 'howMuchSunGlobal', 'cleanEnergyGlobal', 'enelWorld'],
+      },
+      'enelAchievements': {
+        label: 'Enel achievements',
+        snippets: ['howMuchSunMexico', 'cleanEnergyChile', 'firstSmartCity', 'formulaE', 'enelWorld'],
+      },
+      'snippets': {
+        label: 'Enel QRcode',
+        snippets: ['howMuchSunMexico', 'cleanEnergyChile', 'firstSmartCity', 'formulaE', 'enelWorld'],
+      }
+    }
+
+
+    var _availableHotspots = {
+      'pin_1_info': {
+        stage: 1,
+        coords: [0.97, 4.74, 6.46],
+        snippets: ['carSpecs']
+      },
+      'pin_1_tyre': {
+        stage: 1,
+        coords: [5.98, 2.32, 2.59],
+        snippets: ['tyres', 'regenerativeBraking']
+      },
+      'pin_1_electricity': {
+        stage: 1,
+        coords: [-5.01, 1.12, -4.63],
+        snippets: ['fanBoost', 'fastRecharge', 'batteryPower']
+      },
+      'pin_1_engine': {
+        stage: 1,
+        coords: [-3.19, 2.20, -5.73],
+        snippets: ['co2', 'efficiency', 'enginePower', 'sound']
+      },
+      'pin_2_grid': {
+        stage: 2,
+        coords: [-654, 165, 456],
+        snippets: ['raceMicrogrid']
+      },
+      'pin_2_info': {
+        stage: 2,
+        coords: [730, 213, -139],
+        snippets: ['circuitBerlin2017']
+      },
+      'pin_2_meter': {
+        stage: 2,
+        coords: [12, 361, 684],
+        snippets: ['smartMetering']
+      },
+      'pin_2_solar': {
+        stage: 2,
+        coords: [117, 660, 298],
+        snippets: ['solarPower']
+      },
+      'pin_2_storage': {
+        stage: 2,
+        coords: [-759, 213, 200],
+        snippets: ['storage']
+      },
+      'pin_3_v2g': {
+        stage: 3,
+        // coords: [-0.039, 0.90, 0.61],
+        coords: [55],
+        snippets: ['v2g', 'v2gDenmark']
+      },
+      'pin_3_spain': {
+        stage: 3,
+        // coords: [-1.04, -0.25, 0.17],
+        coords: [129],
+        snippets: ['cleanEnergyGlobal', 'cleanEnergyChile']
+      },
+      'pin_3_rome': {
+        stage: 3,
+        // coords: [0.091, 0.64, 0.86],
+        coords: [60],
+        snippets: ['enelWorld']
+      },
+      'pin_3_milan': {
+        stage: 3,
+        // coords: [-0.049, 0.74, 0.78],
+        coords: [48],
+        snippets: ['firstSmartCity', 'internet']
+      },
+      'pin_3_berlin': {
+        stage: 3,
+        // coords: [0.081, 0.80, 0.72],
+        coords: [43],
+        snippets: ['germany']
+      },
+      'pin_3_fe': {
+        stage: 3,
+        // coords: [0.95, 0.39, -0.33],
+        coords: [-70],
+        snippets: ['formulaE']
+      },
+      'pin_3_solar': {
+        stage: 3,
+        // coords: [-0.91, 0.38, -0.45],
+        coords: [157],
+        snippets: ['howMuchSunGlobal', 'howMuchSunMexico']
+      }
+    }
+
+    // snippets
     var _availableSnippets = {
-      // 'mexico': {
-      //   desc: 'How much energy is there in Mexican skies?',
-      //   label: 'The power of the sun',
-      //   tpl: self.path + '/solar25km.html'
-      // },
-      // 'panel': {
-      //   desc: 'Can you guess how much solar panels can power?',
-      //   label: 'Solar energy for the race',
-      //   tpl: self.path + '/solarmexico.html'
-      // },
+      'carSpecs': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/carInfo.html'
+      },
+      'fastRecharge': {
+        desc: 'Innovation is ready to charge! Recharging e-cars is faster than you think.',
+        label: 'Fast recharge',
+        tpl: self.path + '/fastRecharge.html'
+      },
+      'batteryPower': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/batteryPower.html',
+        subContent: [
+          {
+            desc: '',
+            label: 'Provides energy for',
+            tpl: self.path + '/subcontents/batteryPower-minutes.html'
+          },
+          {
+            desc: '',
+            label: 'Enough to charge',
+            tpl: self.path + '/subcontents/batteryPower-phones.html'
+          }
+        ]
+      },
+      'fanBoost': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/fanBoost.html'
+      },
+      'sound': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/sound.html',
+        subContent: [
+          {
+            desc: '',
+            label: 'Today\'s achievement',
+            tpl: self.path + '/subcontents/sound-noise.html'
+          },
+          {
+            desc: '',
+            label: 'Tomorrow\'s cities',
+            tpl: self.path + '/subcontents/sound-future.html'
+          }
+        ]
+      },
       'efficiency': {
         desc: '',
         label: '',
         tpl: self.path + '/efficiency.html'
       },
-      'recharge': {
-        desc: 'Innovation is ready to charge! Recharging e-cars is faster than you think.',
-        label: 'Fast recharge',
-        tpl: self.path + '/fastrecharge.html'
+      'co2': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/zeroco2.html',
+        subContent: [
+          {
+            desc: '',
+            label: 'Traditional engines',
+            tpl: self.path + '/subcontents/co2-kg.html'
+          },
+          {
+            desc: '',
+            label: 'Innovative thinking',
+            tpl: self.path + '/subcontents/co2-future.html'
+          }
+        ]
+      },
+      'enginePower': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/enginePower.html'
+      },
+      'tyres': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/tyres.html'
+      },
+      'regenerativeBraking': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/regenerativeBraking.html',
+        subContent: [
+          {
+            desc: '',
+            label: 'During the race',
+            tpl: self.path + '/subcontents/regenerativeBraking-formulaE.html'
+          },
+          {
+            desc: '',
+            label: 'On our streets',
+            tpl: self.path + '/subcontents/regenerativeBraking-eCar.html'
+          }
+        ]
+      },
+      'circuitBerlin2017': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/circuit-berlin-2017.html'
+      },
+      'raceMicrogrid': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/raceMicrogrid.html',
+        subContent: [
+          {
+            desc: '',
+            label: 'Small scale',
+            tpl: self.path + '/subcontents/raceMicrogrid-racetrack.html'
+          },
+          {
+            desc: '',
+            label: 'Large scale',
+            tpl: self.path + '/subcontents/raceMicrogrid-city.html'
+          }
+        ]
+      },
+      'smartMetering': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/smartMetering.html',
+        subContent: [
+          {
+            desc: '',
+            label: 'Smart kit',
+            tpl: self.path + '/subcontents/smartMetering-kit.html'
+          },
+          {
+            desc: '',
+            label: 'Smart meter',
+            tpl: self.path + '/subcontents/smartMetering-meter.html'
+          }
+        ]
+      },
+      'solarPower': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/solarPower.html',
+        subContent: [
+          {
+            desc: '',
+            label: 'Can generate',
+            tpl: self.path + '/subcontents/solarPower-generate.html'
+          },
+          {
+            desc: '',
+            label: 'Can meet the needs of',
+            tpl: self.path + '/subcontents/solarPower-needs.html'
+          }
+        ]
+      },
+      'storage': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/storage.html'
       },
       'v2g': {
-        desc: 'What if electricity could move around as freely as you do in your car? Soon, it will.',
-        label: 'A battery on wheels',
+        desc: '',
+        label: '',
         tpl: self.path + '/v2g.html'
       },
-      'more': {
-        desc: 'The Enel staff is happy to answer any questions you may have.',
-        label: 'Would you like to find out more about smart energy?',
+      'v2gDenmark': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/v2gDenmark.html'
+      },
+      'howMuchSunGlobal': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/howMuchSunGlobal.html'
+      },
+      'howMuchSunMexico': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/howMuchSunMexico.html'
+      },
+      'cleanEnergyGlobal': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/cleanEnergyGlobal.html'
+      },
+      'cleanEnergySpain': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/cleanEnergySpain.html'
+      },
+      'cleanEnergyChile': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/cleanEnergyChile.html'
+      },
+      'enelWorld': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/enelWorld.html'
+      },
+      'internet': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/internet.html'
+      },
+      'firstSmartCity': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/firstSmartCity.html'
+      },
+      'germany': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/germany.html'
+      },
+      'formulaE': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/formulaE.html'
+      },
+      'enelStand': {
+        desc: '',
+        label: '',
         tpl: self.path + '/enelstand.html'
       }
     }
 
+    var _qrcodeSnipsDef = [
+      'cleanEnergyGlobal',
+      'cleanEnergyChile',
+      'howMuchSunGlobal',
+      'howMuchSunMexico',
+      'fastRecharge',
+      'v2g',
+      'v2gDenmark',
+      'enelStand'
+    ]
+
+    var _qrcodeSnippets = {}
+    _.map(_qrcodeSnipsDef, function(k, i){
+      _qrcodeSnippets[k] = _availableSnippets[k]
+      _qrcodeSnippets[k].key = k
+    })
+
+    console.warn(_qrcodeSnippets)
+
     self.getAvailableSnippets = _getAvailableSnippets
-    self.getSolarSnippets = _getSolarSnippets
-    self.getEcarSnippets = _getECarSnippets
+    self.getQRCodeSnippets = _getQRCodeSnippets
     self.getSnippet = _getSnippet
+    self.getAvailableTours = _getAvailableTours
+    self.getHotspot = _getHotspot
+    self.getTour = _getTour
     return self
 
     // -------
 
-    function _getSolarSnippets() {
-      return $q(function(resolve, reject) {
-        var snippets = _(_availableSnippets).map(function(value, key) {
-            value.key = key
-            if (_.includes(solarSnippetsKeys, key)) return value
-          }).compact().value()
-        if (!_.isEmpty(snippets)) resolve(snippets)
-        else reject('No snippets!')
-      })
-    }
-    function _getECarSnippets() {
-      return $q(function(resolve, reject) {
-        var snippets = _(_availableSnippets).map(function(value, key) {
-            value.key = key
-            if (_.includes(ecarSnippetsKeys, key)) return value
-          }).compact().value()
-        if (!_.isEmpty(snippets)) resolve(snippets)
-        else reject('No snippets!')
-      })
+    function _getAvailableTours() {
+        var tours = _.map(angular.copy(_availableTours), function(value, key) {
+          value.key = key
+          value.snippets = _.map(value.snippets, function(value) {
+            var snippet = angular.copy(_availableSnippets[value])
+            var hotspot = _.values(_.pickBy(_availableHotspots, function(o, k) {
+              o.key = k
+              return _.includes(o.snippets, value)
+            }))[0]
+            if (!hotspot) return snippet
+            snippet.hotspot = {
+              key: hotspot.key,
+              stage: hotspot.stage,
+              coords: hotspot.coords
+            }
+            return snippet
+          })
+          return value
+        })
+        if (!_.isEmpty(tours)) return tours
+        else console.error('No available tours are defined!')
     }
 
     function _getAvailableSnippets() {
       return $q(function(resolve, reject) {
-        var snippets = _.map(_availableSnippets, function(value, key) {
+        var snippets = _.map(angular.copy(_availableSnippets), function(value, key) {
           value.key = key
           return value
         })
@@ -1295,12 +1629,37 @@
       })
     }
 
-    function _getSnippet(key, appKey) {
+    function _getQRCodeSnippets() {
       return $q(function(resolve, reject) {
-        var searchKey = key.replace(/ /g, '_')
-        if (appKey === 'solar' && !_.includes(solarSnippetsKeys, key)) return reject('Snippet not found!')
-        if (appKey === 'ecar' && !_.includes(ecarSnippetsKeys, key)) return reject('Snippet not found!')
-        var snippet = _availableSnippets[key]
+        var snippets = _.map(angular.copy(_qrcodeSnippets), function(value, key) {
+          value.key = key
+          return value
+        })
+        if (!_.isEmpty(snippets)) resolve(snippets)
+        else reject('No available snippets are defined!')
+      })
+    }
+
+    function _getTour(key) {
+      return $q(function(resolve, reject) {
+        var tour = angular.copy(_availableTours[key])
+        if (!_.isEmpty(tour)) resolve(tour)
+        else reject('Tour not found!')
+      })
+    }
+
+    function _getHotspot(key) {
+      var hotspot = angular.copy(_availableHotspots[key])
+      hotspot.snippets = _.map(hotspot.snippets, function(value) {
+        return angular.copy(_availableSnippets[value])
+      })
+      if (!_.isEmpty(hotspot)) return hotspot
+      else console.error('Hotspot not found')
+    }
+
+    function _getSnippet(key) {
+      return $q(function(resolve, reject) {
+        var snippet = angular.copy(_availableSnippets[key])
         if (!_.isEmpty(snippet)) resolve(snippet)
         else reject('Snippet not found!')
       })
@@ -1426,87 +1785,6 @@ window.twttr = (function(d, s, id) {
       console.warn('$stateNotFound ' + unfoundState.name + ' - fired when a state cannot be found by its name.')
       console.debug(unfoundState, fromState, fromParams)
     })
-  }
-
-}(window.angular));
-
-(function (angular) {
-  'use strict'
-
-  /**
-  **/
-
-  angular
-    .module('MainApp')
-    .service('PaddockAreaChart', ContructorForPaddockAreaChart)
-
-  /* @ngInject */
-  function ContructorForPaddockAreaChart($http) {
-    var self  = this
-    var _data = null
-    var _data1 = null
-    var _data2 = null
-
-    self.get    = _get
-    self.get1    = _get1
-    self.get2    = _get2
-    self.update = _update
-    self.update1 = _update1
-    self.update2 = _update2
-    return self
-
-    // -------
-
-    // instance methods
-    function _get() {
-      return _data || _update()
-    }
-    function _get1() {
-      return _data1 || _update1()
-    }
-    function _get2() {
-      return _data2 || _update2()
-    }
-
-    function _update() {
-      return $http.get('http://backend.enelformulae.todo.to.it/graphs/areachart/paddock')
-                  .then(
-                    function(res) {
-                      console.info(res)
-                      _data = res.data
-                      return _data
-                    },
-                    function(err) {
-                      console.error(err)
-                      return null
-                    })
-    }
-    function _update1() {
-      return $http.get('http://192.168.3.10:5001/graphs/stream')
-                  .then(
-                    function(res) {
-                      console.info(res)
-                      _data = res.data
-                      return _data
-                    },
-                    function(err) {
-                      console.error(err)
-                      return null
-                    })
-    }
-    function _update2() {
-      return $http.get('http://192.168.3.10:5001/zoneenergyconsumption')
-                  .then(
-                    function(res) {
-                      console.info(res)
-                      _data2 = res.data
-                      return _data2
-                    },
-                    function(err) {
-                      console.error(err)
-                      return null
-                    })
-    }
   }
 
 }(window.angular));
@@ -1964,6 +2242,44 @@ window.twttr = (function(d, s, id) {
   function landingCtrl ($scope, snippets, $timeout, $http, _) {
     var vm = this
     vm.races = []
+    vm.upcomings = [
+      {
+        id: 'r7',
+        date: '10 june 2017',
+        location: 'Berlin',
+        circuit: 'Tempelhof Circuit'
+      },
+      {
+        id: 'r8',
+        date: '11 june 2017',
+        location: 'Berlin',
+        circuit: 'Tempelhof Circuit'
+      },
+      {
+        id: 'r9',
+        date: '15 july 2017',
+        location: 'New York City',
+        circuit: 'Brooklyn Circuit'
+      },
+      {
+        id: 'r10',
+        date: '16 july 2017',
+        location: 'New York City',
+        circuit: 'Brooklyn Circuit'
+      },
+      {
+        id: 'r11',
+        date: '29 july 2017',
+        location: 'Montreal',
+        circuit: 'TBC'
+      },
+      {
+        id: 'r12',
+        date: '30 july 2017',
+        location: 'Montreal',
+        circuit: 'TBC'
+      }
+    ]
     vm.streamData = []
     vm.totalConsumption = {
       total_energy: 0,
@@ -1971,6 +2287,7 @@ window.twttr = (function(d, s, id) {
     }
     vm.snippets = angular.copy(_.initial(snippets))
     vm.tweets = []
+    vm.boots = []
 
     // initialize object for countdown
     $scope.countDown = {
@@ -2059,6 +2376,33 @@ window.twttr = (function(d, s, id) {
                     //        })
                     // })
                     $scope.twitDisplayNum = _getTwitDisplayNum()
+                  }, function(err) {
+                    console.error(err)
+                  })
+    }
+
+    retrieveBootInstFeed()
+    retrieveBootTweetFeed()
+    
+    function retrieveBootInstFeed() {
+      return $http.get('https://emiliobondioli.runkit.io/instagram-hashtag-scraper/branches/master')
+                  .then(function(res) {
+                    console.log(res.data)
+                    vm.boots = vm.boots.concat(res.data.items)
+                    
+                    $scope.bootDisplayNum = _getTwitDisplayNum()
+                  }, function(err) {
+                    console.error(err)
+                  })
+    }
+
+    function retrieveBootTweetFeed() {
+      return $http.get('https://emiliobondioli.runkit.io/twitter-hashtag-scraper/branches/master')
+                  .then(function(res) {
+                    console.log(res.data)
+                    vm.boots = vm.boots.concat(res.data.items)
+                    
+                    $scope.bootDisplayNum = _getTwitDisplayNum()
                   }, function(err) {
                     console.error(err)
                   })
