@@ -86,25 +86,25 @@
       'pin_3_v2g': {
         stage: 3,
         // coords: [-0.039, 0.90, 0.61],
-        coords: [55],
+        coords: [181],
         snippets: ['v2g', 'v2gDenmark']
       },
       'pin_3_spain': {
         stage: 3,
         // coords: [-1.04, -0.25, 0.17],
-        coords: [129],
+        coords: [566],
         snippets: ['cleanEnergyGlobal', 'cleanEnergyChile']
       },
       'pin_3_rome': {
         stage: 3,
         // coords: [0.091, 0.64, 0.86],
-        coords: [60],
+        coords: [206],
         snippets: ['enelWorld']
       },
       'pin_3_milan': {
         stage: 3,
         // coords: [-0.049, 0.74, 0.78],
-        coords: [48],
+        coords: [284],
         snippets: ['firstSmartCity', 'internet']
       },
       'pin_3_berlin': {
@@ -116,13 +116,13 @@
       'pin_3_fe': {
         stage: 3,
         // coords: [0.95, 0.39, -0.33],
-        coords: [-70],
+        coords: [-364],
         snippets: ['formulaE']
       },
       'pin_3_solar': {
         stage: 3,
         // coords: [-0.91, 0.38, -0.45],
-        coords: [157],
+        coords: [756],
         snippets: ['howMuchSunGlobal', 'howMuchSunMexico']
       }
     }
