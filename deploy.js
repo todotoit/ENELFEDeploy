@@ -42,6 +42,7 @@ if (process.argv[2]) {
     copydir.sync(path.join('..', 'ENEL-F-E-APP/public/assets'), 'assets')
     copydir.sync(path.join('..', 'ENEL-F-E-APP/public/js'), 'js')
     copydir.sync(path.join('..', 'ENEL-F-E-APP/public/libs'), 'libs')
+    copydir.sync(path.join('..', 'ENEL-F-E-APP/public/app'), 'app')
     copydir.sync(path.join('..', 'ENEL-F-E-APP/public/webapp'), 'app')
   }
 
