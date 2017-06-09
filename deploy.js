@@ -55,7 +55,7 @@ if (process.argv[2]) {
     copydir.sync(path.join('..', 'ENEL-F-E-APP/app/redirects/'), '')
   }
 
-  if (process.argv[2] === 'tablet') {
+  /*if (process.argv[2] === 'tablet') {
     console.log('deploying tablet')
     copydir.sync(path.join('..', 'ENEL-F-E/app/'), 'app')
     copydir.sync(path.join('..', 'ENEL-F-E/app/'), 'monitor')
@@ -80,7 +80,7 @@ if (process.argv[2]) {
         //     paths: ['app/index.html'],
         //     recursive: true
         // });
-  }
+  }*/
 } else {
   console.log('you need to specify the app name')
 }
