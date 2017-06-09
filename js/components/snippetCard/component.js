@@ -55,7 +55,7 @@
       $scope.subsnip = content[contentIdx]
       // $content.find('li').removeClass('active')
       // $content.find('li').eq(contentIdx).addClass('active')
-      TweenMax.to($content.find('li'), swipeVel, { x: '+='+ swipeOffset +'%', onComplete: function() {
+      TweenMax.to($content.find('ul'), swipeVel, { x: '+='+ swipeOffset +'%', onComplete: function() {
         if (!$scope.$$phase) $scope.$digest()
       } })
     }
@@ -63,7 +63,7 @@
       if (contentIdx >= content.length -1) return nextCallback()
       contentIdx++
       $scope.subsnip = content[contentIdx]
-      TweenMax.to($content.find('li'), swipeVel, { x: '-='+ swipeOffset +'%', onComplete: function() {
+      TweenMax.to($content.find('ul'), swipeVel, { x: '-='+ swipeOffset +'%', onComplete: function() {
         if (!$scope.$$phase) $scope.$digest()
       } })
     }
@@ -78,23 +78,27 @@
       if (contentIdx < 0) contentIdx = 0
       else if (contentIdx >= content.length) contentIdx = content.length -1
       $scope.subsnip = content? content[contentIdx] : null
-      $element.ready(createContentHandler)
+      if(!bowser.mobile) $element.ready(createContentHandler)
     }
 
     // event handlers
     function createContentHandler() {
       $content = $element.find('.content')
       if (contentIdx !== 0) TweenMax.set($content.find('li'), { x: '-='+ (swipeOffset * contentIdx) +'%' })
-      hammertime = new Hammer($content[0], { domEvents: true })
-      hammertime.on('swipeleft',  nextTab)
+      hammertime = new Hammer($content[0], { domEvents: true, css_hacks:false, touchAction: 'compute' })
+      hammertime.on('swipeleft',  function(){
+        nextTab()
+      })
       hammertime.on('swiperight', prevTab)
       hammertime.on('hammer.input', function (e) {
         e.preventDefault()
         e.srcEvent.stopPropagation()
       })
       $element.on('touchmove', function(e) {
-        e.stopPropagation()
-        e.preventDefault()
+        if(!bowser.mobile){
+          e.stopPropagation()
+          e.preventDefault()
+        }
       })
       $element.click(function(e) {
         e.stopPropagation()

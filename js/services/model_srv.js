@@ -16,6 +16,9 @@
     var _timeSeriesData         = {}
     var _metersData             = {}
 
+    var beUrl = 'http://backend.enelformulae.todo.to.it'
+    // var beUrl = 'http://192.168.3.10:5001'
+
     self.getTotal               = _getTotal
     self.getTimeSeries          = _getTimeSeries
     self.getMeter               = _getMeter
@@ -57,7 +60,8 @@
     }
 
     function _updateTotal() {
-      return $http.get('http://backend.enelformulae.todo.to.it/zoneenergyconsumption')
+      console.log('get from ', beUrl)
+      return $http.get(beUrl + '/zoneenergyconsumption')
                   .then(
                     function(res) {
                       console.info(res)
@@ -69,7 +73,7 @@
                     })
     }
     function _updateTimeSeries(zone_name) {
-      return $http.get('http://backend.enelformulae.todo.to.it/time_series/' + (zone_name || ''))
+      return $http.get(beUrl + '/time_series/' + (zone_name || ''))
                   .then(
                     function(res) {
                       console.info(res)
@@ -82,7 +86,7 @@
                     })
     }
     function _updateMeter(meter_name) {
-      return $http.get('http://backend.enelformulae.todo.to.it/meter/' + (meter_name || ''))
+      return $http.get(beUrl + '/meter/' + (meter_name || ''))
                   .then(
                     function(res) {
                       console.info(res)

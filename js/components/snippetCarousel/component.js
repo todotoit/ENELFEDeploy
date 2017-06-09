@@ -50,7 +50,10 @@
     $scope.prev = function () {
       if (debounce.id) return
       $scope.snipCounter++
-      if($scope.snipCounter > $scope.snippets.length-1) $scope.snipCounter = 0;
+      if($scope.snipCounter > $scope.snippets.length-1) {
+        $scope.exit();
+        return;
+      }
       debounce.start()
       direction = 'left'
       moveCards(direction)
@@ -119,6 +122,10 @@
       }})
     }
 
+
+    ctrl.setTour = function(t){
+      ctrl.isTour = t;
+    }
     // -------
 
     // init after dom loaded
@@ -143,7 +150,7 @@
       $cards = _.reverse($cards)
       $card = _.first($cards)
       if (callback) callback(card)
-      cardHandler()
+      if(!bowser.mobile) cardHandler()
       debounce.cancel()
     }
 
@@ -195,7 +202,7 @@
 
     // event handlers
     function cardHandler() {
-      hammertime = new Hammer($card, {domEvents: true});
+      hammertime = new Hammer($card, {domEvents: true, css_hacks:false, touchAction: 'auto'});
       hammertime.on('swipeleft', function(e){ $scope.prev() });
       hammertime.on('swiperight', function(e){ $scope.next() });
       hammertime.on('hammer.input', function (e) {
@@ -203,8 +210,10 @@
         e.srcEvent.stopPropagation()
       })
       $element.on('touchmove', function(e) {
-        e.stopPropagation()
-        e.preventDefault()
+        if(!bowser.mobile){
+          e.stopPropagation()
+          e.preventDefault()
+        }
       })
       $element.click(function(e) {
         e.stopPropagation()
