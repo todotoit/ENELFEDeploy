@@ -27,7 +27,7 @@
     // -------- SVG ELEMENTS ---------
     var svg, box, w, h, p,                    // svg config
         axY, axX,                             // axis and scales config
-        areas, lns, interpolation = 'linear', // chart paths config
+        areas, lns, interpolation = 'basis', // chart paths config
         delay = 100, duration = 300           // animation config
 
     // -------- SCALES ---------
@@ -35,21 +35,21 @@
     var X = d3.time.scale()
 
     // -------- AXIS ---------
-    var formatY = d3.format('.1f')
+    var formatY = d3.format('.0f')
     var axisY   = d3.svg.axis()
                     .scale(Y)
                     .orient('left')
-                    .tickSize(2)
+                    .tickSize(0)
                     .tickFormat(function(d,i) {
                       if(i === 0) return
-                      return formatY(d)
+                      return formatY(d)+'kW'
                     })
 
     var formatX = d3.time.format('%H:%M')
     var axisX   = d3.svg.axis()
                     .scale(X)
                     .orient('bottom')
-                    .tickSize(2)
+                    .tickSize(1)
                     .ticks(d3.time.hours)
                     .tickFormat(function(d,i) {
                       if(i === 0) return
@@ -179,7 +179,7 @@
          .delay(delay)
          .duration(duration)
          .attr('d', topLine(totData))
-         .style('stroke-width', strokeWidth)
+         //.style('stroke-width', strokeWidth)//removing the stroke
       // update axis data
       axY.transition().delay(delay).call(axisY)
       axX.transition().delay(delay).call(axisX)
