@@ -3713,6 +3713,8 @@ window.twttr = (function(d, s, id) {
     vm.currentRace = {}
     vm.streamData = []
     vm.streamPaddock = []
+    $scope.allData = []
+    $scope.paddockData = {}
     var enelMeterKey = 'Smart_Kit2_FE_038'
     vm.metersData = null
     vm.enelMeterStandData = null
@@ -3844,6 +3846,7 @@ window.twttr = (function(d, s, id) {
     function selectAll() {
       vm.selectedKey = null
       $scope.currentAreaShown = 'all'
+      $scope.paddockData = _.find(vm.totalConsumption.zones, {name: 'Paddock'})
       $scope.alldata = vm.streamPaddock
     }
 
@@ -3865,6 +3868,8 @@ window.twttr = (function(d, s, id) {
         if (d.key === key) return selectedData.push(d)
         return selectedData.push(__emptyData(d))
       })
+      var pdata = _.find(vm.totalConsumption.zones, {name: 'Paddock'})
+      $scope.paddockData = _.find(pdata.subzones, {name: _.capitalize(key)})
       $scope.alldata = selectedData
     }
 
