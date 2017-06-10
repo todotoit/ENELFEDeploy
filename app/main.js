@@ -3891,12 +3891,14 @@ window.twttr = (function(d, s, id) {
                      .then(function(res) {
                         console.info(res)
                         if (vm.currentRace.live) {
+                          if (!_.isEmpty(vm.streamPaddock)) emptyAll()
                           vm.streamData         = res.timeSeries.circuit.zones
                           vm.streamPaddock      = res.timeSeries.paddock.zones
                           vm.totalConsumption   = res.totalConsumption
                           vm.metersData         = res.metersData
                           vm.enelMeterStandData = currentRace.metersData[enelMeterKey]
                           $scope.getComparisons()
+                          $timeout(selectAll, 1000)
                         }
                         return res
                      }, function(err) {
