@@ -169,7 +169,8 @@
       bindings: {
         snippets: '<',
         onCardSelect: '&',
-        onExit: '&'
+        onExit: '&',
+        loop: '=?'
       }
     })
 
@@ -205,7 +206,7 @@
     $scope.prev = function () {
       if (debounce.id) return
       $scope.snipCounter++
-      if($scope.snipCounter > $scope.snippets.length-1) {
+      if($scope.snipCounter > $scope.snippets.length-1 && !ctrl.loop) {
         $scope.exit();
         return;
       }
@@ -3754,7 +3755,6 @@ window.twttr = (function(d, s, id) {
       vm.mixes = currentRace.mix? currentRace.mix : []
       vm.metersData = currentRace.metersData? currentRace.metersData : null
       if (currentRace.metersData) vm.enelMeterStandData = !_.isEmpty(vm.metersData[enelMeterKey])? vm.metersData[enelMeterKey] : {energy: 0}
-      console.log(vm.metersData, _.isEmpty(currentRace.metersData[enelMeterKey]))
       var newRaceIdx = _.indexOf(vm.races, currentRace)
       var raceList = $('.races-list ul').find('li')
       var raceListItem = raceList[newRaceIdx]
