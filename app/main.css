@@ -805,13 +805,13 @@ header {
 }
 
 #landing footer streamgraph svg path:nth-child(4){
-  fill:#bbb;
-  border: 1px solid;
+  /*fill:#bbb;*/
+  /*border: 1px solid;*/
 }
 
-#landing footer streamgraph svg path{
+/*#landing footer streamgraph svg path{
   fill:#ccc;
-}
+}*/
 
 
 #landing footer #tour li{
@@ -1833,6 +1833,10 @@ header h4 {
   /*margin-top: 2rem;*/
   /*font-size: 4.2rem;*/
   font-size: 3.1vw;
+}
+
+.tooltip .number-lg {
+  font-size: 4.2rem;
 }
 
 .meters{
