@@ -3206,7 +3206,7 @@ window.twttr = (function(d, s, id) {
           }
         }
       },
-      "meters": 20,
+      "meters": 30,
       "mix": [
         {
           "code": "clean",
@@ -3712,7 +3712,7 @@ window.twttr = (function(d, s, id) {
     vm.currentRace = {}
     vm.streamData = []
     vm.streamPaddock = []
-    var enelMeterKey = 'Smart_Kit2_FE_040'
+    var enelMeterKey = 'Smart_Kit2_FE_038'
     vm.metersData = null
     vm.enelMeterStandData = null
     vm.totalConsumption = {
@@ -3753,7 +3753,7 @@ window.twttr = (function(d, s, id) {
       vm.totalConsumption = angular.copy(currentRace.totalConsumption)
       vm.mixes = currentRace.mix? currentRace.mix : []
       vm.metersData = currentRace.metersData? currentRace.metersData : null
-      if (currentRace.metersData) vm.enelMeterStandData = !_.isEmpty(currentRace.metersData[enelMeterKey])? currentRace.metersData[enelMeterKey] : {energy: 0}
+      if (currentRace.metersData) vm.enelMeterStandData = !_.isEmpty(vm.metersData[enelMeterKey])? vm.metersData[enelMeterKey] : {energy: 0}
       console.log(vm.metersData, _.isEmpty(currentRace.metersData[enelMeterKey]))
       var newRaceIdx = _.indexOf(vm.races, currentRace)
       var raceList = $('.races-list ul').find('li')
