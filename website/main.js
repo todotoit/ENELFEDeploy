@@ -2241,12 +2241,6 @@ window.twttr = (function(d, s, id) {
     vm.races = []
     vm.upcomings = [
       {
-        id: 'r7',
-        date: '10 june 2017',
-        location: 'Berlin',
-        circuit: 'Tempelhof Circuit'
-      },
-      {
         id: 'r8',
         date: '11 june 2017',
         location: 'Berlin',
@@ -2380,13 +2374,13 @@ window.twttr = (function(d, s, id) {
 
     retrieveBootInstFeed()
     retrieveBootTweetFeed()
-    
+
     function retrieveBootInstFeed() {
       return $http.get('https://emiliobondioli.runkit.io/instagram-hashtag-scraper/branches/master')
                   .then(function(res) {
                     console.log(res.data)
                     vm.boots = vm.boots.concat(res.data.items)
-                    
+
                     $scope.bootDisplayNum = _getTwitDisplayNum()
                   }, function(err) {
                     console.error(err)
@@ -2398,7 +2392,7 @@ window.twttr = (function(d, s, id) {
                   .then(function(res) {
                     console.log(res.data)
                     vm.boots = vm.boots.concat(res.data.items)
-                    
+
                     $scope.bootDisplayNum = _getTwitDisplayNum()
                   }, function(err) {
                     console.error(err)
