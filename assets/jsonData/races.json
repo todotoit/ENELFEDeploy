@@ -52,22 +52,22 @@
           }
         }
       },
-      "meters": 0,
+      "meters": 18,
       "mix": [
         {
           "code": "clean",
           "name": "Clean energy",
-          "value": 0
+          "value": 30
         },
         {
           "code": "temp",
           "name": "Temporary solutions",
-          "value": 0
+          "value": 25
         },
         {
           "code": "grid",
           "name": "Urban grid",
-          "value": 0
+          "value": 45
         }
       ],
       "streamData": {
@@ -10425,17 +10425,17 @@
           }
         }
       },
-      "meters": 0,
+      "meters": 40,
       "mix": [
         {
           "code": "clean",
           "name": "Clean energy",
-          "value": 0
+          "value": 27
         },
         {
           "code": "temp",
           "name": "Temporary solutions",
-          "value": 0
+          "value": 73
         },
         {
           "code": "grid",
@@ -19078,22 +19078,22 @@
           }
         }
       },
-      "meters": 0,
+      "meters": 30,
       "mix": [
         {
           "code": "clean",
           "name": "Clean energy",
-          "value": 0
+          "value": 7
         },
         {
           "code": "temp",
           "name": "Temporary solutions",
-          "value": 0
+          "value": 51
         },
         {
           "code": "grid",
           "name": "Urban grid",
-          "value": 0
+          "value": 42
         }
       ],
       "streamData": {
@@ -27788,22 +27788,22 @@
           }
         }
       },
-      "meters": 0,
+      "meters": 20,
       "mix": [
         {
           "code": "clean",
           "name": "Clean energy",
-          "value": 0
+          "value": 30
         },
         {
           "code": "temp",
           "name": "Temporary solutions",
-          "value": 0
+          "value": 10
         },
         {
           "code": "grid",
           "name": "Urban grid",
-          "value": 0
+          "value": 60
         }
       ],
       "streamData": {
