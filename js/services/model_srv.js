@@ -15,7 +15,6 @@
     var _totalConsumptionData   = null
     var _timeSeriesData         = {}
     var _metersData             = {}
-    var enelStandMeter = 'Smart_Kit2_FE_038'
 
     var beUrl = 'http://backend.enelformulae.todo.to.it'
     // var beUrl = 'http://192.168.3.10:5001'
@@ -46,7 +45,7 @@
       return _metersData[meter_name] || _updateMeter(meter_name)
     }
     function _getAll() {
-      return $q.all([_getTotal(), _getTimeSeries(), _getTimeSeries('paddock'), _getMeter(enelStandMeter)])
+      return $q.all([_getTotal(), _getTimeSeries(), _getTimeSeries('paddock'), _getMeter('Smart_Kit2_FE_040')])
                .then(
                   function(res) {
                     return {
@@ -99,7 +98,7 @@
                     })
     }
     function _updateAll() {
-      return $q.all([_updateTotal(), _updateTimeSeries(), _updateTimeSeries('paddock'), _updateMeter(enelStandMeter)])
+      return $q.all([_updateTotal(), _updateTimeSeries(), _updateTimeSeries('paddock'), _updateMeter('Smart_Kit2_FE_040')])
                .then(
                   function(res) {
                     console.info('All models updated: ', res)

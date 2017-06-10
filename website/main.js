@@ -1241,10 +1241,6 @@
       'enelAchievements': {
         label: 'Enel achievements',
         snippets: ['howMuchSunMexico', 'cleanEnergyChile', 'firstSmartCity', 'formulaE', 'enelWorld'],
-      },
-      'snippets': {
-        label: 'Enel QRcode',
-        snippets: ['howMuchSunMexico', 'cleanEnergyChile', 'firstSmartCity', 'formulaE', 'enelWorld'],
       }
     }
 
@@ -1425,7 +1421,7 @@
       'regenerativeBraking': {
         desc: '',
         label: '',
-        tpl: self.path + '/regenerativeBraking.html',
+        tpl: self.path + '/regenerativebraking.html',
         subContent: [
           {
             desc: '',

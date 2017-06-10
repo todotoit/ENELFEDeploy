@@ -14,8 +14,7 @@
       bindings: {
         snippets: '<',
         onCardSelect: '&',
-        onExit: '&',
-        loop: '=?'
+        onExit: '&'
       }
     })
 
@@ -51,7 +50,7 @@
     $scope.prev = function () {
       if (debounce.id) return
       $scope.snipCounter++
-      if($scope.snipCounter > $scope.snippets.length-1 && !ctrl.loop) {
+      if($scope.snipCounter > $scope.snippets.length-1) {
         $scope.exit();
         return;
       }
