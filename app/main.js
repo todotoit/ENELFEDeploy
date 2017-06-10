@@ -3183,12 +3183,12 @@ window.twttr = (function(d, s, id) {
     $urlRouterProvider.otherwise('landing')
 
     var liveRace = {
-      "id": "r7",
+      "id": "r8",
       "live": true,
       "name": "Tempelhof Airport",
       "location": "Berlin",
       "country": "German",
-      "date": "10 Jun 2017",
+      "date": "11 Jun 2017",
       "videoId": "",
       "circuit": {
         "map": "circuit_berlin",
