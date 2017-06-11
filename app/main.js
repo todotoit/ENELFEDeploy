@@ -3184,7 +3184,6 @@ window.twttr = (function(d, s, id) {
 
     var liveRace = {
       "id": "r8",
-      "live": true,
       "name": "Tempelhof Airport",
       "location": "Berlin",
       "country": "German",
