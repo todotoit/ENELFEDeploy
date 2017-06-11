@@ -2241,12 +2241,6 @@ window.twttr = (function(d, s, id) {
     vm.races = []
     vm.upcomings = [
       {
-        id: 'r8',
-        date: '11 june 2017',
-        location: 'Berlin',
-        circuit: 'Tempelhof Circuit'
-      },
-      {
         id: 'r9',
         date: '15 july 2017',
         location: 'New York City',
