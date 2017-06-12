@@ -3347,7 +3347,9 @@ window.twttr = (function(d, s, id) {
       vm.streamData = []
       vm.totalConsumption = {}
       getLiveData()
-      $scope.$on('ModelSrv::ALL-MODELS-UPDATED', getLiveData)
+      if (vm.currentRace.live) {
+        $scope.$on('ModelSrv::ALL-MODELS-UPDATED', getLiveData)
+      }
     }
 
     function render() {
@@ -3382,10 +3384,8 @@ window.twttr = (function(d, s, id) {
       return ModelSrv.getAllModels()
                      .then(function(res) {
                         console.info(res)
-                        if (vm.currentRace.live) {
-                          vm.streamData       = res.timeSeries.circuit.zones
-                          vm.totalConsumption = res.totalConsumption
-                        }
+                        vm.streamData       = res.timeSeries.circuit.zones
+                        vm.totalConsumption = res.totalConsumption
                         return res
                      }, function(err) {
                         console.error(err)
