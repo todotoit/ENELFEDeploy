@@ -2343,7 +2343,7 @@ window.twttr = (function(d, s, id) {
     retrieveTweetFeed()
 
     function retrieveTweetFeed() {
-      return $http.get('https://marcoaimo.runkit.io/enelfetweetfeed/branches/master')
+      return $http.get('https://enelfetweetfeed-j7ra6s353sul.runkit.sh/')
                   .then(function(res) {
                     console.log(res.data)
                     vm.tweets = res.data.items
@@ -2370,7 +2370,7 @@ window.twttr = (function(d, s, id) {
     retrieveBootTweetFeed()
 
     function retrieveBootInstFeed() {
-      return $http.get('https://emiliobondioli.runkit.io/instagram-hashtag-scraper/branches/master')
+      return $http.get('https://instagram-hashtag-scraper-yhhwg0exbkj5.runkit.sh/')
                   .then(function(res) {
                     console.log(res.data)
                     vm.boots = vm.boots.concat(res.data.items)
@@ -2382,7 +2382,7 @@ window.twttr = (function(d, s, id) {
     }
 
     function retrieveBootTweetFeed() {
-      return $http.get('https://emiliobondioli.runkit.io/twitter-hashtag-scraper/branches/master')
+      return $http.get('https://twitter-hashtag-scraper-1d5rh9l89tep.runkit.sh/')
                   .then(function(res) {
                     console.log(res.data)
                     vm.boots = vm.boots.concat(res.data.items)

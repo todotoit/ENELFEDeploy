@@ -78,7 +78,7 @@
       if (contentIdx < 0) contentIdx = 0
       else if (contentIdx >= content.length) contentIdx = content.length -1
       $scope.subsnip = content? content[contentIdx] : null
-      if(!bowser.mobile) $element.ready(createContentHandler)
+      $element.ready(createContentHandler)
     }
 
     // event handlers
@@ -95,10 +95,8 @@
         e.srcEvent.stopPropagation()
       })
       $element.on('touchmove', function(e) {
-        if(!bowser.mobile){
-          e.stopPropagation()
-          e.preventDefault()
-        }
+        e.stopPropagation()
+        e.preventDefault()
       })
       $element.click(function(e) {
         e.stopPropagation()

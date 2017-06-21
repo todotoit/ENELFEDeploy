@@ -27,7 +27,6 @@
     // ctrl.$onInit = init
     $scope.snipCounter = 0;
     ctrl.$onChanges = init
-    $scope.isMobile = bowser.mobile || false;
     var vel = .45
     var direction = 'right'
     var debounce = {
@@ -151,7 +150,7 @@
       $cards = _.reverse($cards)
       $card = _.first($cards)
       if (callback) callback(card)
-      if(!bowser.mobile) cardHandler()
+      cardHandler()
       debounce.cancel()
     }
 
@@ -211,10 +210,8 @@
         e.srcEvent.stopPropagation()
       })
       $element.on('touchmove', function(e) {
-        if(!bowser.mobile){
-          e.stopPropagation()
-          e.preventDefault()
-        }
+        e.stopPropagation()
+        e.preventDefault()
       })
       $element.click(function(e) {
         e.stopPropagation()
