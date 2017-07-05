@@ -2308,9 +2308,9 @@ window.twttr = (function(d, s, id) {
     }
 
     // races
-    vm.currentRace = {}
+    vm.currentRace = vm.upcomings[0]
     // delay streamgraph load data
-    $timeout(function(){ retrieveRacesFeed() }, 1000)
+    // $timeout(function(){ retrieveRacesFeed() }, 1000)
 
     function retrieveRacesFeed() {
       return $http.get('../assets/jsonData/races.json')

@@ -97,7 +97,6 @@
     function setCardPos($el, $i) {
       var base = $scope.snippets.length -1 -$i
       var opacity = opacitySet -(base * opacityOffset)
-      // console.log($i, $scope.snippets.length, showcaseElements)
       if ($i < $scope.snippets.length - showcaseElements) opacity = 0
       var ypos = -(ySet+(base * yOffset))
       TweenMax.set($el, { x: -(xSet+(base * xOffset)) +'%',
@@ -111,7 +110,6 @@
     }
 
     function animateCardOut($el, $i, pull) {
-      console.log('out')
       TweenMax.to($el, .6, {y: '+=20%', opacity: 0, delay: .1 * ($scope.snippets.length - $i), ease: 'easeOut', onComplete: function(){
         if (pull) {
           _.pull($cards, $el)
@@ -136,7 +134,6 @@
       $card = null
       $cards = []
       $scope.snippets = ctrl.snippets
-      console.log($scope.snippets)
       callback = ctrl.onCardSelect()
       exitCallback = ctrl.onExit
       if (_.isEmpty($scope.snippets)) return
@@ -186,17 +183,21 @@
         zIndex--
         scale-= 0.2
       }
+      // in case of $cards.length == showcaseElements+1
+      if (i > showcaseElements) opacity = 0
       tl.set($card, {
         x: x+'%',
         y: y-yOffset+'%',
         // z: z-zOffset,
         scale: scale-0.2,
-        opacity: 0}, vel)
+        opacity: 0
+      }, vel)
       tl.to($card, vel, {
         y: y+'%',
         // z: z,
         scale: scale,
-        opacity: opacity}, vel)
+        opacity: opacity
+      }, vel)
     }
 
 

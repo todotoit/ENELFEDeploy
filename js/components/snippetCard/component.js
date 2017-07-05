@@ -53,9 +53,10 @@
       if (contentIdx <= 0) return prevCallback()
       contentIdx--
       $scope.subsnip = content[contentIdx]
-      // $content.find('li').removeClass('active')
-      // $content.find('li').eq(contentIdx).addClass('active')
       TweenMax.to($content.find('ul'), swipeVel, { x: '+='+ swipeOffset +'%', onComplete: function() {
+        if (!$scope.$$phase) $scope.$digest()
+      } })
+      TweenMax.to($content.find('.sub-snip-content'), swipeVel, { x: '+='+ swipeOffset +'%', opacity: 0.1, onComplete: function() {
         if (!$scope.$$phase) $scope.$digest()
       } })
     }
@@ -64,6 +65,9 @@
       contentIdx++
       $scope.subsnip = content[contentIdx]
       TweenMax.to($content.find('ul'), swipeVel, { x: '-='+ swipeOffset +'%', onComplete: function() {
+        if (!$scope.$$phase) $scope.$digest()
+      } })
+      TweenMax.to($content.find('.sub-snip-content'), swipeVel, { x: '-='+ swipeOffset +'%', opacity: 0.1, onComplete: function() {
         if (!$scope.$$phase) $scope.$digest()
       } })
     }

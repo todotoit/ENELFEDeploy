@@ -1555,7 +1555,8 @@ footer{
 }
 
 #landing #cover hgroup h3 strong{
-  font-weight: 400;
+  /*font-weight: 400;*/
+  font-weight: bold;
 }
 
 .powering_change{
@@ -1589,7 +1590,7 @@ footer{
 
 #landing #app-info p.small{
   font-size: 1.6rem;
-  opacity: 0.75; 
+  opacity: 0.75;
 }
 
 #cursor_hor{
@@ -1891,7 +1892,22 @@ html.ms.internet.explorer #landing #snippet-carousel .snip #v2g_container svg {
 #landing #upcoming,
 #landing #upcoming nav {
   position: relative;
-  overflow: hidden;
+  /*overflow: hidden;*/
+}
+
+#landing #upcoming nav ul li {
+  position: relative;
+}
+#landing #upcoming nav ul li.new-york:after {
+  position: absolute;
+  content: '';
+  width: 3rem;
+  height: 3rem;
+  bottom: -4rem;
+  z-index: 2;
+  border-left:  2rem solid transparent;
+  border-right: 2rem solid transparent;
+  border-top:   3rem solid #f5f5f5;
 }
 #landing #upcoming:after {
   content: '';
@@ -1905,6 +1921,10 @@ html.ms.internet.explorer #landing #snippet-carousel .snip #v2g_container svg {
   width: 10rem;
   height: 100%;
   z-index: 2;
+}
+
+#landing #feed {
+  background: #f5f5f5;
 }
 
 @media screen and (max-width: 64em) {
@@ -1988,6 +2008,58 @@ html.ms.internet.explorer #landing #snippet-carousel .snip #v2g_container svg {
 
 .info_block{
   position: relative;
+}
+
+#landing #storage-den {
+  background: linear-gradient(90deg,
+                              #24BBE3 0%,
+                              #0A64E0 60%);
+  color: #FFFFFF;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+#landing #storage-den .virtualPowerPlants {
+  margin-top: 3rem;
+}
+
+#landing .live-text {
+  position: relative;
+}
+
+#landing .live-text:after{
+  display: block;
+  position: absolute;
+  content: 'LIVE';
+  bottom: -1.5em;
+  left: 5%;
+  color: #FF0F64;
+  font-size: 1.4rem;
+  line-height: 1.3em;
+}
+
+#landing .live-text:before{
+  display: block;
+  position: absolute;
+  content: '';
+  width: .8vw;
+  height: .8vw;
+  border-radius: 50%;
+  bottom: -1.15em;
+  left: 0;
+  background: #FF0F64;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% {
+    opacity: 0;
+  }
+  80%{
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @media screen and (max-width: 76em){
@@ -2131,6 +2203,17 @@ html.ms.internet.explorer #landing #snippet-carousel .snip #v2g_container svg {
   #landing .gif-link:last-child {
     top: 7.5%;
   }
+
+  #landing #cover h1 {
+    font-size: 7.25rem;
+  }
+  #landing .live-text:after {
+   left: 7.5%;
+  }
+  #landing .live-text:before {
+    height: 2vw;
+    width: 2vw;
+  }
 }
 @media screen and (max-width: 28em) {
   #landing #eprix-history .overlay-top {
@@ -2162,6 +2245,7 @@ html.ms.internet.explorer #landing #snippet-carousel .snip #v2g_container svg {
   #landing .gif-link:last-child {
     top: 10%;
   }
+
 }
 
 .info_block{
