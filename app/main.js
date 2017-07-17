@@ -3599,7 +3599,7 @@ window.twttr = (function(d, s, id) {
 
     var liveRace = {
       "id": "r10",
-      "live": "true",
+      "live": false,
       "name": "Brooklyn circuit",
       "location": "New York",
       "country": "USA",
