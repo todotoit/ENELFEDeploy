@@ -954,9 +954,10 @@ html.ms.internet.explorer #landing #snippet-carousel .snip #v2g_container svg {
   overflow: hidden;
 }
 #landing #feed twitterwidget {
-  display: inline-table !important;
   width: 27.65vw !important;
-  margin-right: 2.5%;
+  margin-right: 2.4%;
+  display: flex !important;
+  flex: 1 0 auto;
 }
 #landing #feed iframe {
   display: inline-table !important;
