@@ -2430,7 +2430,7 @@ window.twttr = (function(d, s, id) {
     }
     // races
     // vm.currentRace = vm.upcomings[0]
-    vm.currentRace = { id: 'R1', date: '02 DEC 2017', location: 'HONG KONG', country: 'HK', circuit: 'Central Harbourfront', live: true }
+    vm.currentRace = { id: 'R1', date: '02 DEC 2017', location: 'HONG KONG', country: 'HK', circuit: 'Central Harbourfront', live: false }
     // delay streamgraph load data
     // $timeout(function(){ retrieveRacesFeed() }, 1000)
 
