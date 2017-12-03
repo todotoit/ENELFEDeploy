@@ -3625,20 +3625,20 @@ window.twttr = (function(d, s, id) {
               current: 0
             }]
 
-    var liveRace = {
-      "id": "r2",
-      "live": true,
-      "name": "Central Harbourfront",
-      "location": "Hong Kong",
-      "country": "Hong Kong",
-      "date": "03 Dec 2017",
-      "circuit": {
-        "map": "circuit_hongkong",
-      },
-      "meters": 30,
-      "mix": null
-    }
-    // var liveRace = null
+    // var liveRace = {
+    //   "id": "r2",
+    //   "live": true,
+    //   "name": "Central Harbourfront",
+    //   "location": "Hong Kong",
+    //   "country": "Hong Kong",
+    //   "date": "03 Dec 2017",
+    //   "circuit": {
+    //     "map": "circuit_hongkong",
+    //   },
+    //   "meters": 30,
+    //   "mix": null
+    // }
+    var liveRace = null
 
     $stateProvider
       // .state('404', {
