@@ -3622,7 +3622,7 @@ window.twttr = (function(d, s, id) {
               year: '2017/2018',
               name: 'Season 4',
               races: 14,
-              current: 0
+              current: 2
             }]
 
     // var liveRace = {
