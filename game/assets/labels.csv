@@ -1,32 +1,39 @@
-Label_id,Text
-splash_label,Let’s play!
-splash_title,The Grid Game
-splash_panel_label,"Hey, let’s find"
-splash_panel_button,PLAY!
-splash_sub,Find all the hidden targets in the smart city
-splash_play,Play!
-nexttarget_label,"Great, you found"
-nexttarget_panel_label,"Now, let’s find"
-next_target_panel_button,GO!
-gameover_label,Oh no! You missed
-gameover_panel_label,Game over
-gameover_panel_title,Time’s up! You found XX targets
-gameover_panel_button,PLAY AGAIN
-gameover_mainlabel,Time’s up!
-win_title,Congratulations! <br />You completed the smart grid
-win_panel_label,Well done!
-win_panel_title,You found all your targets
-win_panel_button,PLAY AGAIN
-win_mainlabel,Well done!
-dialogbox,Are you sure you want to restart the game?
-turn_label,Please rotate the tablet to play the game
-bonus_pre_title,Bonus Level
-bonus_description,Formula E cars charge their batteries <BR>7 times faster than an average e-car
-bonus_title,Can you beat them?
-bonus_start_btn,Start
-bonus_push_btn,Press
-submit_level_label,Bonus Level
-submit_title_won,Can you beat them?
-submit_title_over,Time’s up! <BR>Targets found: XX
-submit_enter_nick,Enter a nickname and check your ranking
-board_play_again_btn,Play again
+Label_id,Text_eng,Text_ita,Text_esp
+shrink,"To play the game, please shrink your browser window",Restringi la finestra del tuo browser per giocare,"Para jugar al juego, favor de reducir el tamaño de su ventana del browser"
+splash_label,Let’s play!,Giochiamo!,¡Juguemos!
+splash_title,The Grid Game,Grid Game,El Juego de la Red
+splash_panel_label,"Hey, let’s find","Ehi, cerchiamo",Ea! Encontremos
+splash_panel_button,PLAY!,PLAY!,¡JUEGUEN!
+splash_sub,Find all the hidden targets in the smart city,Trova gli obiettivi nascosti nella smart city,Encuentren todos los objetivos escondidos en la ciudad inteligente
+splash_play,Play!,Play!,¡Jueguen!
+nexttarget_label,"Great, you found","Perfetto, hai trovato","Bien, usted encontró"
+nexttarget_panel_label,"Now, let’s find","Ora, cerchiamo","Ahora, encontremos"
+next_target_panel_button,GO!,VIA!,¡PARTA!
+next_target_points,points,punti,puntos
+gameover_label,Oh no! You missed,"Peccato, non hai trovato",¡O no! Erraste
+gameover_panel_label,Game over,Game over,Fin del juego
+gameover_panel_title,Time’s up! You found XX targets,Tempo scaduto! Hai trovato XX obiettivi,¡Tiempo cumplido! Encontró XX objetivos
+gameover_panel_button,PLAY AGAIN,GIOCA ANCORA,JUEGUE NUEVAMENTE
+gameover_mainlabel,Time’s up!,Tempo scaduto!,¡Tiempo cumplido!
+win_pre_title,Congratulations!,Congratulazioni!,¡Felicitaciones!
+win_title,You completed <br />the smart grid,Hai completato <br />la smart grid,Usted ha completado <br />la red inteligente
+win_panel_label,Well done!,Ottimo!,¡Muy bien hecho!
+win_panel_title,You found all your targets,Hai trovato tutti gli obiettivi,Encontró todos los objetivos
+win_panel_button,PLAY AGAIN,GIOCA ANCORA,¡JUEGUE NUEVAMENTE!
+win_mainlabel,Well done!,Ottimo!,¡Muy bien hecho!
+dialogbox,Are you sure you want to restart the game?,Vuoi iniziare da capo?,¿Está seguro que desea recomenzar el juego?
+turn_label,Please rotate your device to play the game,Ruota il dispositivo per giocare,Favor de rotar el tablet para jugar el juego
+bonus_pre_title,Bonus Level,Livello Bonus,Nivel de Bono
+bonus_description,Formula E cars charge their batteries 7 times faster than an average e-car,Le auto di Formula E si ricaricano 7 volte più velocemente delle auto elettriche standard,Los vehículos de la Fórmula E cargan sus baterías 7 veces más velozmente que un e-vehículo promedio
+bonus_title,Can you beat them?,Riesci a superarle?,¿Puede ganarles?
+bonus_start_btn,Start,Start,Inicio
+bonus_push_btn,Press,Press,Prensa
+submit_level_label,Bonus Level,Livello Bonus,Nivel de bonificación
+submit_title_won,Can you beat them?,Riesci a superarle?,¿Puede ganarles?
+submit_pre_title_over,Time’s up!,Tempo scaduto!,¡Tiempo cumplido!
+submit_title_over,Targets found: XX,Obiettivi trovati: XX,Objetivos encontrados: XX
+submit_enter_nick,Enter a nickname and check your ranking,Inserisci il tuo nickname e vedi la classifica,Ingrese un apodo y verifique su clasificación
+board_play_again_btn,Play again,Gioca ancora,Juegue nuevamente
+submit_tap_here,Tap here to input your name,Fai tap qui per inserire il tuo nome,
+board_head_1,Had fun?,Ti sei divertito?,
+board_head_2,Play the game online at,Gioca di nuovo su,
