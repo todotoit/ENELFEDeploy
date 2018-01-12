@@ -1340,11 +1340,11 @@
         var pt = +race.RacePoints
         var extraBar = ''
         if (race.PolePosition) {
-          extraBar = '<div class="bar_segment pole_position" style="width:'+3*point_px_width+'px"></div>'
+          extraBar += '<div class="bar_segment pole_position" style="width:'+3*point_px_width+'px"></div>'
           pt -= 3
         }
         if (race.FastestLap) {
-          extraBar = '<div class="bar_segment pole_position" style="width:'+1*point_px_width+'px"></div>'
+          extraBar += '<div class="bar_segment fastest_lap" style="width:'+1*point_px_width+'px"></div>'
           pt -= 1
         }
 
@@ -2226,7 +2226,7 @@
       'pin_2_info': {
         stage: 2,
         coords: [623, 313, 327],
-        snippets: ['circuitHongKong2017']
+        snippets: ['circuitTemplate']
       },
       'pin_2_meter': {
         stage: 2,
@@ -2441,6 +2441,11 @@
         desc: '',
         label: '',
         tpl: self.path + '/circuit-hongkong-2017.html'
+      },
+      'circuitTemplate': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/circuit-info-template.html'
       },
       'raceMicrogrid': {
         desc: '',
@@ -2722,6 +2727,7 @@
         translateLabel: 'ctrlroom_comparison_house',
         param: 1/(11700/365),
         unit: '',
+        translateUnitLabel: '',
         tpl: self.path + '/test.html',
         svg: 'dash_comparison_house'
       },
@@ -2730,6 +2736,7 @@
         translateLabel: 'ctrlroom_comparison_tv',
         param: 1/0.07/24/30/12,
         unit: 'years',
+        translateUnitLabel: 'ctrlroom_comparison_unit',
         tpl: self.path + '/test.html',
         svg: 'dash_comparison_tv'
       },
@@ -2738,6 +2745,7 @@
         translateLabel: 'ctrlroom_comparison_evehicle',
         param: 6.25,
         unit: 'km',
+        translateUnitLabel: '',
         tpl: self.path + '/test.html',
         svg: 'dash_comparison_car'
       }
@@ -3469,7 +3477,7 @@ window.twttr = (function(d, s, id) {
       suffix: '.json'
     })
     // var availableLanguages = ['en', 'it', 'fr', 'de', 'es']
-    var availableLanguages = ['en']
+    var availableLanguages = ['en', 'es']
     $translateProvider.registerAvailableLanguageKeys(availableLanguages)
     $translateProvider.preferredLanguage(availableLanguages[0])
   }
@@ -3625,26 +3633,31 @@ window.twttr = (function(d, s, id) {
               current: 2
             }]
 
-    // var liveRace = {
-    //   "id": "r2",
-    //   "live": true,
-    //   "name": "Central Harbourfront",
-    //   "location": "Hong Kong",
-    //   "country": "Hong Kong",
-    //   "date": "03 Dec 2017",
-    //   "circuit": {
-    //     "map": "circuit_hongkong",
-    //   },
-    //   "meters": 30,
-    //   "mix": null
-    // }
-    var liveRace = null
+    var liveRace = {
+      "id": "r3",
+      "live": true,
+      "name": "Moulay El Hassan",
+      "location": "Marrakesh",
+      "country": "Marrakesh",
+      "date": "13 Gen 2018",
+      "circuit": {
+        "map": "circuit_marrakech",
+      },
+      "meters": 30,
+      "mix": null
+    }
+    // var liveRace = null
 
     $stateProvider
       // .state('404', {
       //   url: '/404',
       //   templateUrl: 'templates/404.html'
       // })
+      .state('3dtest', {
+        url: '/:lang/3dtest',
+        templateUrl: 'templates/3dtest.html',
+        controller: '3dCtrl'
+      })
       .state('landing', {
         url: '/:lang/landing',
         resolve: {
@@ -3838,11 +3851,29 @@ window.twttr = (function(d, s, id) {
       "country": "Canada",
       "date": "30 Jul 2017",
     }
-    vm.totalConsumption = vm.currentRace.totalConsumption || {}
+    vm.totalConsumption = vm.currentRace.totalConsumption || { total_power: 0, total_energy: 0 }
     getLiveData()
     if (vm.currentRace.live) {
       $scope.$on('ModelSrv::ALL-MODELS-UPDATED', getLiveData)
     }
+
+    $scope.webgl = true
+    function detectWebGLContext () {
+      // Create canvas element. The canvas is not added to the
+      // document itself, so it is never displayed in the
+      // browser window.
+      var canvas = document.createElement("canvas");
+      // Get WebGLRenderingContext from canvas element.
+      var gl = canvas.getContext("webgl")
+        || canvas.getContext("experimental-webgl");
+      // Report the result.
+      if (gl && gl instanceof WebGLRenderingContext) {
+        $scope.webgl = true
+      } else {
+        $scope.webgl = false
+      }
+    }
+    detectWebGLContext()
 
     function render() {
       $('header h4').text('')
@@ -3858,7 +3889,9 @@ window.twttr = (function(d, s, id) {
           zoom(stage)
         })
       }, 500)
-      init()
+
+      if ($scope.webgl) init()
+      else $timeout(function() { $rootScope.hideLoader() }, 3000)
 
       function init() {
         vm.snipCounter = -1;
@@ -3957,7 +3990,7 @@ window.twttr = (function(d, s, id) {
                      .then(function(res) {
                         console.info(res)
                         if (!res.totalConsumption) return
-                        vm.totalConsumption = res.totalConsumption
+                        vm.totalConsumption = res.totalConsumption || { total_power: 0, total_energy: 0 }
                         return res
                      }, function(err) {
                         console.error(err)
@@ -4019,6 +4052,7 @@ window.twttr = (function(d, s, id) {
 
     var labelStages = ['carView', 'circuitView', 'worldView']
     function zoom(zoom) {
+      if (!FEScene) return
       switch(zoom) {
         case 1:
           $('#landing > section .zoom #navSelected').css({transform: 'translateY(0%)'})
@@ -4042,6 +4076,7 @@ window.twttr = (function(d, s, id) {
 
     var currentPin = null
     function selectedHotspot(key) {
+      if (!FEScene) return
       if (!key || key === 'World' || vm.currentTour) return
       if (key === currentPin) return $scope.closeCarousel()
       currentPin = key
@@ -4052,6 +4087,7 @@ window.twttr = (function(d, s, id) {
     }
 
     function setCurrentTour(tour, $index) {
+      if (!FEScene) return
       stopIdle()
       $('.zoom').fadeOut()
       var carouselCtrl = angular.element($('snippet-carousel')).controller('snippetCarousel')
@@ -4320,13 +4356,16 @@ window.twttr = (function(d, s, id) {
     vm.streamDen = []
     $scope.allData = []
     $scope.allDendata = []
-    $scope.paddockData = {}
+    $scope.paddockData = {
+      power: 0
+    }
     var enelMeterKey = 'Smart_Kit_BE_001'
     var denMeterKey = 'Den_Api_FE_001'
     vm.metersData = null
     vm.enelMeterStandData = null
     vm.totalConsumption = {
       total_energy: 0,
+      total_power: 0,
       zones: []
     }
     vm.mixes = []
@@ -4394,10 +4433,11 @@ window.twttr = (function(d, s, id) {
       if (!_.isEmpty(vm.streamPaddock)) emptyAll()
       var currentRace = _.find(vm.races, {id: id})
       vm.currentRace = angular.copy(currentRace)
-      if (_.isEmpty(currentRace) || _.isEmpty(currentRace.streamData)) return
+      if (_.isEmpty(currentRace)) return
       vm.streamData = currentRace.streamData? angular.copy(currentRace.streamData.zones) : []
       vm.streamPaddock = currentRace.streamPaddock? angular.copy(currentRace.streamPaddock.zones) : []
-      vm.totalConsumption = angular.copy(currentRace.totalConsumption)
+      $scope.paddockData = _.find(vm.totalConsumption.zones, {name: 'Paddock'}) || { power: 0 }
+      vm.totalConsumption = angular.copy(currentRace.totalConsumption) || { total_energy: 0, total_power: 0, zones: [] }
       vm.mixes = currentRace.mix? currentRace.mix : []
       if (!_.isEmpty(vm.mixes)) {
         vm.mixes[0].translateLabel = 'ctrlroom_mix_clean'
@@ -4424,6 +4464,10 @@ window.twttr = (function(d, s, id) {
       if (!$scope.$$phase) $scope.$digest()
       currentRaceIdx = newRaceIdx
       $scope.getComparisons()
+      if (_.isEmpty(currentRace.totalConsumption)) {
+        $scope.paddockData = { power: 0 }
+        return
+      }
       $timeout(selectAll, 1000)
       $timeout(function() {
         cleanMixHandler()
@@ -4654,16 +4698,16 @@ window.twttr = (function(d, s, id) {
       $timeout(function() {
         $scope.currentTeam = team
         // TODO: THIS SHOULD CHANGE SHORTLY!!!!
-        if (vm.currentSeason.id !== 4) {
+        // if (vm.currentSeason.id !== 4) {
           TweenMax.to($('#car_profile svg g#traccia > *'), 1.5, {drawSVG:"0%", delay:0, ease:Power2.easeOut, onStart: function() {
             $('#specs_teams #car_profile img').addClass('active')
             $('#car_specs #car_cursor').addClass('active')
           }});
-        } else {
-          TweenMax.set($('#car_profile svg g#traccia > *'), {drawSVG:"0%"})
-          TweenMax.to($('#car_profile svg g#traccia > *'), 1.5, {drawSVG:"100%", delay:0, ease:Power2.easeOut})
-          $('#car_specs #car_cursor').addClass('active')
-        }
+        // } else {
+        //   TweenMax.set($('#car_profile svg g#traccia > *'), {drawSVG:"0%"})
+        //   TweenMax.to($('#car_profile svg g#traccia > *'), 1.5, {drawSVG:"100%", delay:0, ease:Power2.easeOut})
+        //   $('#car_specs #car_cursor').addClass('active')
+        // }
         // // // // // // // // // // // // //
         $scope.teamSelected = true
         if (!$scope.$$phase) $scope.$digest()
