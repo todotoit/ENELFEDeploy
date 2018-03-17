@@ -1531,12 +1531,13 @@ nav.mobile-landing-pagination {
 
 /* TODO REMOVE */
 #dashboard .live-text:after{
-  bottom: -1.8rem;
+  bottom: 3.8rem;
+  left: 11.4em;
 }
 
 #dashboard .live-text:before{
-  bottom: -1.6rem;
-  left: 4.5em;
+  bottom: 4rem;
+  left: 5em;
 }
 /**************/
 
