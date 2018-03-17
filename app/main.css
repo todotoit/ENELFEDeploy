@@ -1539,6 +1539,10 @@ nav.mobile-landing-pagination {
   bottom: 4rem;
   left: 5em;
 }
+
+#dashboard #single_team {
+  display: none;
+}
 /**************/
 
 #dashboard .live-value:before{
