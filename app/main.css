@@ -1528,6 +1528,18 @@ nav.mobile-landing-pagination {
   animation: pulse 2s infinite;
 }
 
+
+/* TODO REMOVE */
+#dashboard .live-text:after{
+  bottom: -1.8rem;
+}
+
+#dashboard .live-text:before{
+  bottom: -1.6rem;
+  left: 4.5em;
+}
+/**************/
+
 #dashboard .live-value:before{
   display: block;
   position: absolute;

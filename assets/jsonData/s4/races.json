@@ -78,7 +78,7 @@
       "country": "UY",
       "timezone": "America/Montevideo",
       "circuit": {
-        "map": ""
+        "map": "circuit_puntadeleste"
       },
       "enelStand": false,
       "meters": 30,

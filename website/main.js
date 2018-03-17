@@ -28,7 +28,8 @@
         datasource: '<',
         onSelect: '&',
         touchEnabled: '<?',
-        live: '<?'
+        live: '<?',
+        replay: '<?'
       }
     })
 
@@ -181,6 +182,7 @@
     function init() {
       console.log('init streamgraph')
       var data = ctrl.datasource
+      var replay = ctrl.replay || false
       $element.find('svg').empty()
       $element.find('svg').html(grads)
       _callback = ctrl.onSelect()
@@ -213,14 +215,8 @@
                    .attr('class', 'chart')
 
       // Add 'curtain' rectangle to hide entire graph
-      clipMask = chart.append('defs').append('clipPath')
-                      .attr('id', 'clipMask')
-                      .append('rect')
-                      .attr('x', -1 * w)
-                      .attr('y', -1 * h+vp)
-                      .attr('height', h-vp)
-                      .attr('width', 0)
-                      .attr('transform', 'rotate(180)')
+      clipMask = chart.append('defs')
+                      .attr('id', 'clipMasks')
 
       // create path for axis
       lnX = chart.append('g')
@@ -243,8 +239,8 @@
     function update(changedObj) {
       console.time('streamgraph')
 
-      var prevData = changedObj.datasource.previousValue
-      var data     = changedObj.datasource.currentValue
+      var data     = changedObj.datasource ? changedObj.datasource.currentValue : ctrl.datasource
+      var replay   = changedObj.replay ? changedObj.replay.currentValue : ctrl.replay
       // !!
       // https://github.com/angular/angular.js/issues/14433
       // for some weird reason component $onChanges is called before $onInit
@@ -275,11 +271,25 @@
       X.domain(xDomain).range([0, w])
       Y.domain(yDomain).range([h-vp, vp])
       Z.range(colorrange)
+
+      // chart.select('defs')
+      clipMask.selectAll('.layerClip')
+              .data(dataLayers).enter()
+              .append('clipPath')
+              .attr('id', function(d,i) { return 'clipMask-'+(d.key) })
+              .attr('class', 'layerClip')
+              .append('rect')
+              .attr('x', -1 * w)
+              .attr('y', -1 * h+vp)
+              .attr('height', h-vp)
+              .attr('width', 0)
+              .attr('transform', 'rotate(180)')
+
       // update charts
       areas.selectAll('.layer')
            .data(dataLayers).enter()
            .append('path')
-           .attr('clip-path', 'url(#clipMask)')
+           .attr('clip-path', function(d,i) { return 'url(#clipMask-'+(d.key)+')' })
            .attr('class', function(d,i) { return 'layer layer-'+(i+1) })
            .attr('d', function(d,i) { return area(d.values) })
            .attr('fill', function(d, i) { return 'url(#stream_gr'+(i+1)+')' })
@@ -311,7 +321,7 @@
              .attr('class', function(d,i) { return 'overlay-wrap-'+(d.key) })
 
         layerOverlay.append('path')
-          .attr('clip-path', 'url(#clipMask)')
+          .attr('clip-path', function(d,i) { return 'url(#clipMask-'+(d.key)+')' })
           .attr('class', function(d,i) { return 'overlay overlay-'+(d.key) })
           .attr('d', function(d,i) { return overlayArea(d.values) })
           .attr('fill', function(d, i) { return 'url(#overlay_gr)' })
@@ -361,6 +371,7 @@
       axX.call(xAxis)
 
       // define transition
+      if (replay) return clipMask.selectAll('.layerClip rect').attr('width', w)
       var t = svg.transition()
                  .ease(ease)
                  .duration(duration)
@@ -371,10 +382,19 @@
       // t.select('#cursor rect').attr('x', 0)
       // t.select('#clipMask rect').attr('width', w)
       // animation 2
-      clipMask.attr('x', 0)
-      t.select('#clipMask rect')
+      clipMask.selectAll('.layerClip rect')
+              .attr('x', 0)
+      t.selectAll('.layerClip rect')
        .attr('width', w)
        .attr('x', -1 * w)
+      // animation 3
+      // var numOfLayers = _.keys(dataLayers).length
+      // clipMask.selectAll('.layerClip rect')
+      //      .attr('x', 0)
+      // t.selectAll('.layerClip rect')
+      //  .delay(function(d,i) { return delay * (-1 * i + numOfLayers)})
+      //  .attr('width', w)
+      //  .attr('x', -1 * w)
 
       console.timeEnd('streamgraph')
     }
@@ -1399,7 +1419,7 @@
       'test': {
         stage: null,
         coords: null,
-        snippets: ['santiagoGreen', 'santiagoTransport', 'chileCommunity', 'cleanEnergyChile', 'solarPower', 'enelX']
+        snippets: ['circuitTemplate', 'uyFutureEnergy', 'uyWindOfChange', 'chronoGen2', 'chronoGen2-battery', 'chronoGen2-power']
       },
       'pin_1_info': {
         stage: 1,
@@ -1420,6 +1440,11 @@
         stage: 1,
         coords: [-3.19, 2.20, -5.73],
         snippets: ['co2', 'efficiency', 'enginePower', 'sound']
+      },
+      'pin_1_new_car': {
+        stage: 1,
+        coords: [5.25, 2.39, -3.80],
+        snippets: ['chronoGen2', 'chronoGen2-battery', 'chronoGen2-power']
       },
       'pin_2_grid': {
         stage: 2,
@@ -1502,6 +1527,11 @@
         stage: 3,
         coords: [583],
         snippets: ['enelNorthAmerica', 'hybrid']
+      },
+      'pin_3_uy': {
+        stage: 3,
+        coords: [306],
+        snippets: ['uyFutureEnergy', 'uyWindOfChange']
       }
     }
 
@@ -1685,6 +1715,63 @@
           }
         ]
       },
+      'chronoGen2': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/chronoGen2.html',
+        subContent: [
+          {
+            desc: '',
+            label: 'At the E-Prix',
+            translateLabel: 'snip_car_gen2_tab1',
+            tpl: self.path + '/subcontents/chronoGen2-eprix.html'
+          },
+          {
+            desc: '',
+            label: 'In the city',
+            translateLabel: 'snip_car_gen2_tab2',
+            tpl: self.path + '/subcontents/chronoGen2-city.html'
+          }
+        ]
+      },
+      'chronoGen2-battery': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/chronoGen2-battery.html',
+        subContent: [
+          {
+            desc: '',
+            label: 'Lasts for',
+            translateLabel: 'snip_car_gen2_battery_tab1',
+            tpl: self.path + '/subcontents/chronoGen2-lasts.html'
+          },
+          {
+            desc: '',
+            label: 'Enough to charge',
+            translateLabel: 'snip_car_gen2_battery_tab2',
+            tpl: self.path + '/subcontents/chronoGen2-charge.html'
+          }
+        ]
+      },
+      'chronoGen2-power': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/chronoGen2-power.html',
+        subContent: [
+          {
+            desc: '',
+            label: 'Maximum speed',
+            translateLabel: 'snip_car_gen2_power_tab1',
+            tpl: self.path + '/subcontents/chronoGen2-speed.html'
+          },
+          {
+            desc: '',
+            label: '0-100 km/h in',
+            translateLabel: 'snip_car_gen2_power_tab2',
+            tpl: self.path + '/subcontents/chronoGen2-accelleration.html'
+          }
+        ]
+      },
       'circuitBerlin2017': {
         desc: '',
         label: '',
@@ -1856,6 +1943,30 @@
         desc: '',
         label: '',
         tpl: self.path + '/hybrid.html'
+      },
+      'uyFutureEnergy': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/uyFutureEnergy.html'
+      },
+      'uyWindOfChange': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/uyWindOfChange.html',
+        subContent: [
+          {
+            desc: '',
+            label: 'Impact',
+            translateLabel: 'snip_world_uy_wind_tab1',
+            tpl: self.path + '/subcontents/uyWindOfChange-impact.html'
+          },
+          {
+            desc: '',
+            label: 'Data',
+            translateLabel: 'snip_world_uy_wind_tab2',
+            tpl: self.path + '/subcontents/uyWindOfChange-data.html'
+          }
+        ]
       }
     }
 
@@ -2400,8 +2511,12 @@ window.twttr = (function(d, s, id) {
 
   angular
     .module('MainApp')
+    // .value('beUrl', 'http://192.168.3.10:5001/')
+    .value('beUrl', 'http://backend.enelformulae.todo.to.it')
+    .value('appUrl', 'http://formulae.enel.com/app')
+    .value('gameUrl', 'http://formulae.enel.com/game')
     .value('currentSeason', {id: 's4'})
-    .value('showcaseRace', {id: 'r4'})
+    .value('showcaseRace', {id: 'r6'})
 
 }(window.angular));
 
@@ -2693,10 +2808,16 @@ window.twttr = (function(d, s, id) {
     .controller('LandingCtrl', landingCtrl)
 
   /* @ngInject */
-  function landingCtrl ($scope, $timeout, $http, $translate, $state, $stateParams, _, currentSeason, upcomings, currentRace) {
+  function landingCtrl ($scope, $timeout, $http, $translate, $state, $stateParams, _, currentSeason, upcomings, currentRace, appUrl, gameUrl) {
     var vm = this
+    $scope.appUrl = appUrl
+    $scope.gameUrl = gameUrl
     $scope.languages = $translate.getAvailableLanguageKeys() || []
     if ($scope.languages.length <= 1) $scope.languages = []
+    $scope.toggleMenu = function() {
+      $('#ham').toggleClass('close')
+      $('#landing ul.langs').toggleClass('open')
+    }
     $scope.currentLang = $translate.use()
     $scope.gameLang = checkGameLang()
     function checkGameLang() {
@@ -2713,6 +2834,7 @@ window.twttr = (function(d, s, id) {
     }
     $scope.changeLanguage = function(key){
       var params = angular.extend($stateParams, {lang: key})
+      $scope.toggleMenu()
       $translate.use(key)
       $state.go($state.current, params, {reload: false, notify: true})
       $scope.currentLang = key
