@@ -1528,23 +1528,6 @@ nav.mobile-landing-pagination {
   animation: pulse 2s infinite;
 }
 
-
-/* TODO REMOVE */
-#dashboard .live-text:after{
-  bottom: 3.8rem;
-  left: 11.4em;
-}
-
-#dashboard .live-text:before{
-  bottom: 4rem;
-  left: 5em;
-}
-
-#dashboard #single_team {
-  display: none;
-}
-/**************/
-
 #dashboard .live-value:before{
   display: block;
   position: absolute;
