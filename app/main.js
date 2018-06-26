@@ -4324,7 +4324,7 @@ window.twttr = (function(d, s, id) {
                            })
           },
           liveData: function(RacesSrv, ModelSrv, races, currentSeason) {
-            var selectedRace = _.findLast(races, function(r) { return !r.future })
+            var selectedRace = _.findLast(races, function(r) { return !r.future && !r.disabled })
             return RacesSrv.getRaceData(currentSeason, selectedRace)
                            .then(function (res) {
                               if (!_.isEmpty(res)) return _.assign(selectedRace, res)
