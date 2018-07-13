@@ -24,13 +24,13 @@
         key: 'smartEnergy',
         label: 'Smart energy',
         translateLabel: 'energy_tour_smart_label',
-        snippets: ['raceMicrogrid', 'smartMetering', 'motorsport', 'v2g', 'firstSmartCity', 'forgetBlackouts', 'santiagoGreen'],
+        snippets: ['raceMicrogrid', 'smartMetering', 'motorsport', 'v2g', 'firstSmartCity', 'smartGrids', 'santiagoGreen'],
       },
       'cleanEnergy': {
         key: 'cleanEnergy',
         label: 'Clean energy',
         translateLabel: 'energy_tour_clean_label',
-        snippets: ['raceMicrogrid', 'howMuchSunGlobal', 'cleanEnergyGlobal', 'enelWorld', 'zeroco2ny', 'itGeoTerm', 'uyWindOfChange'],
+        snippets: ['raceMicrogrid', 'howMuchSunGlobal', 'cleanEnergyGlobal', 'enelWorld', 'itGeoTerm', 'uyWindOfChange'],
       },
       'enelAchievements': {
         key: 'enelAchievements',
@@ -45,7 +45,7 @@
       'test': {
         stage: null,
         coords: null,
-        snippets: ['itGeoTerm', 'it3sun', 'circuitTemplate','enelXMobility', 'motorsport', 'co2', 'howMuchSunGlobal']
+        snippets: ['batteryBrains2018', 'boostingEMobility', 'connectedGrid', 'smartGrids']
       },
       'pin_1_info': {
         stage: 1,
@@ -74,17 +74,17 @@
       },
       'pin_2_grid': {
         stage: 2,
-        coords: [-459, 437, 433],
+        coords: [710, 284, -45],
         snippets: ['raceMicrogrid']
       },
       'pin_2_info': {
         stage: 2,
-        coords: [-525, 333, -453],
+        coords: [-342, 526, 448],
         snippets: ['circuitTemplate']
       },
       'pin_2_meter': {
         stage: 2,
-        coords: [348, 514, -452],
+        coords: [582, 169, 477],
         snippets: ['smartMetering']
       },
       'pin_2_santiago': {
@@ -94,14 +94,14 @@
       },
       'pin_2_solar': {
          stage: 2,
-         coords: [714, 276, -69],
+         coords: [426, 403, -500],
          snippets: ['solarPower']
       },
-      // 'pin_2_storage': {
-      //   stage: 2,
-      //   coords: [416, 424, -491],
-      //   snippets: ['storage', 'batteryBrains']
-      // },
+      'pin_2_storage': {
+        stage: 2,
+        coords: [686, 104, 327],
+        snippets: ['batteryBrains2018']
+      },
       'pin_3_v2g': {
         stage: 3,
         // coords: [-0.039, 0.90, 0.61],
@@ -147,7 +147,7 @@
       'pin_3_ny': {
         stage: 3,
         coords: [462],
-        snippets: ['forgetBlackouts', 'zeroco2ny']
+        snippets: ['smartGrids', 'connectedGrid', 'boostingEMobility']
       },
       'pin_3_ca': {
         stage: 3,
@@ -156,7 +156,7 @@
       },
       'pin_3_uy': {
         stage: 3,
-        coords: [306],
+        coords: [10],
         snippets: ['uyFutureEnergy', 'uyWindOfChange']
       }
     }
@@ -235,8 +235,32 @@
             label: 'In Italy',
             translateLabel: 'snip_world_enelx_mobility_tab2',
             tpl: self.path + '/subcontents/enelX-mobility-italy.html'
+          },
+          {
+            desc: '',
+            label: 'In the world',
+            translateLabel: 'snip_world_enelx_mobility_tab3',
+            tpl: self.path + '/subcontents/enelX-mobility-world.html'
           }
         ]
+      },
+      'boostingEMobility': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/boostingEMobility.html',
+        extraClass: 'enelx'
+      },
+      'connectedGrid': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/connectedGrid.html',
+        extraClass: 'enelx'
+      },
+      'smartGrids': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/smartGrids.html',
+        extraClass: 'enelx'
       },
       'carSpecs': {
         desc: '',
@@ -267,23 +291,29 @@
           }
         ]
       },
-      // 'batteryBrains': {
-      //   desc: '',
-      //   label: '',
-      //   tpl: self.path + '/batteryBrains.html',
-      //   subContent: [
-      //     {
-      //       desc: '',
-      //       label: 'At the NYC ePrix',
-      //       tpl: self.path + '/subcontents/batteryBrains-ePrix.html'
-      //     },
-      //     {
-      //       desc: '',
-      //       label: 'In NYC and the world',
-      //       tpl: self.path + '/subcontents/batteryBrains-world.html'
-      //     }
-      //   ]
-      // },
+      'batteryBrains': {
+        desc: '',
+        label: '',
+        tpl: self.path + '/batteryBrains.html',
+        subContent: [
+          {
+            desc: '',
+            label: 'At the NYC ePrix',
+            tpl: self.path + '/subcontents/batteryBrains-ePrix.html'
+          },
+          {
+            desc: '',
+            label: 'In NYC and the world',
+            tpl: self.path + '/subcontents/batteryBrains-world.html'
+          }
+        ]
+      },
+      'batteryBrains2018': {
+        desc: '',
+        label: '',
+        extraClass: 'enelx',
+        tpl: self.path + '/batteryBrains2018.html'
+      },
       'fanBoost': {
         desc: '',
         label: '',
