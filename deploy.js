@@ -20,6 +20,11 @@ if (process.argv[2]) {
     copydir.sync(path.join('..', 'ENEL-FE-Wow/public'), 'wow')
   }
 
+  if (process.argv[2] === 'simulator') {
+    console.log('deploying simulator')
+    copydir.sync(path.join('..', 'ENEL-FE-Simulator/public'), 'simulator')
+  }
+
   if (process.argv[2] === 'website') {
     console.log('deploying website')
     copydir.sync(path.join('..', 'ENEL-F-E-APP/public/assets'), 'assets')
